@@ -1,0 +1,6 @@
+rootProject.name = 'moneynote-api'
+
+include 'moneynote-api-base',
+        'moneynote-api-admin',
+        'moneynote-api-user',
+        'moneywhere-api-user'
