@@ -1,5 +1,8 @@
 package cn.biq.mn.user.book;
 
+import cn.biq.mn.user.balanceflow.BalanceFlow;
+import cn.biq.mn.user.balanceflow.BalanceFlowDetails;
+import cn.biq.mn.user.balanceflow.BalanceFlowMapper;
 import cn.biq.mn.user.base.BaseService;
 import cn.biq.mn.user.tag.Tag;
 import cn.biq.mn.user.tag.TagMapper;
@@ -44,6 +47,7 @@ public class BookService {
     private final TagRepository tagRepository;
     private final PayeeRepository payeeRepository;
     private final BookMapper bookMapper;
+    private final BalanceFlowMapper balanceFlowMapper;
     private final BaseService baseService;
 
     @Transactional(readOnly = true)
@@ -104,6 +108,7 @@ public class BookService {
     }
 
     public boolean remove(Integer id) {
+        // 默认的账本不能操作，前端按钮禁用
         Group group = sessionUtil.getCurrentGroup();
         if (group.getDefaultBook().getId().equals(id)) {
             return false;
@@ -120,6 +125,7 @@ public class BookService {
     }
 
     public boolean toggle(Integer id) {
+        // 默认的账本不能操作，前端按钮禁用
         Group group = sessionUtil.getCurrentGroup();
         if (group.getDefaultBook().getId().equals(id)) {
             return false;
@@ -211,6 +217,12 @@ public class BookService {
                 }
             }
         }
+    }
+
+    public List<BalanceFlowDetails> exportFlow(Integer id) {
+        Book book = baseService.findBookById(id);
+        List<BalanceFlow> balanceFlows = balanceFlowRepository.findAllByBook(book);
+        return balanceFlows.stream().map(balanceFlowMapper::toDetails).toList();
     }
 
 }
