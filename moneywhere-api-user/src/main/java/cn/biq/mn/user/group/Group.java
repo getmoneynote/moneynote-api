@@ -1,6 +1,7 @@
 package cn.biq.mn.user.group;
 
 import cn.biq.mn.user.book.Book;
+import cn.biq.mn.user.categoryrelation.CategoryRelation;
 import cn.biq.mn.user.user.User;
 import cn.biq.mn.user.user.UserGroupRelation;
 import jakarta.persistence.*;

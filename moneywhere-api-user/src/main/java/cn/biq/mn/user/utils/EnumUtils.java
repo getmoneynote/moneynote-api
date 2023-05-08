@@ -30,6 +30,15 @@ public class EnumUtils {
         };
     }
 
+    public String translateRoleType(Integer value) {
+        return switch (value) {
+            case 1 -> messageSourceUtil.getMessage("role.type.own");
+            case 2 -> messageSourceUtil.getMessage("role.type.operator");
+            case 3 -> messageSourceUtil.getMessage("role.type.guest");
+            default -> "未知";
+        };
+    }
+
     public String translateNoteDayRepeatType(int type) {
         switch (type) {
             case 1:
@@ -41,5 +50,7 @@ public class EnumUtils {
         }
         return "Unknown";
     }
+
+
 
 }

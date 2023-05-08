@@ -40,16 +40,13 @@ public class AccountService {
 
     public boolean add(AccountAddForm form) {
         Group group = sessionUtil.getCurrentGroup();
-        if (accountRepository.existsByGroupAndName(group, form.getName())) {
-            throw new ItemExistsException();
-        }
         if (accountRepository.countByGroup(group) >= Limitation.account_max_count) {
             throw new FailureMessageException("account.max.count");
         }
-        Account account = AccountMapper.toEntity(form);
-        if (form.getCurrencyCode() == null) {
-            account.setCurrencyCode(group.getDefaultCurrencyCode());
+        if (accountRepository.existsByGroupAndName(group, form.getName())) {
+            throw new ItemExistsException();
         }
+        Account account = AccountMapper.toEntity(form);
         if (!Objects.equals(group.getDefaultCurrencyCode(), account.getCurrencyCode())) {
             currencyService.checkCode(form.getCurrencyCode());
         }

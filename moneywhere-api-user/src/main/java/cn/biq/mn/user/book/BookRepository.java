@@ -1,7 +1,5 @@
 package cn.biq.mn.user.book;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import cn.biq.mn.base.base.BaseRepository;
 import cn.biq.mn.user.account.Account;
@@ -27,5 +25,9 @@ public interface BookRepository extends BaseRepository<Book>  {
     boolean existsByDefaultExpenseCategory(Category category);
 
     boolean existsByDefaultIncomeCategory(Category category);
+
+    int countByGroup(Group group);
+
+    List<Book> findAllByGroup(Group group);
 
 }

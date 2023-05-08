@@ -6,9 +6,11 @@ import cn.biq.mn.user.balanceflow.BalanceFlow;
 import cn.biq.mn.user.balanceflow.BalanceFlowDetails;
 import cn.biq.mn.user.balanceflow.BalanceFlowMapper;
 import cn.biq.mn.user.base.BaseService;
+import cn.biq.mn.user.currency.CurrencyService;
 import cn.biq.mn.user.tag.Tag;
 import cn.biq.mn.user.tag.TagMapper;
 import cn.biq.mn.user.tag.TagRepository;
+import cn.biq.mn.user.utils.Limitation;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -53,6 +55,7 @@ public class BookService {
     private final BookMapper bookMapper;
     private final BalanceFlowMapper balanceFlowMapper;
     private final BaseService baseService;
+    private final CurrencyService currencyService;
 
     @Transactional(readOnly = true)
     public Page<BookDetails> query(BookQueryForm form, Pageable page) {
@@ -89,9 +92,13 @@ public class BookService {
 
     public boolean add(BookAddForm form) {
         Group group = sessionUtil.getCurrentGroup();
+        if (bookRepository.countByGroup(group) >= Limitation.book_max_count) {
+            throw new FailureMessageException("book.max.count");
+        }
         if (bookRepository.existsByGroupAndName(group, form.getName())) {
             throw new ItemExistsException();
         }
+        currencyService.checkCode(form.getDefaultCurrencyCode());
         bookRepository.save(bookMapper.toEntity(form));
         return true;
     }

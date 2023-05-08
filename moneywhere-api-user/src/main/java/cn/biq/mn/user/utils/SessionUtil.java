@@ -36,5 +36,9 @@ public class SessionUtil {
         session.setBook(book);
     }
 
+    public void setCurrentGroup(Group group) {
+        session.setGroup(group);
+    }
+
 
 }
