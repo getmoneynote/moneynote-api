@@ -47,4 +47,6 @@ public class Book extends IdAndNameEntity {
     @NotNull
     private String defaultCurrencyCode;//默认的币种
 
+    private Long exportAt;
+
 }

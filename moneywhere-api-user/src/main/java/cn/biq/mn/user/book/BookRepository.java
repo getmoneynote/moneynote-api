@@ -14,10 +14,6 @@ import java.util.List;
 @Repository
 public interface BookRepository extends BaseRepository<Book>  {
 
-    Page<Book> findAllByGroup(Group group, Pageable pageable);
-
-    List<Book> findAllByGroupAndEnable(Group group, Boolean enable);
-
     boolean existsByGroupAndName(Group group, String name);
 
     boolean existsByDefaultExpenseAccount(Account account);

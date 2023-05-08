@@ -27,4 +27,10 @@ public final class CalendarUtil {
         return dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
+    // https://stackoverflow.com/questions/24745217/checking-if-a-date-object-occurred-within-the-past-24-hours
+    public static boolean inLastDay(Long timestamp) {
+        if (timestamp == null) return false;
+        return (System.currentTimeMillis() - timestamp) < (24 * 60 * 60 * 1000);
+    }
+
 }

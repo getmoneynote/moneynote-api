@@ -122,6 +122,12 @@ public class GlobalExceptionHandler {
         return new SimpleResponse(false, messageSourceUtil.getMessage(e.getMessage()), e.getShowType());
     }
 
+    @ExceptionHandler(ErrorMessageException.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public BaseResponse exceptionHandler(ErrorMessageException e) {
+        return new SimpleResponse(false, messageSourceUtil.getMessage(e.getMessage()), e.getShowType());
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseBody
     public BaseResponse exceptionHandler(HttpMessageNotReadableException e) {
