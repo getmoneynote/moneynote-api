@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
-export $(grep -v '^#' moneywhere-api-user/dev.env | xargs)
-./gradlew :moneywhere-api-user:bootRun --warning-mode=all
+export $(grep -v '^#' moneynote-api-user/dev.env | xargs)
+./gradlew :moneynote-api-user:bootRun --warning-mode=all
 
 #./gradlew :bookkeeping-api-user:build
 

@@ -1,6 +1,5 @@
 package cn.biq.mn.user.group;
 
-import cn.biq.mn.base.base.IdAndNameMapper;
 
 public class GroupMapper {
 
@@ -11,7 +10,6 @@ public class GroupMapper {
         details.setName( entity.getName() );
         details.setNotes( entity.getNotes() );
         details.setEnable( entity.getEnable() );
-        details.setDefaultBook( IdAndNameMapper.toDetails( entity.getDefaultBook() ) );
         details.setDefaultCurrencyCode( entity.getDefaultCurrencyCode() );
         return details;
     }

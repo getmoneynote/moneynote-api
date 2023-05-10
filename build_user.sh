@@ -1,3 +1,3 @@
 #!/bin/bash
 clear
-./gradlew :moneykeep-api-user:build
+./gradlew :moneynote-api-user:build

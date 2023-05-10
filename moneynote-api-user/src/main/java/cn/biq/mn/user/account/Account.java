@@ -29,7 +29,7 @@ public class Account extends IdAndNameEntity {
     @NotNull
     private AccountType type; //1活期，2信用，3贷款，4资产
 
-    @Column(length = 4096)
+    @Column(length = 1024)
     @NotesField
     private String notes;
 

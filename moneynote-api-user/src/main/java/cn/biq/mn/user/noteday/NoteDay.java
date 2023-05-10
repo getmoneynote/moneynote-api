@@ -19,12 +19,12 @@ public class NoteDay extends BaseEntity {
     @NotNull
     private User user;
 
-    @Column(length = 64, nullable = false)
+    @Column(length = 16, nullable = false)
     @NotNull
     @TitleField
     private String title;
 
-    @Column(length = 4096)
+    @Column(length = 1024)
     @NotesField
     private String notes; //备注
 

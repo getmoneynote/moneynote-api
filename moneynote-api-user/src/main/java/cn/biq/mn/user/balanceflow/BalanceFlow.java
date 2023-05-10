@@ -51,11 +51,11 @@ public class BalanceFlow extends BaseEntity {
     @TimeField
     private Long createTime;
 
-    @Column(length = 96)
+    @Column(length = 32)
     @TitleField
     private String title;
 
-    @Column(length = 4096)
+    @Column(length = 1024)
     @NotesField
     private String notes; //备注
 

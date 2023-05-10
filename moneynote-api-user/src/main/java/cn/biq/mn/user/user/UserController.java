@@ -54,6 +54,11 @@ public class UserController {
         return new BaseResponse(userService.setDefaultBook(id));
     }
 
+    @RequestMapping(method = RequestMethod.PATCH, value = "/setDefaultGroup/{id}")
+    public BaseResponse handleSetDefaultGroup(@PathVariable("id") Integer id) {
+        return new BaseResponse(userService.setDefaultGroup(id));
+    }
+
     @RequestMapping(method = RequestMethod.PATCH, value = "/changePassword")
     public BaseResponse handleChangePassword(@Valid @RequestBody ChangePasswordRequest request) {
         return new BaseResponse(userService.changePassword(request));

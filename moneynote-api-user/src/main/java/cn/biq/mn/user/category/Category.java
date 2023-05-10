@@ -18,10 +18,10 @@ public class Category extends TreeEntity {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Book book;
 
-    @Column(length = 64, nullable = false)
+    @Column(length = 16, nullable = false)
     private String name;
 
-    @Column(length = 4096)
+    @Column(length = 1024)
     private String notes;
 
     @Column(nullable = false)

@@ -17,7 +17,7 @@ public class Payee extends IdAndNameEntity {
     @NotNull
     private Book book;
 
-    @Column(length = 4096)
+    @Column(length = 1024)
     private String notes;
 
     @Column(nullable = false)

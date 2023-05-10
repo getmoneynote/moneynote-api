@@ -35,6 +35,7 @@ public class UserService {
     private final BookRepository bookRepository;
     private final GroupRepository groupRepository;
     private final BaseService baseService;
+    private final UserGroupRelationRepository userGroupRelationRepository;
 
     @Transactional(readOnly = true)
     public LoginResponse login(LoginForm form) {
@@ -117,6 +118,17 @@ public class UserService {
         return initState;
     }
 
+    public boolean changePassword(ChangePasswordRequest form) {
+        User user = sessionUtil.getCurrentUser();
+        if (passwordEncoder.matches(form.getOldPassword(), user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(form.getNewPassword()));
+            baseEntityRepository.save(user);
+        } else {
+            throw new FailureMessageException("user.old.password.error");
+        }
+        return true;
+    }
+
     public boolean setDefaultBook(Integer id) {
         User user = sessionUtil.getCurrentUser();
         Group group = sessionUtil.getCurrentGroup();
@@ -132,14 +144,18 @@ public class UserService {
         return true;
     }
 
-    public boolean changePassword(ChangePasswordRequest form) {
+    public boolean setDefaultGroup(Integer id) {
+        Group group = groupRepository.findById(id).orElseThrow(ItemNotFoundException::new);
         User user = sessionUtil.getCurrentUser();
-        if (passwordEncoder.matches(form.getOldPassword(), user.getPassword())) {
-            user.setPassword(passwordEncoder.encode(form.getNewPassword()));
-            baseEntityRepository.save(user);
-        } else {
-            throw new FailureMessageException("user.old.password.error");
+        var relationOptional = userGroupRelationRepository.findByGroupAndUser(group, user);
+        if (relationOptional.isEmpty()) {
+            throw new FailureMessageException("group.update.auth.error");
         }
+        user.setDefaultGroup(group);
+        user.setDefaultBook(group.getDefaultBook());
+        userRepository.save(user);
+        sessionUtil.setCurrentGroup(group);
+        sessionUtil.setCurrentBook(group.getDefaultBook());
         return true;
     }
 

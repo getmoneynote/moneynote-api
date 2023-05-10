@@ -1,13 +1,20 @@
 package cn.biq.mn.user.book;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import cn.biq.mn.base.base.BaseController;
 import cn.biq.mn.base.response.BaseResponse;
 import cn.biq.mn.base.response.PageResponse;
 import cn.biq.mn.base.response.DataResponse;
+
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 @RestController
@@ -55,6 +62,19 @@ public class BookController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, value = "/template")
     public BaseResponse handleAddByTemplate(@Valid @RequestBody BookAddByTemplateForm form) {
         return new BaseResponse(bookService.addByTemplate(form));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/export")
+    public void handleExport(@PathVariable("id") Integer id, HttpServletResponse response) throws IOException {
+        Workbook workbook = bookService.exportFlow(id);
+        // 设置 HTTP 响应头
+        response.setContentType("application/vnd.ms-excel");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+        response.setHeader("Content-disposition", "attachment; filename=users_" + currentDateTime + ".xlsx");
+        // 将工作簿写入响应流
+        workbook.write(response.getOutputStream());
+        workbook.close();
     }
 
 }

@@ -9,15 +9,22 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import cn.biq.mn.base.response.BaseResponse;
 import cn.biq.mn.base.response.DataResponse;
 
+import java.util.Date;
+
 @RestController
 public class TestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/test1")
     public BaseResponse handleTest1() {
-        return new DataResponse<>(55);
+        return new DataResponse<>(57);
     }
 
-    @GetMapping("/test2")
+    @RequestMapping(method = RequestMethod.GET, value = "/test2")
+    public BaseResponse handleTest2() {
+        throw new RuntimeException(new Date().toString());
+    }
+
+    @GetMapping("/test3")
     public BaseResponse getBaseUrl(HttpServletRequest request) {
         String baseUrl = ServletUriComponentsBuilder
                 .fromRequestUri(request)

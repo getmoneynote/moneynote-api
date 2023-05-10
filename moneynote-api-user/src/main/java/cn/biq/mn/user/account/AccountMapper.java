@@ -44,6 +44,7 @@ public class AccountMapper {
         account.setBillDay( form.getBillDay() );
         account.setApr( form.getApr() );
         account.setEnable(true);
+        account.setCurrencyCode(form.getCurrencyCode());
         return account;
     }
 

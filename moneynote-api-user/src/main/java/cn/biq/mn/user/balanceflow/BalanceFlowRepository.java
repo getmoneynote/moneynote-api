@@ -7,6 +7,8 @@ import cn.biq.mn.user.user.User;
 import org.springframework.stereotype.Repository;
 import cn.biq.mn.base.base.BaseRepository;
 
+import java.util.List;
+
 
 @Repository
 public interface BalanceFlowRepository extends BaseRepository<BalanceFlow>  {
@@ -18,5 +20,7 @@ public interface BalanceFlowRepository extends BaseRepository<BalanceFlow>  {
     long countByCreatorAndInsertAtBetween(User creator, long start, long end);
 
     boolean existsByPayee(Payee payee);
+
+    List<BalanceFlow> findAllByBook(Book book);
 
 }
