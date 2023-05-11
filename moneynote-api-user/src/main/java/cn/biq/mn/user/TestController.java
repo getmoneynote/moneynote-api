@@ -16,7 +16,7 @@ public class TestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/test1")
     public BaseResponse handleTest1() {
-        return new DataResponse<>(57);
+        return new DataResponse<>(59);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/test2")
