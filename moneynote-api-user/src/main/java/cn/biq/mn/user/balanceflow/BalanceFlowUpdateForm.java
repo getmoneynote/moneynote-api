@@ -1,6 +1,7 @@
 package cn.biq.mn.user.balanceflow;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import cn.biq.mn.base.validation.AmountField;
@@ -46,5 +47,8 @@ public class BalanceFlowUpdateForm {
     private String notes;
 
     private Boolean include;
+
+    @NotNull
+    private Boolean updateBalance;
 
 }

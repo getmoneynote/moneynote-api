@@ -58,4 +58,7 @@ public class BalanceFlowAddForm {
     @NotNull
     private Boolean include;
 
+    @NotNull
+    private Boolean updateBalance;
+
 }

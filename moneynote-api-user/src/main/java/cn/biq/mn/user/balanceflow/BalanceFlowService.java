@@ -179,7 +179,9 @@ public class BalanceFlowService {
             entity.setPayee(payee);
         }
         balanceFlowRepository.save(entity);
-        confirmBalance(entity);
+        if (form.getUpdateBalance()) {
+            confirmBalance(entity);
+        }
         return true;
     }
 
@@ -234,7 +236,7 @@ public class BalanceFlowService {
     }
 
     @Transactional(readOnly = true)
-    public BalanceFlowDetails get(Integer id) {
+    public BalanceFlowDetails get(int id) {
         return balanceFlowMapper.toDetails(baseService.findFlowById(id));
     }
 
@@ -249,9 +251,11 @@ public class BalanceFlowService {
         return result;
     }
 
-    public boolean remove(Integer id) {
+    public boolean remove(int id, boolean updateAccount) {
         BalanceFlow entity = baseService.findFlowById(id);
-        refundBalance(entity);
+        if (updateAccount) {
+            refundBalance(entity);
+        }
         balanceFlowRepository.delete(entity);
         return true;
     }
@@ -351,7 +355,7 @@ public class BalanceFlowService {
                 }
             }
         }
-        if (refundFlag) {
+        if (refundFlag && form.getUpdateBalance()) {
             refundBalance(entity);
         }
         entity.setAccount(newAccount);
@@ -372,7 +376,9 @@ public class BalanceFlowService {
             tagRelationService.addRelation(form.getTags(), entity, book, newAccount);
         }
         balanceFlowRepository.save(entity);
-        if (refundFlag) confirmBalance(entity);
+        if (refundFlag && form.getUpdateBalance()) {
+            confirmBalance(entity);
+        }
         return true;
     }
 
