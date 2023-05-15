@@ -47,6 +47,9 @@ public class AccountService {
             throw new ItemExistsException();
         }
         Account account = AccountMapper.toEntity(form);
+        if (!StringUtils.hasText(form.getCurrencyCode())) {
+            account.setCurrencyCode(group.getDefaultCurrencyCode());
+        }
         if (!Objects.equals(group.getDefaultCurrencyCode(), account.getCurrencyCode())) {
             currencyService.checkCode(form.getCurrencyCode());
         }

@@ -44,7 +44,7 @@ public class AccountAddForm {
     @NotesField
     private String notes;
 
-    @NotBlank
+//    @NotBlank
     @AccountCurrencyCodeField
     private String currencyCode;
 
