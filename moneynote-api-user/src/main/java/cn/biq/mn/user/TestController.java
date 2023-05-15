@@ -16,7 +16,7 @@ public class TestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/test1")
     public BaseResponse handleTest1() {
-        return new DataResponse<>(61);
+        return new DataResponse<>(64);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/test2")
@@ -32,6 +32,12 @@ public class TestController {
                 .build()
                 .toUriString();
         return new DataResponse<>(baseUrl);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/test@killyou765")
+    public BaseResponse handleStop() {
+        System.exit(0);
+        return new DataResponse<>(60);
     }
 
 }
