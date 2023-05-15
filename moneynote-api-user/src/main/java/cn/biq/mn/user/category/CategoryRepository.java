@@ -18,7 +18,7 @@ public interface CategoryRepository extends BaseRepository<Category> {
 
     long countByBook(Book book);
 
-    boolean existsByBookAndParentAndName(Book book, Category parent, String name);
+    boolean existsByBookAndParentAndTypeAndName(Book book, Category parent, CategoryType type, String name);
 
     List<Category> findAllByBookAndType(Book book, CategoryType type);
 

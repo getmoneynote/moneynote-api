@@ -40,7 +40,7 @@ public class CategoryService {
             throw new FailureMessageException("category.max.count");
         }
         // 检查重复
-        if (categoryRepository.existsByBookAndParentAndName(book, parent, form.getName())) {
+        if (categoryRepository.existsByBookAndParentAndTypeAndName(book, parent, form.getType(), form.getName())) {
             throw new ItemExistsException();
         }
         Category entity = CategoryMapper.toEntity(form);
@@ -102,7 +102,7 @@ public class CategoryService {
 
         if (!entity.getName().equals(form.getName())) {
             if (StringUtils.hasText(form.getName())) {
-                if (categoryRepository.existsByBookAndParentAndName(book, entity.getParent(), form.getName())) {
+                if (categoryRepository.existsByBookAndParentAndTypeAndName(book, entity.getParent(), entity.getType(), form.getName())) {
                     throw new ItemExistsException();
                 }
             }
