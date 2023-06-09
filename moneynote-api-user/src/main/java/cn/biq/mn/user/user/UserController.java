@@ -34,8 +34,8 @@ public class UserController {
 
     // 注册
     @RequestMapping(method = RequestMethod.POST, value = "/register")
-    public BaseResponse handleRegister(@Valid @RequestBody RegisterForm request) {
-        return new BaseResponse(userService.register(request));
+    public BaseResponse handleRegister(@Valid @RequestBody RegisterForm form) {
+        return new BaseResponse(userService.register(form));
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/bind")

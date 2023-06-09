@@ -2,10 +2,9 @@ package cn.biq.mn.user.user;
 
 import cn.biq.mn.user.base.BaseEntityRepository;
 import cn.biq.mn.user.base.BaseService;
-import cn.biq.mn.user.book.Book;
-import cn.biq.mn.user.book.BookMapper;
-import cn.biq.mn.user.book.BookRepository;
+import cn.biq.mn.user.book.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,6 +18,7 @@ import cn.biq.mn.user.group.GroupMapper;
 import cn.biq.mn.user.group.GroupRepository;
 import cn.biq.mn.user.security.JwtUtils;
 import cn.biq.mn.user.utils.SessionUtil;
+import org.springframework.util.StringUtils;
 
 
 @Service
@@ -35,7 +35,11 @@ public class UserService {
     private final BookRepository bookRepository;
     private final GroupRepository groupRepository;
     private final BaseService baseService;
+    private final BookService bookService;
     private final UserGroupRelationRepository userGroupRelationRepository;
+
+    @Value("${invite.code}")
+    private String inviteCode;
 
     @Transactional(readOnly = true)
     public LoginResponse login(LoginForm form) {
@@ -59,32 +63,41 @@ public class UserService {
     }
 
     public boolean register(RegisterForm form) {
-//        if (userRepository.existsByUsername(form.getUsername())) {
-//            throw new ItemExistsException("user.register.name.exists");
-//        }
-//        User user = new User();
-//        user.setUsername(form.getUsername());
-//        user.setNickName(form.getUsername());
-//        user.setPassword(passwordEncoder.encode(form.getPassword()));
-//        user.setRegisterTime(System.currentTimeMillis());
-//        user.setRegisterIp(webUtils.getRequestIP());
-//        // TODO 待优化，
-//        Group group = new Group();
-//        group.setName("默认组");
-//        group.setDefaultCurrencyCode("CNY");
-//        baseEntityRepository.save(group);
-//        var templateForm = new BookAddByTemplateForm();
-//        templateForm.setTemplateId(1);
-//        Book book = bookService.addByTemplate(templateForm, group);
-//        user.setDefaultGroup(group);
-//        user.setDefaultBook(book);
-//        baseEntityRepository.save(user);
-//        group.setDefaultBook(book);
-//        group.setCreator(user);
-//        baseEntityRepository.save(group);
-//        UserGroupRelation userGroupRelation = new UserGroupRelation(user, group, 1);
-//        baseEntityRepository.save(userGroupRelation);
-//        baseEntityRepository.save(user);
+        if (StringUtils.hasText(inviteCode) && !inviteCode.equals(form.getInviteCode())) {
+            throw new FailureMessageException("user.register.invite.code.error");
+        }
+        if (userRepository.existsByUsername(form.getUsername())) {
+            throw new ItemExistsException("user.register.name.exists");
+        }
+        User user = new User();
+        user.setUsername(form.getUsername());
+        user.setNickName(form.getUsername());
+        user.setPassword(passwordEncoder.encode(form.getPassword()));
+        user.setRegisterTime(System.currentTimeMillis());
+        user.setRegisterIp(webUtils.getRequestIP());
+
+        // TODO 待优化，
+        Group group = new Group();
+        group.setName("默认组");
+        group.setDefaultCurrencyCode("CNY");
+        baseEntityRepository.save(group);
+        user.setDefaultGroup(group);
+        baseEntityRepository.save(user);
+        group.setCreator(user);
+        baseEntityRepository.save(group);
+        UserGroupRelation userGroupRelation = new UserGroupRelation(user, group, 1);
+        baseEntityRepository.save(userGroupRelation);
+        baseEntityRepository.save(user);
+
+        // 给默认账本
+        var templateForm = new BookAddByTemplateForm();
+        templateForm.setTemplateId(1);
+        Book book = bookService.addByTemplate(templateForm, group);
+        user.setDefaultBook(book);
+        group.setDefaultBook(book);
+        baseEntityRepository.save(user);
+        baseEntityRepository.save(group);
+
         return true;
     }
 

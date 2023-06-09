@@ -19,4 +19,7 @@ public class RegisterForm {
     @PasswordField
     private String password;
 
+    @NotBlank
+    private String inviteCode;
+
 }
