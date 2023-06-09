@@ -1,17 +1,19 @@
-package cn.biq.mn.user.currency;
+package cn.biq.mn.admin.currency;
 
+import cn.biq.mn.base.base.BaseDetails;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class CurrencyDetails {
+public class CurrencyDetails extends BaseDetails {
 
-    private Integer id;
     private String name;
     private String description;
-    private Double rate;
+    private BigDecimal rate;
+    private Boolean enable;
 
     public String getValue() {
         return name;
@@ -24,5 +26,4 @@ public class CurrencyDetails {
     public String getTitle() {
         return name;
     }
-
 }

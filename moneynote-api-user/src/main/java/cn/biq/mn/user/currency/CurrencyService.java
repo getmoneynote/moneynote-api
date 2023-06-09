@@ -1,27 +1,26 @@
 package cn.biq.mn.user.currency;
 
+import cn.biq.mn.base.exception.FailureMessageException;
+import cn.biq.mn.base.exception.ItemNotFoundException;
+import cn.biq.mn.user.bean.ApplicationScopeBean;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import cn.biq.mn.base.exception.FailureMessageException;
-import cn.biq.mn.base.exception.ItemNotFoundException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class CurrencyService {
 
-    private final CurrencyRepository currencyRepository;
+    private final ApplicationScopeBean applicationScopeBean;
 
     @Transactional(readOnly = true)
     public List<CurrencyDetails> queryAll() {
-        List<Currency> entityList = currencyRepository.findAllByEnable(true);
-        return entityList.stream().map(CurrencyMapper::toDetails).toList();
+        return applicationScopeBean.getCurrencyDetailsList();
     }
 
     @Transactional(readOnly = true)
@@ -29,8 +28,8 @@ public class CurrencyService {
         if (!StringUtils.hasText(code)) {
             throw new FailureMessageException("valid.fail");
         }
-        List<Currency> currencyList = currencyRepository.findAllByEnable(true);
-        List<String> codeList = currencyList.stream().map(Currency::getName).toList();
+        List<CurrencyDetails> currencyList = applicationScopeBean.getCurrencyDetailsList();
+        List<String> codeList = currencyList.stream().map(CurrencyDetails::getName).toList();
         if (!codeList.contains(code)) {
             throw new FailureMessageException("valid.fail");
         }
@@ -39,10 +38,11 @@ public class CurrencyService {
     // TODO 定时任务，数据存入缓存
     // TODO 优化，不要每次都查数据库
     private BigDecimal convert(String fromCode, String toCode) {
-        Currency fromCurrency = currencyRepository.findOneByName(fromCode).orElseThrow(ItemNotFoundException::new);
-        Currency toCurrency = currencyRepository.findOneByName(toCode).orElseThrow(ItemNotFoundException::new);
-        BigDecimal fromRate = fromCurrency.getRate();
-        BigDecimal toRate = toCurrency.getRate();
+        List<CurrencyDetails> currencyList = applicationScopeBean.getCurrencyDetailsList();
+        CurrencyDetails fromCurrency = currencyList.stream().filter(currencyDetails -> fromCode.equals(currencyDetails.getName())).findAny().orElseThrow(ItemNotFoundException::new);
+        CurrencyDetails toCurrency = currencyList.stream().filter(currencyDetails -> toCode.equals(currencyDetails.getName())).findAny().orElseThrow(ItemNotFoundException::new);
+        BigDecimal fromRate = BigDecimal.valueOf(fromCurrency.getRate());
+        BigDecimal toRate = BigDecimal.valueOf(toCurrency.getRate());
         return toRate.divide(fromRate, 2, RoundingMode.CEILING);
     }
 

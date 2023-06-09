@@ -1,13 +1,13 @@
-package cn.biq.mn.user.currency;
+package cn.biq.mn.admin.currency;
 
+import cn.biq.mn.base.base.IdAndNameEntity;
+import cn.biq.mn.base.validation.AmountField;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import cn.biq.mn.base.validation.AmountField;
-import cn.biq.mn.base.base.IdAndNameEntity;
 
 import java.math.BigDecimal;
 

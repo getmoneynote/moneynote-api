@@ -1,4 +1,4 @@
-package cn.biq.mn.user.currency;
+package cn.biq.mn.admin.currency;
 
 
 import cn.biq.mn.base.base.BaseController;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/currencies")
+@RequestMapping("/user-api/currencies")
 public class CurrencyController extends BaseController {
 
     @Resource

@@ -3,9 +3,9 @@ dependencies {
     implementation 'com.auth0:java-jwt:4.2.1'
     implementation 'org.apache.poi:poi:5.2.2'
     implementation 'org.apache.poi:poi-ooxml:5.2.2'
-    implementation 'io.sentry:sentry-spring-boot-starter-jakarta:6.18.1'
-    implementation 'io.sentry:sentry-logback:6.18.1'
-    implementation 'com.google.api-client:google-api-client:1.32.1'
+//    implementation 'io.sentry:sentry-spring-boot-starter-jakarta:6.18.1'
+//    implementation 'io.sentry:sentry-logback:6.18.1'
+//    implementation 'com.google.api-client:google-api-client:1.32.1'
     implementation project(':moneynote-api-base')
 }
 

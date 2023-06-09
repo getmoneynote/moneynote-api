@@ -1,4 +1,4 @@
-package cn.biq.mn.user.currency;
+package cn.biq.mn.admin.currency;
 
 
 public class CurrencyMapper {

@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // anonymous 和 permitAll的区别，anonymous不能传token
-                .authorizeHttpRequests().requestMatchers("/admins/login", "/test*").anonymous()
+                .authorizeHttpRequests().requestMatchers("/admins/login", "/test*", "/user-api/**").anonymous()
                 // 这一行代码必须加上，不然一直报InsufficientAuthenticationException，调试了半天。
                 .anyRequest().authenticated();
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
