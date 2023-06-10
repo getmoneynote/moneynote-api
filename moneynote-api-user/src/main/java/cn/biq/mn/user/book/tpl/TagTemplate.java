@@ -1,19 +1,18 @@
-package cn.biq.mn.user.template.tag;
+package cn.biq.mn.user.book.tpl;
 
+import cn.biq.mn.base.tree.TreeNode;
 import lombok.Getter;
 import lombok.Setter;
-import cn.biq.mn.base.tree.TreeNode;
 
 
 @Getter
 @Setter
-public class TagTemplateDetails extends TreeNode<TagTemplateDetails> {
+public class TagTemplate extends TreeNode<TagTemplate> {
 
     private String notes;
     private Boolean canExpense;
     private Boolean canIncome;
     private Boolean canTransfer;
     private Integer level;
-
 
 }

@@ -11,5 +11,6 @@ public class CategoryDetails extends TreeNode<CategoryDetails> {
     private String notes;
     private Boolean canExpense;
     private Boolean canIncome;
+    private Integer level;
 
 }

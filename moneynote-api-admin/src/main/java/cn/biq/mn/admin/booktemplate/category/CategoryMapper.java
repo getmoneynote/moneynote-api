@@ -15,6 +15,7 @@ public class CategoryMapper {
         details.setType(entity.getType());
         details.setCanExpense(entity.getType() == CategoryType.EXPENSE);
         details.setCanIncome(entity.getType() == CategoryType.INCOME);
+        details.setLevel(entity.getLevel());
         return details;
     }
 

@@ -1,5 +1,12 @@
 package cn.biq.mn.admin.booktemplate.book;
 
+import cn.biq.mn.admin.booktemplate.category.Category;
+import cn.biq.mn.admin.booktemplate.category.CategoryDetails;
+import cn.biq.mn.admin.booktemplate.category.CategoryMapper;
+import cn.biq.mn.admin.booktemplate.payee.PayeeMapper;
+import cn.biq.mn.admin.booktemplate.tag.Tag;
+import cn.biq.mn.admin.booktemplate.tag.TagDetails;
+import cn.biq.mn.admin.booktemplate.tag.TagMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import cn.biq.mn.base.exception.ItemExistsException;
 import cn.biq.mn.base.exception.ItemNotFoundException;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +42,19 @@ public class BookService {
     public Page<BookDetails> queryVisible(Pageable page, BookQueryForm form) {
         form.setVisible(true);
         return bookRepository.findAll(form.buildPredicate(), page).map(BookMapper::toDetails);
+    }
+
+    public BookTemplateDetails getTemplateDetails(Integer id) {
+        var details = new BookTemplateDetails();
+        Book entity = bookRepository.findById(id).orElseThrow(ItemNotFoundException::new);
+        details.setName(entity.getName());
+        details.setNotes(entity.getNotes());
+
+        details.setCategories(entity.getCategories().stream().map(CategoryMapper::toDetails).toList());
+        details.setTags(entity.getTags().stream().map(TagMapper::toDetails).toList());
+        details.setPayees(entity.getPayees().stream().map(PayeeMapper::toDetails).toList());
+
+        return details;
     }
 
     public boolean update(Integer id, BookAddForm form) {

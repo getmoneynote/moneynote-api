@@ -14,7 +14,6 @@ import cn.biq.mn.user.base.BaseService;
 import cn.biq.mn.user.book.Book;
 import cn.biq.mn.user.tagrelation.TagRelationRepository;
 import cn.biq.mn.user.utils.Limitation;
-import cn.biq.mn.user.utils.SessionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TagService {
 
-    private final SessionUtil sessionUtil;
     private final TagRepository tagRepository;
     private final BaseService baseService;
     private final TagRelationRepository tagRelationRepository;

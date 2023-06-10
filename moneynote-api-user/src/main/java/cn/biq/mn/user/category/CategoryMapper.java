@@ -1,5 +1,6 @@
 package cn.biq.mn.user.category;
 
+import cn.biq.mn.user.book.tpl.CategoryTemplate;
 import org.springframework.util.StringUtils;
 import cn.biq.mn.user.template.category.CategoryTemplateDetails;
 
@@ -37,7 +38,7 @@ public class CategoryMapper {
         category.setNotes( form.getNotes() );
     }
 
-    public static Category toEntity(CategoryTemplateDetails template) {
+    public static Category toEntity(CategoryTemplate template) {
         if (template == null) return null;
         Category category = new Category();
         category.setLevel( template.getLevel() );

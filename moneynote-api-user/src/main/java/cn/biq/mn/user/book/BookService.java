@@ -6,7 +6,11 @@ import cn.biq.mn.user.balanceflow.BalanceFlow;
 import cn.biq.mn.user.balanceflow.BalanceFlowDetails;
 import cn.biq.mn.user.balanceflow.BalanceFlowMapper;
 import cn.biq.mn.user.base.BaseService;
+import cn.biq.mn.user.book.tpl.BookTemplateResponse;
+import cn.biq.mn.user.book.tpl.CategoryTemplate;
+import cn.biq.mn.user.book.tpl.TagTemplate;
 import cn.biq.mn.user.currency.CurrencyService;
+import cn.biq.mn.user.payee.Payee;
 import cn.biq.mn.user.tag.Tag;
 import cn.biq.mn.user.tag.TagMapper;
 import cn.biq.mn.user.tag.TagRepository;
@@ -14,6 +18,7 @@ import cn.biq.mn.user.utils.Limitation;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,15 +33,9 @@ import cn.biq.mn.user.category.Category;
 import cn.biq.mn.user.category.CategoryMapper;
 import cn.biq.mn.user.category.CategoryRepository;
 import cn.biq.mn.user.group.Group;
-import cn.biq.mn.user.payee.Payee;
 import cn.biq.mn.user.payee.PayeeRepository;
-import cn.biq.mn.user.template.book.BookTemplate;
-import cn.biq.mn.user.template.book.BookTemplateRepository;
-import cn.biq.mn.user.template.category.CategoryTemplateDetails;
-import cn.biq.mn.user.template.category.CategoryTemplateMapper;
-import cn.biq.mn.user.template.tag.TagTemplateDetails;
-import cn.biq.mn.user.template.tag.TagTemplateMapper;
 import cn.biq.mn.user.utils.SessionUtil;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -49,13 +48,15 @@ public class BookService {
     private final BookRepository bookRepository;
     private final CategoryRepository categoryRepository;
     private final BalanceFlowRepository balanceFlowRepository;
-    private final BookTemplateRepository bookTemplateRepository;
     private final TagRepository tagRepository;
     private final PayeeRepository payeeRepository;
     private final BookMapper bookMapper;
     private final BalanceFlowMapper balanceFlowMapper;
     private final BaseService baseService;
     private final CurrencyService currencyService;
+    private final RestTemplate restTemplate;
+    @Value("${user.api.base.url}")
+    private String userApiBaseUrl;
 
     @Transactional(readOnly = true)
     public Page<BookDetails> query(BookQueryForm form, Pageable page) {
@@ -155,8 +156,12 @@ public class BookService {
 
     public Book addByTemplate(BookAddByTemplateForm form, Group group) {
         Book book = new Book();
-        BookTemplate bookTemplate = bookTemplateRepository.findById(form.getTemplateId()).orElseThrow(ItemNotFoundException::new);
-        String bookName = null;
+        var response =  restTemplate.getForObject(userApiBaseUrl + "/book-templates/" + form.getTemplateId(), BookTemplateResponse.class);
+        if (!response.isSuccess()) {
+            throw new ItemNotFoundException();
+        }
+        var bookTemplate = response.getData();
+        String bookName;
         if (StringUtils.hasText(form.getBookName())) {
             bookName = form.getBookName();
         } else {
@@ -171,12 +176,8 @@ public class BookService {
         book.setGroup(group);
         bookRepository.save(book);
 
-        List<TagTemplateDetails> tagTemplateDetails = TreeUtils.buildTree(bookTemplate.getTags().stream().map(TagTemplateMapper::toDetails).toList());
-        saveTag(tagTemplateDetails, book);
-
-        List<CategoryTemplateDetails> categoryTemplateDetails = TreeUtils.buildTree(bookTemplate.getCategories().stream().map(CategoryTemplateMapper::toDetails).toList());
-        saveCategory(categoryTemplateDetails, book);
-
+        saveTag(TreeUtils.buildTree(bookTemplate.getTags()), book);
+        saveCategory(TreeUtils.buildTree(bookTemplate.getCategories()), book);
         List<Payee> payeesToSave = new ArrayList<>();
         bookTemplate.getPayees().forEach(i -> {
             Payee payee = new Payee();
@@ -192,13 +193,13 @@ public class BookService {
         return book;
     }
 
-    private void saveTag(List<TagTemplateDetails> detailsList, Book book) {
-        Queue<TagTemplateDetails> queue = new LinkedList<>();
-        for(TagTemplateDetails item : detailsList) {
+    private void saveTag(List<TagTemplate> detailsList, Book book) {
+        Queue<TagTemplate> queue = new LinkedList<>();
+        for(TagTemplate item : detailsList) {
             queue.add(item);
             Tag parent = null;
             while (!queue.isEmpty()) {
-                TagTemplateDetails details = queue.poll();
+                var details = queue.poll();
                 Tag tag = TagMapper.toEntity(details);
                 tag.setBook(book);
                 tag.setParent(parent);
@@ -211,13 +212,13 @@ public class BookService {
         }
     }
 
-    private void saveCategory(List<CategoryTemplateDetails> detailsList, Book book) {
-        Queue<CategoryTemplateDetails> queue = new LinkedList<>();
-        for(CategoryTemplateDetails item : detailsList) {
+    private void saveCategory(List<CategoryTemplate> detailsList, Book book) {
+        Queue<CategoryTemplate> queue = new LinkedList<>();
+        for(var item : detailsList) {
             queue.add(item);
             Category parent = null;
             while (!queue.isEmpty()) {
-                CategoryTemplateDetails details = queue.poll();
+                var details = queue.poll();
                 Category category = CategoryMapper.toEntity(details);
                 category.setBook(book);
                 category.setParent(parent);

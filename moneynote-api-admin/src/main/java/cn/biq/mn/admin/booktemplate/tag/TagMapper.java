@@ -14,6 +14,7 @@ public class TagMapper {
         details.setCanExpense(entity.getCanExpense());
         details.setCanIncome(entity.getCanIncome());
         details.setCanTransfer(entity.getCanTransfer());
+        details.setLevel(entity.getLevel());
         return details;
     }
 
