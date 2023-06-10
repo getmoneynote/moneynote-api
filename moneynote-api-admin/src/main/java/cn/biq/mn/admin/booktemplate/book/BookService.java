@@ -30,6 +30,11 @@ public class BookService {
         return bookRepository.findAll(form.buildPredicate(), page).map(BookMapper::toDetails);
     }
 
+    public Page<BookDetails> queryVisible(Pageable page, BookQueryForm form) {
+        form.setVisible(true);
+        return bookRepository.findAll(form.buildPredicate(), page).map(BookMapper::toDetails);
+    }
+
     public boolean update(Integer id, BookAddForm form) {
         Book entity = bookRepository.findById(id).orElseThrow(ItemNotFoundException::new);
         if (!entity.getName().equals(form.getName())) {
