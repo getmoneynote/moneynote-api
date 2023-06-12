@@ -1,15 +1,18 @@
-# MoneyNote API
+# 九快记账后台API
 
-An excellent bookkeeping solution for individual person & self-employed.
+## 系统介绍
+一款开源免费的记账解决程序，包括后端，网页版，App，主要用于个人生活记账，开店收支记账，支持docker一键部署自己的记账程序。
+![Screen Shot](https://raw.githubusercontent.com/markliu2013/music/3d9490c4ef86e121376a157437d19417ebb697b9/screen_shot.png "Screen Shot")
 
-- Preview - [https://demo.moneywhere.com](https://demo.moneywhere.com) (username: 111, pass: 111111)
-- Help - [https://help.moneywhere.com](https://help.moneywhere.com)
 
-You can download the jar file from [release page](https://github.com/markliu2013/bookkeeping/releases/tag/v1.0.0/), then use javar -jar to run it.
-If you have docker installed, checkout this [docker image](https://hub.docker.com/r/markliu2018/moneywhere)
+## 技术方案
+采用前后端分离模式，后台使用Spring Boot 3框架，前台PC网页版使用Antd Pro，App使用Flutter和Bloc。
 
-## Features
 
-- Monitor of your financial situation.
-- Track your incomes & expenses.
-- Self hosted your data.
+
+## 主要功能
+
+- 监控个人资产负债。
+- 记录个人支出和收入。
+- 报表统计
+- 支持个人docker一键部署
