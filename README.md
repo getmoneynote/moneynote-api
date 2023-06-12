@@ -8,7 +8,7 @@
 
 
 ## 技术方案
-采用前后端分离模式，后台使用Spring Boot 3框架，前台PC网页版使用Antd Pro，App使用Flutter和Bloc。
+采用前后端分离模式，[后端](https://github.com/getmoneynote/moneynote-api)使用Spring Boot 3框架，[网页版](https://github.com/getmoneynote/moneywhere-user-fe)使用Antd Pro，[App](https://github.com/getmoneynote/moneywhere_user_flutter)使用Flutter和Bloc。
 
 ## 个人部署
 请参考[docker compose](https://github.com/getmoneynote/docker-compose-moneywhere)项目
