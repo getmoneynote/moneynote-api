@@ -6,6 +6,8 @@
 ![Screen](https://raw.githubusercontent.com/getmoneynote/moneynote-api/main/screencapture.png "Screen Shot")
 
 ## 使用文档
+[从零开始搭建完善的记账体系](https://sspai.com/post/58025)
+
 [https://help.moneywhere.com](https://help.moneywhere.com)
 
 如遇到任何问题欢迎加入 QQ群: 639653091 讨论。
@@ -21,4 +23,4 @@
 - 监控个人资产负债。
 - 记录个人支出和收入。
 - 报表统计
-- 支持个人docker一键部署
+- 支持docker compose一键部署
