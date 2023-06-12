@@ -10,7 +10,8 @@
 ## 技术方案
 采用前后端分离模式，后台使用Spring Boot 3框架，前台PC网页版使用Antd Pro，App使用Flutter和Bloc。
 
-
+## 个人部署
+请参考[docker compose](https://github.com/getmoneynote/docker-compose-moneywhere)项目
 
 ## 主要功能
 
