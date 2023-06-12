@@ -1,4 +1,4 @@
-package cn.biq.mn.admin.user;
+package cn.biq.mn.admin.entity.user;
 
 
 import jakarta.persistence.*;

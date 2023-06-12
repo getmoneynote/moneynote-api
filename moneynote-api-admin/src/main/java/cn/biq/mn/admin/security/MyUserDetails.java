@@ -1,6 +1,6 @@
 package cn.biq.mn.admin.security;
 
-import cn.biq.mn.admin.rbac.admin.Admin;
+import cn.biq.mn.admin.entity.admin.Admin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

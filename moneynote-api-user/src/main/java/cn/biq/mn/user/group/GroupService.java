@@ -3,16 +3,14 @@ package cn.biq.mn.user.group;
 import cn.biq.mn.base.exception.FailureMessageException;
 import cn.biq.mn.base.exception.ItemNotFoundException;
 import cn.biq.mn.user.balanceflow.BalanceFlowRepository;
+import cn.biq.mn.user.base.BaseEntityRepository;
 import cn.biq.mn.user.book.Book;
 import cn.biq.mn.user.book.BookRepository;
-import cn.biq.mn.user.book.BookService;
 import cn.biq.mn.user.category.CategoryRepository;
 import cn.biq.mn.user.currency.CurrencyService;
 import cn.biq.mn.user.payee.PayeeRepository;
 import cn.biq.mn.user.tag.TagRepository;
-import cn.biq.mn.user.user.User;
-import cn.biq.mn.user.user.UserGroupRelation;
-import cn.biq.mn.user.user.UserGroupRelationRepository;
+import cn.biq.mn.user.user.*;
 import cn.biq.mn.user.utils.EnumUtils;
 import cn.biq.mn.user.utils.Limitation;
 import cn.biq.mn.user.utils.SessionUtil;
@@ -23,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +39,8 @@ public class GroupService {
     private final CategoryRepository categoryRepository;
     private final TagRepository tagRepository;
     private final PayeeRepository payeeRepository;
+    private final UserRepository userRepository;
+    private final BaseEntityRepository baseEntityRepository;
 
     @Transactional(readOnly = true)
     public Page<GroupDetails> query(Pageable page) {
@@ -51,6 +52,7 @@ public class GroupService {
         return entityPage.map(group -> {
             var details = GroupMapper.toDetails(group);
             var relation = userGroupRelationRepository.findByGroupAndUser(group, user).get();
+            details.setRoleId(relation.getRole());
             details.setRole(enumUtils.translateRoleType(relation.getRole()));
             details.setDefault(details.getId().equals(sessionUtil.getCurrentUser().getDefaultGroup().getId()));
             return details;
@@ -93,6 +95,18 @@ public class GroupService {
         }
     }
 
+    private void checkInvite(Group group) {
+        User user = sessionUtil.getCurrentUser();
+        var relationOptional = userGroupRelationRepository.findByGroupAndUser(group, user);
+        if (relationOptional.isEmpty()) {
+            throw new FailureMessageException("group.update.auth.error");
+        }
+        var relation = relationOptional.get();
+        if (relation.getRole() != 4) {
+            throw new FailureMessageException("group.update.auth.error");
+        }
+    }
+
     public boolean update(Integer id, GroupUpdateForm form) {
         Group entity = groupRepository.findById(id).orElseThrow(ItemNotFoundException::new);
         checkRole(entity);
@@ -120,6 +134,73 @@ public class GroupService {
         userGroupRelationRepository.deleteByGroup(entity);
         groupRepository.delete(entity);
         return true;
+    }
+
+    public boolean inviteUser(Integer id, InviteUserForm form) {
+        User user = userRepository.findOneByUsername(form.getUsername()).orElseThrow(() -> new FailureMessageException("invite.user.not.exists"));
+        Group group = groupRepository.findById(id).orElseThrow(ItemNotFoundException::new);
+        checkRole(group);
+        var relationOptional = userGroupRelationRepository.findByGroupAndUser(group, user);
+        if (relationOptional.isPresent()) {
+            throw new FailureMessageException("invite.user.has.role");
+        }
+        var relation = new UserGroupRelation(user, group, 4);
+        baseEntityRepository.save(relation);
+        return true;
+    }
+
+    public boolean removeUser(Integer groupId, Integer userId) {
+        Group group = groupRepository.findById(groupId).orElseThrow(ItemNotFoundException::new);
+        checkRole(group);
+        User user = userRepository.findById(userId).orElseThrow(ItemNotFoundException::new);
+        var relation = userGroupRelationRepository.findByGroupAndUser(group, user).orElseThrow(ItemNotFoundException::new);
+        if (relation.getRole() == 1) {
+            throw new FailureMessageException("group.remove.user.self");
+        }
+        baseEntityRepository.delete(relation);
+        return true;
+    }
+
+    public boolean agreeInvite(Integer id) {
+        Group group = groupRepository.findById(id).orElseThrow(ItemNotFoundException::new);
+        checkInvite(group);
+        User user = sessionUtil.getCurrentUser();
+        var relationOptional = userGroupRelationRepository.findByGroupAndUser(group, user);
+        var relation = relationOptional.get();
+        relation.setRole(2);
+        baseEntityRepository.save(relation);
+        return true;
+    }
+
+    public boolean rejectInvite(Integer id) {
+        Group group = groupRepository.findById(id).orElseThrow(ItemNotFoundException::new);
+        checkInvite(group);
+        User user = sessionUtil.getCurrentUser();
+        var relationOptional = userGroupRelationRepository.findByGroupAndUser(group, user);
+        var relation = relationOptional.get();
+        baseEntityRepository.delete(relation);
+        return true;
+    }
+
+    public List<GroupUserDetails> getUsers(Integer id) {
+        Group group = groupRepository.findById(id).orElseThrow(ItemNotFoundException::new);
+        checkRole(group);
+        QUserGroupRelation qUserGroupRelation = QUserGroupRelation.userGroupRelation;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.and(qUserGroupRelation.group.eq(group));
+        List<UserGroupRelation> relations = userGroupRelationRepository.findAll(booleanBuilder);
+        List<GroupUserDetails> userList = new ArrayList<>();
+        for(var relation : relations) {
+            User user = relation.getUser();
+            var groupUser = new GroupUserDetails();
+            groupUser.setId(user.getId());
+            groupUser.setUsername(user.getUsername());
+            groupUser.setNickName(user.getNickName());
+            groupUser.setRole(enumUtils.translateRoleType(relation.getRole()));
+            groupUser.setRoleId(relation.getRole());
+            userList.add(groupUser);
+        }
+        return userList;
     }
 
 }

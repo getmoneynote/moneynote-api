@@ -83,7 +83,7 @@ public class GlobalExceptionHandler {
     // 最后一层database的验证，长度，unique约束等
     // https://stackoverflow.com/questions/2109476/how-to-handle-dataintegrityviolationexception-in-spring
     @ExceptionHandler(DataIntegrityViolationException.class)
-    @ResponseStatus(value = HttpStatus.CONFLICT)  // 409
+    @ResponseBody
     public BaseResponse exceptionHandler(DataIntegrityViolationException e) {
         String rootMsg = "";
         if (e.getRootCause() != null) {
@@ -119,12 +119,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(FailureMessageException.class)
     @ResponseBody
     public BaseResponse exceptionHandler(FailureMessageException e) {
-        return new SimpleResponse(false, messageSourceUtil.getMessage(e.getMessage()), e.getShowType());
-    }
-
-    @ExceptionHandler(ErrorMessageException.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public BaseResponse exceptionHandler(ErrorMessageException e) {
         return new SimpleResponse(false, messageSourceUtil.getMessage(e.getMessage()), e.getShowType());
     }
 

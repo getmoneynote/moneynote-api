@@ -1,9 +1,8 @@
-package cn.biq.mn.admin.booktemplate.tag;
+package cn.biq.mn.admin.entity.admin;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import cn.biq.mn.admin.booktemplate.book.Book;
 import cn.biq.mn.base.tree.TreeEntity;
 
 

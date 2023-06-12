@@ -1,6 +1,6 @@
 package cn.biq.mn.admin.utils;
 
-import cn.biq.mn.admin.rbac.admin.Admin;
+import cn.biq.mn.admin.entity.admin.Admin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import cn.biq.mn.admin.security.CurrentSession;

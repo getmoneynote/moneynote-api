@@ -16,7 +16,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CurrencyDataLoader implements ApplicationRunner {
 
-    @Value("${user.api.base.url}")
+    @Value("${user_api_base_url}")
     private String userApiBaseUrl;
     private final WebUtils webUtils;
     private final ApplicationScopeBean applicationScopeBean;

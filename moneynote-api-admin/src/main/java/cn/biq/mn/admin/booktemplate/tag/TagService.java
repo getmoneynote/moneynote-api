@@ -1,10 +1,12 @@
 package cn.biq.mn.admin.booktemplate.tag;
 
+import cn.biq.mn.admin.entity.admin.Tag;
+import cn.biq.mn.admin.repository.admin.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import cn.biq.mn.admin.booktemplate.book.Book;
-import cn.biq.mn.admin.booktemplate.book.BookRepository;
+import cn.biq.mn.admin.entity.admin.Book;
+import cn.biq.mn.admin.repository.admin.BookRepository;
 import cn.biq.mn.base.exception.FailureMessageException;
 import cn.biq.mn.base.exception.ItemExistsException;
 import cn.biq.mn.base.exception.ItemNotFoundException;

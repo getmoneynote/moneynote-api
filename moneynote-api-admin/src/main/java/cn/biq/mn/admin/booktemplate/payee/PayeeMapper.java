@@ -1,6 +1,8 @@
 package cn.biq.mn.admin.booktemplate.payee;
 
 
+import cn.biq.mn.admin.entity.admin.Payee;
+
 public class PayeeMapper {
 
     public static PayeeDetails toDetails(Payee entity) {

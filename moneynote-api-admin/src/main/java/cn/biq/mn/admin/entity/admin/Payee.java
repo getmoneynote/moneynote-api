@@ -1,7 +1,7 @@
-package cn.biq.mn.admin.booktemplate.payee;
+package cn.biq.mn.admin.entity.admin;
 
 
-import cn.biq.mn.admin.booktemplate.book.Book;
+import cn.biq.mn.admin.entity.admin.Book;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

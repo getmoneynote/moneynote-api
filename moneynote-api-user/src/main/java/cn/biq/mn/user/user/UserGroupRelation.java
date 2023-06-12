@@ -27,7 +27,7 @@ public class UserGroupRelation extends BaseEntity {
 
     @Column(nullable = false)
     @NotNull
-    private Integer role;//1 所有者 2维护者 3访客
+    private Integer role;//1 所有者 2维护者 3访客 4已邀请，待同意
 
     public UserGroupRelation() { }
 

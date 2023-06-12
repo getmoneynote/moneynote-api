@@ -1,6 +1,5 @@
 package cn.biq.mn.user.book;
 
-import cn.biq.mn.base.exception.ErrorMessageException;
 import cn.biq.mn.base.utils.CalendarUtil;
 import cn.biq.mn.user.balanceflow.BalanceFlow;
 import cn.biq.mn.user.balanceflow.BalanceFlowDetails;
@@ -55,7 +54,7 @@ public class BookService {
     private final BaseService baseService;
     private final CurrencyService currencyService;
     private final RestTemplate restTemplate;
-    @Value("${user.api.base.url}")
+    @Value("${user_api_base_url}")
     private String userApiBaseUrl;
 
     @Transactional(readOnly = true)
@@ -235,7 +234,7 @@ public class BookService {
         Book book = baseService.findBookById(id);
         // 24小时内只能导出一次
         if (CalendarUtil.inLastDay(book.getExportAt())) {
-            throw new ErrorMessageException("book.export.limit.fail");
+            throw new FailureMessageException("book.export.limit.fail");
         }
         // 创建一个新的工作簿
         Workbook workbook = new SXSSFWorkbook();

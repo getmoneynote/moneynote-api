@@ -1,5 +1,7 @@
 package cn.biq.mn.admin.booktemplate.book;
 
+import cn.biq.mn.admin.entity.admin.Book;
+
 public class BookMapper {
 
     public static BookDetails toDetails(Book entity) {

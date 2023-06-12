@@ -35,7 +35,7 @@ public class WechatController {
      * 用户授权成功，获取微信回调的code
      */
     @RequestMapping(value = "/loginWechat/callback", method = { RequestMethod.GET, RequestMethod.POST })
-    public void wechatUserCallback(@RequestParam(value = "code",required = true) String code, String state, HttpServletResponse response) throws IOException {
+    public void wechatUserCallback(@RequestParam(value = "code", required = true) String code, String state, HttpServletResponse response) throws IOException {
         String token = weChatService.saveWeChatUser(code, false);
         httpServletRequest.getSession().setAttribute("accessToken", token);
         response.setContentType("text/html; charset=UTF-8");

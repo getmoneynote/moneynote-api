@@ -1,6 +1,5 @@
-package cn.biq.mn.admin.rbac.admin;
+package cn.biq.mn.admin.entity.admin;
 
-import cn.biq.mn.admin.rbac.role.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

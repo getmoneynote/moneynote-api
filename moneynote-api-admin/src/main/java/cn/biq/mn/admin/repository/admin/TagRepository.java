@@ -1,7 +1,8 @@
-package cn.biq.mn.admin.booktemplate.tag;
+package cn.biq.mn.admin.repository.admin;
 
+import cn.biq.mn.admin.entity.admin.Tag;
 import org.springframework.stereotype.Repository;
-import cn.biq.mn.admin.booktemplate.book.Book;
+import cn.biq.mn.admin.entity.admin.Book;
 import cn.biq.mn.base.base.BaseRepository;
 
 import java.util.Optional;

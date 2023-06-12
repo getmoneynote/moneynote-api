@@ -1,6 +1,6 @@
-package cn.biq.mn.admin.booktemplate.category;
+package cn.biq.mn.admin.entity.admin;
 
-import cn.biq.mn.admin.booktemplate.book.Book;
+import cn.biq.mn.admin.booktemplate.category.CategoryType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,5 +1,6 @@
 package cn.biq.mn.admin.booktemplate.book;
 
+import cn.biq.mn.admin.entity.admin.QBook;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.Getter;

@@ -14,5 +14,6 @@ public class GroupDetails extends BaseDetails {
     private String defaultCurrencyCode;
     private String role;
     private boolean isDefault;
+    private Integer roleId;
 
 }

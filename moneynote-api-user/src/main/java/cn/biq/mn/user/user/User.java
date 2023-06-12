@@ -12,6 +12,9 @@ import cn.biq.mn.base.validation.NameField;
 import cn.biq.mn.base.validation.TimeField;
 import cn.biq.mn.base.validation.UserNameField;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
 @Table(name = "t_user_user")
@@ -61,5 +64,8 @@ public class User extends BaseEntity {
 
     @Column(length = 256)
     private String headimgurl;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<UserGroupRelation> relations = new HashSet<>();
 
 }

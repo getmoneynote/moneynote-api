@@ -1,6 +1,8 @@
 package cn.biq.mn.admin.rbac.admin;
 
 
+import cn.biq.mn.admin.entity.admin.Admin;
+import cn.biq.mn.admin.repository.admin.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

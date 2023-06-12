@@ -1,7 +1,9 @@
 package cn.biq.mn.admin.booktemplate.payee;
 
-import cn.biq.mn.admin.booktemplate.book.Book;
-import cn.biq.mn.admin.booktemplate.book.BookRepository;
+import cn.biq.mn.admin.entity.admin.Book;
+import cn.biq.mn.admin.entity.admin.Payee;
+import cn.biq.mn.admin.repository.admin.BookRepository;
+import cn.biq.mn.admin.repository.admin.PayeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

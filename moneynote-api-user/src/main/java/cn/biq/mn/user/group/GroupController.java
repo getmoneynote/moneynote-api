@@ -2,6 +2,7 @@ package cn.biq.mn.user.group;
 
 import cn.biq.mn.base.base.BaseController;
 import cn.biq.mn.base.response.BaseResponse;
+import cn.biq.mn.base.response.DataResponse;
 import cn.biq.mn.base.response.PageResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,31 @@ public class GroupController extends BaseController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     public BaseResponse handleDelete(@PathVariable("id") Integer id) {
         return new BaseResponse(groupService.remove(id));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{id}/inviteUser")
+    public BaseResponse handleInviteUser(@PathVariable("id") Integer id, @Valid @RequestBody InviteUserForm form) {
+        return new BaseResponse(groupService.inviteUser(id, form));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{id}/removeUser")
+    public BaseResponse handleRemoveUser(@PathVariable("id") Integer id, @Valid @RequestBody RemoveUserForm form) {
+        return new BaseResponse(groupService.removeUser(id, form.getUserId()));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{id}/agree")
+    public BaseResponse handleInviteAgree(@PathVariable("id") Integer id) {
+        return new BaseResponse(groupService.agreeInvite(id));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{id}/reject")
+    public BaseResponse handleInviteReject(@PathVariable("id") Integer id) {
+        return new BaseResponse(groupService.rejectInvite(id));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/users")
+    public BaseResponse handleGetUsers(@PathVariable("id") Integer id) {
+        return new DataResponse<>(groupService.getUsers(id));
     }
 
 }

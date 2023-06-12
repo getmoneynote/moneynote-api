@@ -1,12 +1,10 @@
 package cn.biq.mn.admin.booktemplate.book;
 
-import cn.biq.mn.admin.booktemplate.category.Category;
-import cn.biq.mn.admin.booktemplate.category.CategoryDetails;
 import cn.biq.mn.admin.booktemplate.category.CategoryMapper;
 import cn.biq.mn.admin.booktemplate.payee.PayeeMapper;
-import cn.biq.mn.admin.booktemplate.tag.Tag;
-import cn.biq.mn.admin.booktemplate.tag.TagDetails;
 import cn.biq.mn.admin.booktemplate.tag.TagMapper;
+import cn.biq.mn.admin.entity.admin.Book;
+import cn.biq.mn.admin.repository.admin.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import cn.biq.mn.base.exception.ItemExistsException;
 import cn.biq.mn.base.exception.ItemNotFoundException;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

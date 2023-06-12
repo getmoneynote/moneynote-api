@@ -1,5 +1,6 @@
-package cn.biq.mn.admin.currency;
+package cn.biq.mn.admin.repository.admin;
 
+import cn.biq.mn.admin.entity.admin.Currency;
 import cn.biq.mn.base.base.BaseRepository;
 import org.springframework.stereotype.Repository;
 

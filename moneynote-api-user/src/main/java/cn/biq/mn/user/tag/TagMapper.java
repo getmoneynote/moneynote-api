@@ -2,7 +2,6 @@ package cn.biq.mn.user.tag;
 
 import cn.biq.mn.user.book.tpl.TagTemplate;
 import org.springframework.util.StringUtils;
-import cn.biq.mn.user.template.tag.TagTemplateDetails;
 
 public class TagMapper {
 

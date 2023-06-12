@@ -1,6 +1,8 @@
 package cn.biq.mn.admin.user;
 
 
+import cn.biq.mn.admin.entity.user.User;
+import cn.biq.mn.admin.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

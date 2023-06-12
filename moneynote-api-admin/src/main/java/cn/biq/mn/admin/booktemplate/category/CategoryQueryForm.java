@@ -1,5 +1,6 @@
 package cn.biq.mn.admin.booktemplate.category;
 
+import cn.biq.mn.admin.entity.admin.QCategory;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import jakarta.validation.constraints.NotNull;

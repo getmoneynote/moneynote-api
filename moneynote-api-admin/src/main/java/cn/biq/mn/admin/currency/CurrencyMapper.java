@@ -1,6 +1,8 @@
 package cn.biq.mn.admin.currency;
 
 
+import cn.biq.mn.admin.entity.admin.Currency;
+
 public class CurrencyMapper {
 
     public static CurrencyDetails toDetails(Currency entity) {

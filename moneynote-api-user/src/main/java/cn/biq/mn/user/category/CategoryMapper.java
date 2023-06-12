@@ -2,7 +2,6 @@ package cn.biq.mn.user.category;
 
 import cn.biq.mn.user.book.tpl.CategoryTemplate;
 import org.springframework.util.StringUtils;
-import cn.biq.mn.user.template.category.CategoryTemplateDetails;
 
 public class CategoryMapper {
 

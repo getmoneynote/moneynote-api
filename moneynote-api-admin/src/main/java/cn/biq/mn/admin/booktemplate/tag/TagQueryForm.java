@@ -1,5 +1,6 @@
 package cn.biq.mn.admin.booktemplate.tag;
 
+import cn.biq.mn.admin.entity.admin.QTag;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import jakarta.validation.constraints.NotNull;

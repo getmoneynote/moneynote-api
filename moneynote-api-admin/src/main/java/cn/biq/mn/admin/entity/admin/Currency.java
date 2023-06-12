@@ -1,4 +1,4 @@
-package cn.biq.mn.admin.currency;
+package cn.biq.mn.admin.entity.admin;
 
 import cn.biq.mn.base.base.IdAndNameEntity;
 import cn.biq.mn.base.validation.AmountField;

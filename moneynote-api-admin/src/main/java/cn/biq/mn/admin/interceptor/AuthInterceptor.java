@@ -1,7 +1,7 @@
 package cn.biq.mn.admin.interceptor;
 
-import cn.biq.mn.admin.rbac.admin.Admin;
-import cn.biq.mn.admin.rbac.admin.AdminRepository;
+import cn.biq.mn.admin.entity.admin.Admin;
+import cn.biq.mn.admin.repository.admin.AdminRepository;
 import cn.biq.mn.admin.security.CurrentSession;
 import cn.biq.mn.admin.security.JwtUtils;
 import jakarta.servlet.http.HttpServletRequest;

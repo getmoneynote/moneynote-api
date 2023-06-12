@@ -1,5 +1,6 @@
 package cn.biq.mn.admin.user;
 
+import cn.biq.mn.admin.entity.user.QUser;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 

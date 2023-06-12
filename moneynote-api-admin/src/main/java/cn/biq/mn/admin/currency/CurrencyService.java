@@ -1,5 +1,7 @@
 package cn.biq.mn.admin.currency;
 
+import cn.biq.mn.admin.entity.admin.Currency;
+import cn.biq.mn.admin.repository.admin.CurrencyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

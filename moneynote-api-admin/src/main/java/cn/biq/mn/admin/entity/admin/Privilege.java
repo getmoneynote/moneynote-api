@@ -1,4 +1,4 @@
-package cn.biq.mn.admin.rbac.privilege;
+package cn.biq.mn.admin.entity.admin;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

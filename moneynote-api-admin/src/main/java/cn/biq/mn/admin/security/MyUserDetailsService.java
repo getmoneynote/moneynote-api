@@ -1,6 +1,6 @@
 package cn.biq.mn.admin.security;
 
-import cn.biq.mn.admin.rbac.admin.AdminRepository;
+import cn.biq.mn.admin.repository.admin.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

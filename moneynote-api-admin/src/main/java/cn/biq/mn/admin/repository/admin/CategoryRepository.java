@@ -1,6 +1,8 @@
-package cn.biq.mn.admin.booktemplate.category;
+package cn.biq.mn.admin.repository.admin;
 
-import cn.biq.mn.admin.booktemplate.book.Book;
+import cn.biq.mn.admin.booktemplate.category.CategoryType;
+import cn.biq.mn.admin.entity.admin.Book;
+import cn.biq.mn.admin.entity.admin.Category;
 import org.springframework.stereotype.Repository;
 import cn.biq.mn.base.base.BaseRepository;
 

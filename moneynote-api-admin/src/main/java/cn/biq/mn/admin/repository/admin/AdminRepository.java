@@ -1,5 +1,6 @@
-package cn.biq.mn.admin.rbac.admin;
+package cn.biq.mn.admin.repository.admin;
 
+import cn.biq.mn.admin.entity.admin.Admin;
 import org.springframework.stereotype.Repository;
 import cn.biq.mn.base.base.BaseRepository;
 

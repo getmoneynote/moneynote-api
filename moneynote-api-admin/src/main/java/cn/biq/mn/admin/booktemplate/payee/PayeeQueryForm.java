@@ -1,5 +1,6 @@
 package cn.biq.mn.admin.booktemplate.payee;
 
+import cn.biq.mn.admin.entity.admin.QPayee;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import jakarta.validation.constraints.NotNull;

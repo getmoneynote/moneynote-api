@@ -35,6 +35,7 @@ public class EnumUtils {
             case 1 -> messageSourceUtil.getMessage("role.type.own");
             case 2 -> messageSourceUtil.getMessage("role.type.operator");
             case 3 -> messageSourceUtil.getMessage("role.type.guest");
+            case 4 -> messageSourceUtil.getMessage("role.type.invited");
             default -> "未知";
         };
     }

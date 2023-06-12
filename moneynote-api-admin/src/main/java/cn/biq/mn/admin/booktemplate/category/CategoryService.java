@@ -1,7 +1,9 @@
 package cn.biq.mn.admin.booktemplate.category;
 
-import cn.biq.mn.admin.booktemplate.book.Book;
-import cn.biq.mn.admin.booktemplate.book.BookRepository;
+import cn.biq.mn.admin.entity.admin.Book;
+import cn.biq.mn.admin.entity.admin.Category;
+import cn.biq.mn.admin.repository.admin.BookRepository;
+import cn.biq.mn.admin.repository.admin.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

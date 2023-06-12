@@ -1,5 +1,7 @@
 package cn.biq.mn.admin.booktemplate.tag;
 
+import cn.biq.mn.admin.entity.admin.Tag;
+
 public class TagMapper {
 
     public static TagDetails toDetails(Tag entity) {

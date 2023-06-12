@@ -38,7 +38,7 @@ public class UserService {
     private final BookService bookService;
     private final UserGroupRelationRepository userGroupRelationRepository;
 
-    @Value("${invite.code}")
+    @Value("${invite_code}")
     private String inviteCode;
 
     @Transactional(readOnly = true)

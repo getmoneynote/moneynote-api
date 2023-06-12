@@ -1,6 +1,7 @@
-package cn.biq.mn.admin.booktemplate.payee;
+package cn.biq.mn.admin.repository.admin;
 
-import cn.biq.mn.admin.booktemplate.book.Book;
+import cn.biq.mn.admin.entity.admin.Book;
+import cn.biq.mn.admin.entity.admin.Payee;
 import org.springframework.stereotype.Repository;
 import cn.biq.mn.base.base.BaseRepository;
 
