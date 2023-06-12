@@ -2,7 +2,9 @@
 
 ## 系统介绍
 一款开源免费的记账解决程序，包括后端，网页版，App，主要用于个人生活记账，开店收支记账，支持docker一键部署自己的记账程序。
-![Screen Shot](https://raw.githubusercontent.com/markliu2013/music/3d9490c4ef86e121376a157437d19417ebb697b9/screen_shot.png "Screen Shot")
+
+
+![Screen](https://raw.githubusercontent.com/getmoneynote/moneynote-api/main/screencapture.png "Screen Shot")
 
 
 ## 技术方案
