@@ -1,7 +1,7 @@
 # 九快记账后台API
 
 ## 系统介绍
-一款开源免费的记账解决程序，包括后端，网页版，App，主要用于个人生活记账，开店收支记账，支持docker一键部署自己的记账程序。
+一款开源免费的记账解决程序，包括[后端](https://github.com/getmoneynote/moneynote-api)，[网页版](https://github.com/getmoneynote/moneywhere-user-fe)，[App](https://github.com/getmoneynote/moneywhere_user_flutter)，主要用于个人生活记账，开店收支记账，支持docker一键部署自己的记账程序。
 
 
 ![Screen](https://raw.githubusercontent.com/getmoneynote/moneynote-api/main/screencapture.png "Screen Shot")
