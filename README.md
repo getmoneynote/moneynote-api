@@ -8,6 +8,8 @@
 ## 使用文档
 [https://help.moneywhere.com](https://help.moneywhere.com)
 
+如遇到任何问题欢迎加入 QQ群: 639653091 讨论。
+
 ## 技术方案
 采用前后端分离模式，[后端](https://github.com/getmoneynote/moneynote-api)使用Spring Boot 3框架，[网页版](https://github.com/getmoneynote/moneywhere-user-fe)使用Antd Pro，[App](https://github.com/getmoneynote/moneywhere_user_flutter)使用Flutter和Bloc。
 
