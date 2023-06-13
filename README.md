@@ -5,12 +5,12 @@
 
 ![Screen](https://raw.githubusercontent.com/getmoneynote/moneynote-api/main/screencapture.png "Screen Shot")
 
+[示例站点](https://demo.moneywhere.com)  注册邀请码 111111（6个1）
+
 ## 使用文档
 [从零开始搭建完善的记账体系](https://sspai.com/post/58025)
 
 [https://help.moneywhere.com](https://help.moneywhere.com)
-
-[示例站点](https://demo.moneywhere.com)  注册邀请码 111111（6个1）
 
 如遇到任何问题欢迎加入 QQ群: 639653091 讨论。
 
