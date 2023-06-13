@@ -10,6 +10,8 @@
 
 [https://help.moneywhere.com](https://help.moneywhere.com)
 
+[示例站点](https://demo.moneywhere.com)  注册邀请码 111111（6个1）
+
 如遇到任何问题欢迎加入 QQ群: 639653091 讨论。
 
 ## 技术方案
