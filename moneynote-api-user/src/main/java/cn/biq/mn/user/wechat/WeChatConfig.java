@@ -14,26 +14,26 @@ public class WeChatConfig {
     /**
      * 开放平台appid
      */
-    @Value("${wxopen_appid}")
+    @Value("${wxopen_appid:''}")
     private String openAppid;
 
     /**
      * 开放平台appsecret
      */
-    @Value("${wxopen_appsecret}")
+    @Value("${wxopen_appsecret:''}")
     private String openAppsecret;
 
 
     /**
      * 开放平台回调url
      */
-    @Value("${wxopen_redirect_url}")
+    @Value("${wxopen_redirect_url:''}")
     private String openRedirectUrl;
 
-    @Value("${wxopen_appid_app}")
+    @Value("${wxopen_appid_app:''}")
     private String openAppidApp;
 
-    @Value("${wxopen_appsecret_app}")
+    @Value("${wxopen_appsecret_app:''}")
     private String openAppsecretApp;
 
 
