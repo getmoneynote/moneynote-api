@@ -35,7 +35,6 @@
 - 支持docker compose一键部署
 
 ## ToDo
-- App可以更改接口地址
 - 汇率和账本模板服务downgrade
 - 完善代码最佳实践
 - 完善分组功能
