@@ -12,6 +12,8 @@
 
 [https://help.moneywhere.com](https://help.moneywhere.com)
 
+[B站视频](https://www.bilibili.com/video/BV1vz4y1i7dz)
+
 如遇到任何问题欢迎加入 QQ群: 639653091 讨论。
 
 ## 技术方案
@@ -33,7 +35,6 @@
 - 支持docker compose一键部署
 
 ## ToDo
-- App可以更改接口地址
 - 汇率和账本模板服务downgrade
 - 完善代码最佳实践
 - 完善分组功能
