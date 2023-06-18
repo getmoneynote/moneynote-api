@@ -17,7 +17,7 @@ import java.util.Date;
 public class JwtUtils {
 
     private final String secretKey = "rzxlszyykpbgqcflzxsqcysyhljt";
-    private final long validityInMs = 3600000*24*7; //7天
+    private final long validityInMs = 3600000*24*30; //30天
 
     public String createToken(User user) {
         return JWT.create().withSubject(user.getId().toString())
