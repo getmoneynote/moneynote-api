@@ -7,6 +7,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 
 // https://stackoverflow.com/questions/7270681/utility-class-in-spring-application-should-i-use-static-methods-or-not
@@ -17,12 +19,11 @@ import java.util.Date;
 public class JwtUtils {
 
     private final String secretKey = "rzxlszyykpbgqcflzxsqcysyhljt";
-    private final long validityInMs = 3600000*24*30; //30天
 
     public String createToken(User user) {
         return JWT.create().withSubject(user.getId().toString())
                 .withClaim("userId", user.getId())
-                .withExpiresAt(new Date((new Date()).getTime() + validityInMs))
+                .withExpiresAt(Instant.now().plus(Duration.ofDays(30))) //30天之后过期
                 .sign(Algorithm.HMAC256(secretKey));
     }
 
