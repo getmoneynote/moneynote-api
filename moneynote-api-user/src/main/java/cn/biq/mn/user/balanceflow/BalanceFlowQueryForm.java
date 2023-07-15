@@ -48,12 +48,12 @@ public class BalanceFlowQueryForm {
         }
         if (minTime != null) {
             // 时间设置为一天的开始
-            minTime = CalendarUtil.startOfDay(minTime);
+//            minTime = CalendarUtil.startOfDay(minTime);
             booleanBuilder.and(balanceFlow.createTime.goe(minTime));
         }
         if (maxTime != null) {
             // 时间设置为一天的结束
-            maxTime = CalendarUtil.endOfDay(maxTime);
+//            maxTime = CalendarUtil.endOfDay(maxTime);
             booleanBuilder.and(balanceFlow.createTime.loe(maxTime));
         }
         if (account != null) {
