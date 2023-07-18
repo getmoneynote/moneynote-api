@@ -5,6 +5,8 @@
 
 ![Screen](https://raw.githubusercontent.com/getmoneynote/moneynote-api/main/screencapture.png "Screen Shot")
 
+![Struct](https://raw.githubusercontent.com/getmoneynote/docker-compose-moneywhere/main/struct.png "Struct")
+
 [示例站点](https://demo.moneywhere.com)  注册邀请码 111111（6个1）
 
 ## 使用文档
