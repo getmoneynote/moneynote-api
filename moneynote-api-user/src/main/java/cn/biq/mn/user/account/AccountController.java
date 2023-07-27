@@ -47,8 +47,18 @@ public class AccountController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-    public BaseResponse handleDelete(@PathVariable("id") Integer id) {
+    public BaseResponse handleRemove(@PathVariable("id") Integer id) {
         return new BaseResponse(accountService.remove(id));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/delete")
+    public BaseResponse handleDelete(@PathVariable("id") Integer id) {
+        return new BaseResponse(accountService.delete(id));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/recover")
+    public BaseResponse handleRecover(@PathVariable("id") Integer id) {
+        return new BaseResponse(accountService.recover(id));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/all")

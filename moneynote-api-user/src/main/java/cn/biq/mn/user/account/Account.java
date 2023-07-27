@@ -83,6 +83,9 @@ public class Account extends IdAndNameEntity {
     @Digits(integer = 4, fraction = 4)
     private BigDecimal apr; // 年化利率(%)
 
+    @Column(name="deleted", columnDefinition="bit(1) default 0")
+    private Boolean deleted = false;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

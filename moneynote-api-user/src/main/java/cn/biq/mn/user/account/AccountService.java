@@ -127,6 +127,33 @@ public class AccountService {
         return result;
     }
 
+    // 软删除
+    public boolean delete(Integer id) {
+        Account entity = baseService.findAccountById(id);
+        entity.setDeleted(true);
+        entity.setEnable(false);
+        entity.setInclude(false);
+        entity.setCanExpense(false);
+        entity.setCanIncome(false);
+        entity.setCanTransferFrom(false);
+        entity.setCanTransferTo(false);
+        return true;
+    }
+
+    // 删除恢复
+    public boolean recover(Integer id) {
+        Account entity = baseService.findAccountById(id);
+        entity.setDeleted(false);
+        entity.setEnable(true);
+        entity.setInclude(true);
+        entity.setCanExpense(true);
+        entity.setCanIncome(true);
+        entity.setCanTransferFrom(true);
+        entity.setCanTransferTo(true);
+        return true;
+    }
+
+    // 彻底删除
     public boolean remove(Integer id) {
         Account entity = baseService.findAccountById(id);
         // 账户有关联账单的无法删除
