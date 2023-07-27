@@ -1,9 +1,14 @@
 # 九快记账后台API
 
 ## 系统介绍
+
 一个开源免费的记账解决方案，包括[后端](https://github.com/getmoneynote/moneynote-api)，[网页版](https://github.com/getmoneynote/moneywhere-user-fe)，[App](https://github.com/getmoneynote/moneywhere_user_flutter)，主要用于个人生活记账，开店收支记账，支持docker一键部署自己的记账程序。
 
+
 ![Screen](https://raw.githubusercontent.com/getmoneynote/moneynote-api/main/screencapture.png "Screen Shot")
+
+
+![Struct](https://raw.githubusercontent.com/getmoneynote/docker-compose-moneywhere/main/struct.png "Struct")
 
 [示例站点](https://demo.moneywhere.com)  注册邀请码 111111（6个1）
 
