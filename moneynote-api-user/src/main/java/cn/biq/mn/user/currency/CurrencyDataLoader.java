@@ -25,7 +25,7 @@ public class CurrencyDataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         ArrayList<CurrencyDetails> currencyDetailsList = new ArrayList<>();
         try {
-            HashMap<String, Object> baseUserMap =  webUtils.get(userApiBaseUrl + "/currencies/all1");
+            HashMap<String, Object> baseUserMap =  webUtils.get(userApiBaseUrl + "/currencies/all");
             ArrayList<Map<String, Object>> lists = (ArrayList<Map<String, Object>>) baseUserMap.get("data");
             for (Map<String, Object> item : lists) {
                 CurrencyDetails currencyDetails = new CurrencyDetails();
