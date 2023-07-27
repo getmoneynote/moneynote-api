@@ -23,15 +23,20 @@ public class CurrencyDataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        HashMap<String, Object> baseUserMap =  webUtils.get(userApiBaseUrl + "/currencies/all");
-        ArrayList<Map<String, Object>> lists = (ArrayList<Map<String, Object>>) baseUserMap.get("data");
         ArrayList<CurrencyDetails> currencyDetailsList = new ArrayList<>();
-        for (Map<String, Object> item : lists) {
-            CurrencyDetails currencyDetails = new CurrencyDetails();
-            currencyDetails.setId((Integer) item.get("id"));
-            currencyDetails.setName(item.get("name").toString());
-            currencyDetails.setRate((Double) item.get("rate"));
-            currencyDetailsList.add(currencyDetails);
+        try {
+            HashMap<String, Object> baseUserMap =  webUtils.get(userApiBaseUrl + "/currencies/all1");
+            ArrayList<Map<String, Object>> lists = (ArrayList<Map<String, Object>>) baseUserMap.get("data");
+            for (Map<String, Object> item : lists) {
+                CurrencyDetails currencyDetails = new CurrencyDetails();
+                currencyDetails.setId((Integer) item.get("id"));
+                currencyDetails.setName(item.get("name").toString());
+                currencyDetails.setRate((Double) item.get("rate"));
+                currencyDetailsList.add(currencyDetails);
+            }
+        } catch (Exception e) {
+            currencyDetailsList.add(new CurrencyDetails(1, "USD", 1.0));
+            currencyDetailsList.add(new CurrencyDetails(2, "CNY", 7.1));
         }
         applicationScopeBean.setCurrencyDetailsList(currencyDetailsList);
     }
