@@ -40,7 +40,7 @@ public class User extends BaseEntity {
     @Email
     private String email;
     
-    @Column(length = 32)
+    @Column(length = 128)
     private String registerIp;
 
     @ManyToOne(fetch = FetchType.LAZY)

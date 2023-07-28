@@ -62,9 +62,7 @@ public class GoogleService {
             baseEntityRepository.save(user);
 
             // 给默认账本
-            var templateForm = new BookAddByTemplateForm();
-            templateForm.setTemplateId(1);
-            Book book = bookService.addByTemplate(templateForm, group);
+            Book book = bookService.addDefaultTemplate(group);
             user.setDefaultBook(book);
             group.setDefaultBook(book);
             baseEntityRepository.save(user);

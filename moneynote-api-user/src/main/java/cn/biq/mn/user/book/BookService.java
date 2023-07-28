@@ -5,6 +5,7 @@ import cn.biq.mn.user.balanceflow.BalanceFlow;
 import cn.biq.mn.user.balanceflow.BalanceFlowDetails;
 import cn.biq.mn.user.balanceflow.BalanceFlowMapper;
 import cn.biq.mn.user.base.BaseService;
+import cn.biq.mn.user.book.tpl.BookTemplate;
 import cn.biq.mn.user.book.tpl.BookTemplateResponse;
 import cn.biq.mn.user.book.tpl.CategoryTemplate;
 import cn.biq.mn.user.book.tpl.TagTemplate;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import cn.biq.mn.base.exception.FailureMessageException;
@@ -147,18 +149,14 @@ public class BookService {
         return true;
     }
 
+    // 账本模板列表，复制功能使用
     public boolean addByTemplate(BookAddByTemplateForm form) {
         Group group = sessionUtil.getCurrentGroup();
-        addByTemplate(form, group);
-        return true;
-    }
-
-    public Book addByTemplate(BookAddByTemplateForm form, Group group) {
-        Book book = new Book();
         var response =  restTemplate.getForObject(userApiBaseUrl + "/book-templates/" + form.getTemplateId(), BookTemplateResponse.class);
         if (!response.isSuccess()) {
             throw new ItemNotFoundException();
         }
+        Book book = new Book();
         var bookTemplate = response.getData();
         String bookName;
         if (StringUtils.hasText(form.getBookName())) {
@@ -166,10 +164,25 @@ public class BookService {
         } else {
             bookName = bookTemplate.getName();
         }
-        if (bookRepository.existsByGroupAndName(group, bookName)) {
+        book.setName(bookName);
+        setBookByBookTemplate(bookTemplate, group, book);
+        return true;
+    }
+
+    // 注册功能使用。
+    public Book addDefaultTemplate(Group group) {
+        var bookTemplate = restTemplate.getForObject("http://tpl.moneywhere.com/default.json", BookTemplate.class);
+        Book book = new Book();
+        book.setName(bookTemplate.getName());
+        setBookByBookTemplate(bookTemplate, group, book);
+        return book;
+    }
+
+    private void setBookByBookTemplate(BookTemplate bookTemplate, Group group, Book book) {
+        if (bookRepository.existsByGroupAndName(group, book.getName())) {
             throw new ItemExistsException();
         }
-        book.setName(bookName);
+
         book.setNotes(bookTemplate.getNotes());
         book.setDefaultCurrencyCode(group.getDefaultCurrencyCode());
         book.setGroup(group);
@@ -188,8 +201,6 @@ public class BookService {
             payeesToSave.add(payee);
         });
         payeeRepository.saveAll(payeesToSave);
-
-        return book;
     }
 
     private void saveTag(List<TagTemplate> detailsList, Book book) {
