@@ -12,7 +12,6 @@ import cn.biq.mn.base.exception.FailureMessageException;
 import cn.biq.mn.base.exception.ItemExistsException;
 import cn.biq.mn.user.balanceflow.BalanceFlowRepository;
 import cn.biq.mn.user.utils.Limitation;
-import cn.biq.mn.user.utils.SessionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +21,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PayeeService {
 
-    private final SessionUtil sessionUtil;
     private final PayeeRepository payeeRepository;
     private final BaseService baseService;
     private final BalanceFlowRepository balanceFlowRepository;
 
-    public boolean add(PayeeAddForm form) {
+    public PayeeDetails add(PayeeAddForm form) {
         Book book = baseService.findBookById(form.getBookId());
         // 限制每个账本的交易对象数量
         if (payeeRepository.countByBook(book) >= Limitation.payee_max_count) {
@@ -40,7 +38,7 @@ public class PayeeService {
         Payee entity = PayeeMapper.toEntity(form);
         entity.setBook(book);
         payeeRepository.save(entity);
-        return true;
+        return PayeeMapper.toDetails(entity);
     }
 
     @Transactional(readOnly = true)

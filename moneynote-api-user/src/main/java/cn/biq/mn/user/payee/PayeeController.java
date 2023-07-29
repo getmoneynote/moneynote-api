@@ -19,7 +19,7 @@ public class PayeeController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST, value = "")
     public BaseResponse handleAdd(@Valid @RequestBody PayeeAddForm form) {
-        return new BaseResponse(payeeService.add(form));
+        return new DataResponse<>(payeeService.add(form));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "")
