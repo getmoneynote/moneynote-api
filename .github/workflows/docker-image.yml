@@ -11,10 +11,15 @@ jobs:
           java-version: 17
       - name: Build
         run: chmod +x ./gradlew && ./gradlew :moneynote-api-user:build
-      - name: Publish to Docker Hub
-        uses: docker/build-push-action@v1
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASS }}
-          repository: markliu2018/moneywhere-fe-user
-          tags: latest
+         username: ${{ secrets.DOCKER_USERNAME }}
+         password: ${{ secrets.DOCKER_PASS }}
+      - name: Publish to Docker Hub
+        uses: docker/build-push-action@v4
+        with:
+          context: ./moneynote-api-user
+          file: ./Dockerfile
+          push: true
+          tags: markliu2018/moneywhere-fe-user:latest
