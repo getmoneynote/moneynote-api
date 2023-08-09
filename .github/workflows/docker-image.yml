@@ -19,7 +19,7 @@ jobs:
       - name: Publish to Docker Hub
         uses: docker/build-push-action@v4
         with:
-          context: ./moneynote-api-user
-          file: ./Dockerfile
+          context: .
+          file: ./moneynote-api-user/Dockerfile
           push: true
           tags: markliu2018/moneywhere-fe-user:latest
