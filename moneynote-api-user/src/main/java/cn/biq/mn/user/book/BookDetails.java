@@ -1,5 +1,6 @@
 package cn.biq.mn.user.book;
 
+import cn.biq.mn.user.account.AccountDetails;
 import lombok.Getter;
 import lombok.Setter;
 import cn.biq.mn.base.base.IdAndNameDetails;
@@ -13,10 +14,10 @@ public class BookDetails extends IdAndNameDetails {
     private String notes;
     private Boolean enable;
     private String defaultCurrencyCode;
-    private IdAndNameDetails defaultExpenseAccount;
-    private IdAndNameDetails defaultIncomeAccount;
-    private IdAndNameDetails defaultTransferFromAccount;
-    private IdAndNameDetails defaultTransferToAccount;
+    private AccountDetails defaultExpenseAccount;
+    private AccountDetails defaultIncomeAccount;
+    private AccountDetails defaultTransferFromAccount;
+    private AccountDetails defaultTransferToAccount;
     private CategoryDetails defaultExpenseCategory;
     private CategoryDetails defaultIncomeCategory;
     private boolean isDefault;

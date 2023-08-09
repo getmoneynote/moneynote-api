@@ -30,10 +30,10 @@ public class BookMapper {
         details.setNotes( entity.getNotes() );
         details.setEnable( entity.getEnable() );
         details.setDefaultCurrencyCode( entity.getDefaultCurrencyCode() );
-        details.setDefaultExpenseAccount( IdAndNameMapper.toDetails( entity.getDefaultExpenseAccount() ) );
-        details.setDefaultIncomeAccount( IdAndNameMapper.toDetails( entity.getDefaultIncomeAccount() ) );
-        details.setDefaultTransferFromAccount( IdAndNameMapper.toDetails( entity.getDefaultTransferFromAccount() ) );
-        details.setDefaultTransferToAccount( IdAndNameMapper.toDetails( entity.getDefaultTransferToAccount() ) );
+        details.setDefaultExpenseAccount( AccountMapper.toDetails( entity.getDefaultExpenseAccount() ) );
+        details.setDefaultIncomeAccount( AccountMapper.toDetails( entity.getDefaultIncomeAccount() ) );
+        details.setDefaultTransferFromAccount( AccountMapper.toDetails( entity.getDefaultTransferFromAccount() ) );
+        details.setDefaultTransferToAccount( AccountMapper.toDetails( entity.getDefaultTransferToAccount() ) );
         details.setDefaultExpenseCategory( CategoryMapper.toDetails( entity.getDefaultExpenseCategory() ) );
         details.setDefaultIncomeCategory( CategoryMapper.toDetails( entity.getDefaultIncomeCategory() ) );
         return details;

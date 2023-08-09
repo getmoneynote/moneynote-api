@@ -15,7 +15,7 @@ public class MvcInterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login", "/register", "/loginWechat/**", "/loginGoogle/**", "/test*");
+                .excludePathPatterns("/login", "/register", "/loginWechat/**", "/loginGoogle/**", "/version", "/test*");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 
