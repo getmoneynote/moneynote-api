@@ -243,9 +243,9 @@ public class BookService {
     public Workbook exportFlow(Integer id) {
         Book book = baseService.findBookById(id);
         // 24小时内只能导出一次
-        if (CalendarUtil.inLastDay(book.getExportAt())) {
-            throw new FailureMessageException("book.export.limit.fail");
-        }
+//        if (CalendarUtil.inLastDay(book.getExportAt())) {
+//            throw new FailureMessageException("book.export.limit.fail");
+//        }
         // 创建一个新的工作簿
         Workbook workbook = new SXSSFWorkbook();
         // 创建一个新的工作表
@@ -290,11 +290,10 @@ public class BookService {
             }
 
             row.createCell(8).setCellValue(item.getNotes());
-            row.createCell(9).setCellValue(item.getConfirm());
+            row.createCell(9).setCellValue(item.getConfirm() ? "是" : "否");
             if (item.getInclude() != null) {
-                row.createCell(10).setCellValue(item.getInclude());
+                row.createCell(10).setCellValue(item.getInclude() ? "是" : "否");
             }
-
         }
         sheet.setColumnWidth(3, 19*256);
 //        sheet.autoSizeColumn(3);
