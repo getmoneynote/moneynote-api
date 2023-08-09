@@ -10,4 +10,4 @@ jobs:
         with:
           java-version: 17
       - name: Build
-        run: build_user.sh
+        run: ./build_user.sh
