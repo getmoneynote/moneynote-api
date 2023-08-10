@@ -29,4 +29,4 @@ jobs:
           context: .
           file: ./moneynote-api-user/Dockerfile
           push: true
-          tags: markliu2018/moneywhere-fe-user:latest
+          tags: markliu2018/moneywhere-api-user:latest
