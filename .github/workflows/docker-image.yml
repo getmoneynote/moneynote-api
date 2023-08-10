@@ -1,5 +1,11 @@
 name: api user docker hub image
-on: [pull_request, workflow_dispatch]
+
+# 触发条件：在 push 到 main 分支后
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
