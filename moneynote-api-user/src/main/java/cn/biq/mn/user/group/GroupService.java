@@ -151,11 +151,22 @@ public class GroupService {
 
     public boolean removeUser(Integer groupId, Integer userId) {
         Group group = groupRepository.findById(groupId).orElseThrow(ItemNotFoundException::new);
+        // 组的所有者才能删除用户
         checkRole(group);
         User user = userRepository.findById(userId).orElseThrow(ItemNotFoundException::new);
         var relation = userGroupRelationRepository.findByGroupAndUser(group, user).orElseThrow(ItemNotFoundException::new);
+        // 不能删除自己
         if (relation.getRole() == 1) {
             throw new FailureMessageException("group.remove.user.self");
+        }
+        // 如果这个组是他之前的默认组
+        if (group.getId().equals(user.getDefaultGroup().getId())) {
+            var relations = userGroupRelationRepository.findByUserAndRole(user, 1);
+            Group newDefaultGroup = relations.get(0).getGroup();
+            user.setDefaultGroup(newDefaultGroup);
+            user.setDefaultBook(newDefaultGroup.getDefaultBook());
+            userRepository.save(user);
+            // TODO 如果用户处于登录状态？
         }
         baseEntityRepository.delete(relation);
         return true;
