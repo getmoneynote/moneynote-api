@@ -53,12 +53,9 @@ public class BalanceFlowAddForm {
     private String notes;
 
     @NotNull
-    private Boolean confirm;
+    private Boolean confirm; // 是否确认
 
     @NotNull
-    private Boolean include;
-
-    @NotNull
-    private Boolean updateBalance = true;
+    private Boolean include; // 是否包含统计
 
 }

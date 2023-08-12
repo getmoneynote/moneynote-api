@@ -45,7 +45,7 @@ public class BalanceFlowService {
     private final TagRelationService tagRelationService;
     private final BalanceFlowMapper balanceFlowMapper;
 
-    private void checkBeforeAdd(BalanceFlowAddForm form, Book book, User user, Group group) {
+    private void checkBeforeAdd(BalanceFlowAddForm form, Book book, User user) {
         // 对用户添加账单的操作进行限流。
         Long[] day = CalendarUtil.getIn1Day();
         if (balanceFlowRepository.countByCreatorAndInsertAtBetween(user, day[0], day[1]) > Limitation.flow_max_count_daily) {
@@ -143,7 +143,7 @@ public class BalanceFlowService {
         User user = sessionUtil.getCurrentUser();
         Group group = sessionUtil.getCurrentGroup();
         Book book = baseService.findBookById(form.getBookId());
-        checkBeforeAdd(form, book, user, group);
+        checkBeforeAdd(form, book, user);
         BalanceFlow entity = BalanceFlowMapper.toEntity(form);
         entity.setGroup(group);
         entity.setBook(book);
@@ -179,7 +179,7 @@ public class BalanceFlowService {
             entity.setPayee(payee);
         }
         balanceFlowRepository.save(entity);
-        if (form.getUpdateBalance()) {
+        if (form.getConfirm()) {
             confirmBalance(entity);
         }
         return true;
@@ -251,11 +251,9 @@ public class BalanceFlowService {
         return result;
     }
 
-    public boolean remove(int id, boolean updateAccount) {
+    public boolean remove(int id) {
         BalanceFlow entity = baseService.findFlowById(id);
-        if (updateAccount) {
-            refundBalance(entity);
-        }
+        refundBalance(entity);
         balanceFlowRepository.delete(entity);
         return true;
     }
@@ -309,6 +307,7 @@ public class BalanceFlowService {
         BigDecimal newAmount = entity.getAmount();
         BigDecimal newConvertedAmount = entity.getConvertedAmount();
         Account newTo = entity.getTo();
+        // 判断账户是否更新
         if(!Objects.equals(entity.getAccount() != null ? entity.getAccount().getId() : null, form.getAccountId())) {
             newAccount = baseService.findAccountById(form.getAccountId());
             refundFlag = true;
@@ -355,7 +354,7 @@ public class BalanceFlowService {
                 }
             }
         }
-        if (refundFlag && form.getUpdateBalance()) {
+        if (refundFlag && entity.getConfirm()) {
             refundBalance(entity);
         }
         entity.setAccount(newAccount);
@@ -376,7 +375,7 @@ public class BalanceFlowService {
             tagRelationService.addRelation(form.getTags(), entity, book, newAccount);
         }
         balanceFlowRepository.save(entity);
-        if (refundFlag && form.getUpdateBalance()) {
+        if (refundFlag && entity.getConfirm()) {
             confirmBalance(entity);
         }
         return true;

@@ -39,12 +39,7 @@ public class BalanceFlowController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     public BaseResponse handleDelete(@PathVariable("id") Integer id) {
-        return new BaseResponse(balanceFlowService.remove(id, false));
-    }
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}/deleteWithAccount")
-    public BaseResponse handleDeleteWithAccount(@PathVariable("id") Integer id) {
-        return new BaseResponse(balanceFlowService.remove(id, true));
+        return new BaseResponse(balanceFlowService.remove(id));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/statistics")
