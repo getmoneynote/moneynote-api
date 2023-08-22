@@ -10,7 +10,9 @@
 
 ![Struct](https://raw.githubusercontent.com/getmoneynote/docker-compose-moneywhere/main/struct.png "Struct")
 
-[示例站点](https://demo.moneywhere.com)  注册邀请码 111111（6个1）
+[PC示例站点](https://demo.moneywhere.com)  注册邀请码 111111（6个1）
+
+[手机示例站点](https://mdemo.moneywhere.com)   api地址：https://mdemo.moneywhere.com/api/v1/, 用pc站点注册的账号登录。
 
 ## 使用文档
 [从零开始搭建完善的记账体系](https://sspai.com/post/58025)
