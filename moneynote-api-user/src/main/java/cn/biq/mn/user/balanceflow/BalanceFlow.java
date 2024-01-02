@@ -2,6 +2,7 @@ package cn.biq.mn.user.balanceflow;
 
 import cn.biq.mn.user.account.Account;
 import cn.biq.mn.user.book.Book;
+import cn.biq.mn.user.flowfile.FlowFile;
 import cn.biq.mn.user.group.Group;
 import cn.biq.mn.user.payee.Payee;
 import cn.biq.mn.user.user.User;
@@ -89,5 +90,8 @@ public class BalanceFlow extends BaseEntity {
 
     @Column(nullable = false, updatable = false)
     private Long insertAt = System.currentTimeMillis();
+
+    @OneToMany(mappedBy = "flow", fetch = FetchType.LAZY)
+    private Set<FlowFile> files = new HashSet<>();
 
 }

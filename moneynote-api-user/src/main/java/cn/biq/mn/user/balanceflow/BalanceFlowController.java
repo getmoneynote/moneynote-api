@@ -1,14 +1,17 @@
 package cn.biq.mn.user.balanceflow;
 
+import cn.biq.mn.base.validation.ValidFile;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import cn.biq.mn.base.response.BaseResponse;
 import cn.biq.mn.base.response.PageResponse;
 import cn.biq.mn.base.response.DataResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/balance-flows")
@@ -50,6 +53,16 @@ public class BalanceFlowController {
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}/confirm")
     public BaseResponse handleConfirm(@PathVariable("id") Integer id) {
         return new BaseResponse(balanceFlowService.confirm(id));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{id}/addFile")
+    public BaseResponse handleAddFile(@PathVariable("id") Integer id, @Validated @ValidFile @RequestParam("file") MultipartFile file) {
+        return new DataResponse<>(balanceFlowService.addFile(id, file));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/files")
+    public BaseResponse handleFiles(@PathVariable("id") Integer id) {
+        return new DataResponse<>(balanceFlowService.getFiles(id));
     }
 
 }
