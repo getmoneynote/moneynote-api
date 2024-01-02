@@ -27,7 +27,6 @@ jobs:
           password: "${{ secrets.ACR_PASSWORD }}"
       - name: Build and Push Docker Image
         env:
-          IMAGE_TAG: ${{ github.sha }} # 用于标记容器版本号
         run: |
-            docker build -t registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:$IMAGE_TAG --file ./moneynote-api-user/Dockerfile .
-            docker push registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:$IMAGE_TAG
+            docker build -t registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest --file ./moneynote-api-user/Dockerfile .
+            docker push registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest
