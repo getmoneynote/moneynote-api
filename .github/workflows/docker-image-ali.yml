@@ -19,15 +19,15 @@ jobs:
         run: chmod +x ./gradlew && ./gradlew :moneynote-api-user:build
       - run: ls ./moneynote-api-user/build/libs/
       - name: Login to Aliyun Container Registry (ACR)
-        uses: docker/login-action@v2
+        uses: aliyun/acr-login@v1
         with:
-          registry: https://registry.cn-hangzhou.aliyuncs.com
+          login-server: https://registry.cn-hangzhou.aliyuncs.com
+          region-id: cn-hangzhou  # 3
           username: "${{ secrets.ACR_USERNAME }}"
           password: "${{ secrets.ACR_PASSWORD }}"
-      - name: Publish to ACR
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./moneynote-api-user/Dockerfile
-          push: true
-          tags: registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest
+      - name: Build and Push Docker Image
+        env:
+          IMAGE_TAG: ${{ github.sha }} # 用于标记容器版本号
+          run: |
+            docker build -t registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:$IMAGE_TAG .
+            docker push registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:$IMAGE_TAG
