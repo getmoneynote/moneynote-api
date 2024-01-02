@@ -22,7 +22,7 @@ jobs:
         uses: aliyun/acr-login@v1
         with:
           login-server: https://registry.cn-hangzhou.aliyuncs.com
-          region-id: cn-hangzhou  # 3
+#          region-id: cn-hangzhou  # 3
           username: "${{ secrets.ACR_USERNAME }}"
           password: "${{ secrets.ACR_PASSWORD }}"
       - name: Build and Push Docker Image
