@@ -29,5 +29,5 @@ jobs:
         env:
           IMAGE_TAG: ${{ github.sha }} # 用于标记容器版本号
         run: |
-            docker build -t registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:$IMAGE_TAG .
+            docker build -t registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:$IMAGE_TAG ./moneynote-api-user/Dockerfile
             docker push registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:$IMAGE_TAG
