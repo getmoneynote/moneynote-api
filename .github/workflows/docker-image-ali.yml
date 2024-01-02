@@ -28,6 +28,6 @@ jobs:
       - name: Build and Push Docker Image
         env:
           IMAGE_TAG: ${{ github.sha }} # 用于标记容器版本号
-          run: |
+        run: |
             docker build -t registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:$IMAGE_TAG .
             docker push registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:$IMAGE_TAG
