@@ -4,6 +4,10 @@ import cn.biq.mn.user.account.Account;
 import cn.biq.mn.user.account.AccountRepository;
 import cn.biq.mn.user.base.BaseService;
 import cn.biq.mn.user.book.Book;
+import cn.biq.mn.user.flowfile.FlowFile;
+import cn.biq.mn.user.flowfile.FlowFileDetails;
+import cn.biq.mn.user.flowfile.FlowFileMapper;
+import cn.biq.mn.user.flowfile.FlowFileRepository;
 import cn.biq.mn.user.group.Group;
 import cn.biq.mn.user.payee.Payee;
 import cn.biq.mn.user.payee.PayeeRepository;
@@ -25,7 +29,9 @@ import cn.biq.mn.user.categoryrelation.CategoryRelationForm;
 import cn.biq.mn.user.categoryrelation.CategoryRelationService;
 import cn.biq.mn.user.tagrelation.TagRelation;
 import cn.biq.mn.user.tagrelation.TagRelationService;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +50,7 @@ public class BalanceFlowService {
     private final CategoryRelationService categoryRelationService;
     private final TagRelationService tagRelationService;
     private final BalanceFlowMapper balanceFlowMapper;
+    private final FlowFileRepository flowFileRepository;
 
     private void checkBeforeAdd(BalanceFlowAddForm form, Book book, User user) {
         // 对用户添加账单的操作进行限流。
@@ -387,6 +394,29 @@ public class BalanceFlowService {
         confirmBalance(entity);
         balanceFlowRepository.save(entity);
         return true;
+    }
+
+    public FlowFileDetails addFile(Integer id, MultipartFile file) {
+        FlowFile flowFile = new FlowFile();
+        try {
+            flowFile.setData(file.getBytes());
+        } catch (IOException e) {
+            throw new FailureMessageException("add.flow.file.fail");
+        }
+        flowFile.setCreator(sessionUtil.getCurrentUser());
+        flowFile.setFlow(baseService.findFlowById(id));
+        flowFile.setCreateTime(System.currentTimeMillis());
+        flowFile.setSize(file.getSize());
+        flowFile.setContentType(file.getContentType());
+        flowFile.setOriginalName(file.getOriginalFilename());
+        flowFileRepository.save(flowFile);
+        return FlowFileMapper.toDetails(flowFile);
+    }
+
+    public List<FlowFileDetails> getFiles(Integer id) {
+        BalanceFlow flow = baseService.findFlowById(id);
+        List<FlowFile> flowFiles = flowFileRepository.findByFlow(flow);
+        return flowFiles.stream().map(FlowFileMapper::toDetails).toList();
     }
 
 }
