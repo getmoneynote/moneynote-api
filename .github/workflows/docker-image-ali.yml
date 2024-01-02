@@ -26,7 +26,6 @@ jobs:
           username: "${{ secrets.ACR_USERNAME }}"
           password: "${{ secrets.ACR_PASSWORD }}"
       - name: Build and Push Docker Image
-        env:
         run: |
             docker build -t registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest --file ./moneynote-api-user/Dockerfile .
             docker push registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest
