@@ -19,10 +19,9 @@ jobs:
         run: chmod +x ./gradlew && ./gradlew :moneynote-api-user:build
       - run: ls ./moneynote-api-user/build/libs/
       - name: Login to Aliyun Container Registry (ACR)
-        uses: aliyun/acr-login@v1
+        uses: docker/login-action@v2
         with:
-          login-server: https://registry.cn-hangzhou.aliyuncs.com
-          region-id: cn-hangzhou  # 3
+          registry: https://registry.cn-hangzhou.aliyuncs.com
           username: "${{ secrets.ACR_USERNAME }}"
           password: "${{ secrets.ACR_PASSWORD }}"
       - name: Publish to ACR
