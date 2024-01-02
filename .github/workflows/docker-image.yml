@@ -30,3 +30,10 @@ jobs:
           file: ./moneynote-api-user/Dockerfile
           push: true
           tags: markliu2018/moneywhere-api-user:latest
+      - name: Login to Aliyun Container Registry (ACR)
+        uses: aliyun/acr-login@v1
+        with:
+          login-server: https://registry.cn-hangzhou.aliyuncs.com
+          region-id: cn-hangzhou  # 3
+          username: "${{ secrets.ACR_USERNAME }}"
+          password: "${{ secrets.ACR_PASSWORD }}"
