@@ -37,3 +37,10 @@ jobs:
           region-id: cn-hangzhou  # 3
           username: "${{ secrets.ACR_USERNAME }}"
           password: "${{ secrets.ACR_PASSWORD }}"
+      - name: Publish to Docker Hub
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./moneynote-api-user/Dockerfile
+          push: true
+          tags: registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest
