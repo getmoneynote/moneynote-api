@@ -261,6 +261,8 @@ public class BalanceFlowService {
     public boolean remove(int id) {
         BalanceFlow entity = baseService.findFlowById(id);
         refundBalance(entity);
+        // 要先删除文件
+        flowFileRepository.deleteByFlow(entity);
         balanceFlowRepository.delete(entity);
         return true;
     }
