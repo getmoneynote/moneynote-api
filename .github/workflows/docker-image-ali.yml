@@ -36,4 +36,4 @@ jobs:
           file: ./moneynote-api-user/Dockerfile
           platforms: linux/arm64
           push: true
-          tags: https://registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest
+          tags: registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest
