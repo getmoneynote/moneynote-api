@@ -30,6 +30,10 @@ jobs:
           username: "${{ secrets.ACR_USERNAME }}"
           password: "${{ secrets.ACR_PASSWORD }}"
       - name: Build and Push Docker Image
-        run: |
-            docker buildx build -t registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest --platform linux/amd64,linux/arm64 --file ./moneynote-api-user/Dockerfile .
-            docker push registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./moneynote-api-user/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: registry.cn-hangzhou.aliyuncs.com/markliu2018/moneywhere-api-user:latest
