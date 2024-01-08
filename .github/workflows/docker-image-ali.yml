@@ -1,10 +1,10 @@
 name: api user acr image
 
 # 触发条件：在 push 到 main 分支后
-on:
-  push:
-    branches:
-      - main
+#on:
+#  push:
+#    branches:
+#      - main
 
 jobs:
   build:
