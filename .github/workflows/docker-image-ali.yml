@@ -34,6 +34,6 @@ jobs:
         with:
           context: .
           file: ./moneynote-api-user/Dockerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
           push: true
           tags: registry.cn-hangzhou.aliyuncs.com/markliu2018/moneywhere-api-user:latest
