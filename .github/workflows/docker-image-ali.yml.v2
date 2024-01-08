@@ -1,4 +1,4 @@
-name: api user docker hub image
+name: api user acr image
 
 # 触发条件：在 push 到 main 分支后
 on:
@@ -22,16 +22,18 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - name: Login to Aliyun Container Registry (ACR)
+        uses: aliyun/acr-login@v1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASS }}
+          login-server: https://registry.cn-hangzhou.aliyuncs.com
+          #          region-id: cn-hangzhou  # 3
+          username: "${{ secrets.ACR_USERNAME }}"
+          password: "${{ secrets.ACR_PASSWORD }}"
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./moneynote-api-user/Dockerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
           push: true
-          tags: markliu2018/moneywhere-api-user:latest
+          tags: registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest
