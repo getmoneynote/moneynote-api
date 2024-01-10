@@ -12,5 +12,6 @@ public class CategoryDetails extends TreeNode<CategoryDetails> {
     private Boolean enable;
     private Boolean canExpense;
     private Boolean canIncome;
+    private Integer level;
 
 }

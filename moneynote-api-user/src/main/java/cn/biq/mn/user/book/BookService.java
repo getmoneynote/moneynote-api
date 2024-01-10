@@ -9,9 +9,11 @@ import cn.biq.mn.user.book.tpl.BookTemplate;
 import cn.biq.mn.user.book.tpl.BookTemplateResponse;
 import cn.biq.mn.user.book.tpl.CategoryTemplate;
 import cn.biq.mn.user.book.tpl.TagTemplate;
+import cn.biq.mn.user.category.CategoryDetails;
 import cn.biq.mn.user.currency.CurrencyService;
 import cn.biq.mn.user.payee.Payee;
 import cn.biq.mn.user.tag.Tag;
+import cn.biq.mn.user.tag.TagDetails;
 import cn.biq.mn.user.tag.TagMapper;
 import cn.biq.mn.user.tag.TagRepository;
 import cn.biq.mn.user.utils.Limitation;
@@ -170,36 +172,38 @@ public class BookService {
 
     // 复制账本
     public boolean addByBook(BookAddByBookForm form) {
-//        Group group = sessionUtil.getCurrentGroup();
-//        Book bookSrc = baseService.findBookById(form.getBookId());
-//        Book book = new Book();
-//        String bookName;
-//        if (StringUtils.hasText(form.getBookName())) {
-//            bookName = form.getBookName();
-//        } else {
-//            bookName = bookSrc.getName();
-//        }
-//        book.setName(bookName);
-//        book.setNotes(bookSrc.getNotes());
-//        book.setDefaultCurrencyCode(group.getDefaultCurrencyCode());
-//        book.setGroup(group);
-//        bookRepository.save(book);
-//
-//
-//
-//        saveTag(TreeUtils.buildTree(bookSrc.getTags()), book);
-//        saveCategory(TreeUtils.buildTree(bookTemplate.getCategories()), book);
-//        List<Payee> payeesToSave = new ArrayList<>();
-//        bookTemplate.getPayees().forEach(i -> {
-//            Payee payee = new Payee();
-//            payee.setName(i.getName());
-//            payee.setNotes(i.getNotes());
-//            payee.setCanExpense(i.getCanExpense());
-//            payee.setCanIncome(i.getCanIncome());
-//            payee.setBook(book);
-//            payeesToSave.add(payee);
-//        });
-//        payeeRepository.saveAll(payeesToSave);
+        Group group = sessionUtil.getCurrentGroup();
+        Book bookSrc = baseService.findBookById(form.getBookId());
+        Book book = new Book();
+        String bookName;
+        if (StringUtils.hasText(form.getBookName())) {
+            bookName = form.getBookName();
+        } else {
+            bookName = bookSrc.getName();
+        }
+        book.setName(bookName);
+        book.setNotes(bookSrc.getNotes());
+        book.setDefaultCurrencyCode(group.getDefaultCurrencyCode());
+        book.setGroup(group);
+        bookRepository.save(book);
+
+        List<TagDetails> tagDetailList = bookSrc.getTags().stream().map(TagMapper::toDetails).toList();
+        saveTag1(TreeUtils.buildTree(tagDetailList), book);
+
+        List<CategoryDetails> categoryDetailList = bookSrc.getCategories().stream().map(CategoryMapper::toDetails).toList();
+        saveCategory1(TreeUtils.buildTree(categoryDetailList), book);
+
+        List<Payee> payeesToSave = new ArrayList<>();
+        bookSrc.getPayees().forEach(i -> {
+            Payee payee = new Payee();
+            payee.setName(i.getName());
+            payee.setNotes(i.getNotes());
+            payee.setCanExpense(i.getCanExpense());
+            payee.setCanIncome(i.getCanIncome());
+            payee.setBook(book);
+            payeesToSave.add(payee);
+        });
+        payeeRepository.saveAll(payeesToSave);
 
         return true;
     }
@@ -257,10 +261,46 @@ public class BookService {
         }
     }
 
-
+    private void saveTag1(List<TagDetails> detailsList, Book book) {
+        Queue<TagDetails> queue = new LinkedList<>();
+        for(TagDetails item : detailsList) {
+            queue.add(item);
+            Tag parent = null;
+            while (!queue.isEmpty()) {
+                var details = queue.poll();
+                Tag tag = TagMapper.toEntity(details);
+                tag.setBook(book);
+                tag.setParent(parent);
+                tagRepository.save(tag);
+                if (details.getChildren() != null) {
+                    parent = tag;
+                    queue.addAll(details.getChildren());
+                }
+            }
+        }
+    }
 
     private void saveCategory(List<CategoryTemplate> detailsList, Book book) {
         Queue<CategoryTemplate> queue = new LinkedList<>();
+        for(var item : detailsList) {
+            queue.add(item);
+            Category parent = null;
+            while (!queue.isEmpty()) {
+                var details = queue.poll();
+                Category category = CategoryMapper.toEntity(details);
+                category.setBook(book);
+                category.setParent(parent);
+                categoryRepository.save(category);
+                if (details.getChildren() != null) {
+                    parent = category;
+                    queue.addAll(details.getChildren());
+                }
+            }
+        }
+    }
+
+    private void saveCategory1(List<CategoryDetails> detailsList, Book book) {
+        Queue<CategoryDetails> queue = new LinkedList<>();
         for(var item : detailsList) {
             queue.add(item);
             Category parent = null;

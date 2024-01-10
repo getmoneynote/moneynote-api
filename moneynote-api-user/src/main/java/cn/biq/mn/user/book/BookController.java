@@ -64,6 +64,11 @@ public class BookController extends BaseController {
         return new BaseResponse(bookService.addByTemplate(form));
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/copy")
+    public BaseResponse handleAddByBook(@Valid @RequestBody BookAddByBookForm form) {
+        return new BaseResponse(bookService.addByBook(form));
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/export")
     public void handleExport(@PathVariable("id") Integer id, HttpServletResponse response) throws IOException {
         Workbook workbook = bookService.exportFlow(id);

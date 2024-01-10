@@ -18,6 +18,7 @@ public class TagMapper {
         if (entity.getParent() != null) {
             details.setParentId( entity.getParent().getId() );
         }
+        details.setLevel(entity.getLevel());
         return details;
     }
 
@@ -57,6 +58,18 @@ public class TagMapper {
         tag.setCanExpense( template.getCanExpense() );
         tag.setCanIncome( template.getCanIncome() );
         tag.setCanTransfer( template.getCanTransfer() );
+        return tag;
+    }
+
+    public static Tag toEntity(TagDetails details) {
+        if (details == null) return null;
+        Tag tag = new Tag();
+        tag.setName( details.getName() );
+        tag.setLevel( details.getLevel() );
+        tag.setNotes( details.getNotes() );
+        tag.setCanExpense( details.getCanExpense() );
+        tag.setCanIncome( details.getCanIncome() );
+        tag.setCanTransfer( details.getCanTransfer() );
         return tag;
     }
 

@@ -18,6 +18,7 @@ public class CategoryMapper {
         if (entity.getParent() != null) {
             details.setParentId( entity.getParent().getId() );
         }
+        details.setLevel(entity.getLevel());
         return details;
     }
 
@@ -44,6 +45,16 @@ public class CategoryMapper {
         category.setName( template.getName() );
         category.setNotes( template.getNotes() );
         category.setType( template.getType() );
+        return category;
+    }
+
+    public static Category toEntity(CategoryDetails details) {
+        if (details == null) return null;
+        Category category = new Category();
+        category.setLevel( details.getLevel() );
+        category.setName( details.getName() );
+        category.setNotes( details.getNotes() );
+        category.setType( details.getType() );
         return category;
     }
 
