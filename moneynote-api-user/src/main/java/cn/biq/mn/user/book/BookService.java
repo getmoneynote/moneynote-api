@@ -168,6 +168,42 @@ public class BookService {
         return true;
     }
 
+    // 复制账本
+    public boolean addByBook(BookAddByBookForm form) {
+//        Group group = sessionUtil.getCurrentGroup();
+//        Book bookSrc = baseService.findBookById(form.getBookId());
+//        Book book = new Book();
+//        String bookName;
+//        if (StringUtils.hasText(form.getBookName())) {
+//            bookName = form.getBookName();
+//        } else {
+//            bookName = bookSrc.getName();
+//        }
+//        book.setName(bookName);
+//        book.setNotes(bookSrc.getNotes());
+//        book.setDefaultCurrencyCode(group.getDefaultCurrencyCode());
+//        book.setGroup(group);
+//        bookRepository.save(book);
+//
+//
+//
+//        saveTag(TreeUtils.buildTree(bookSrc.getTags()), book);
+//        saveCategory(TreeUtils.buildTree(bookTemplate.getCategories()), book);
+//        List<Payee> payeesToSave = new ArrayList<>();
+//        bookTemplate.getPayees().forEach(i -> {
+//            Payee payee = new Payee();
+//            payee.setName(i.getName());
+//            payee.setNotes(i.getNotes());
+//            payee.setCanExpense(i.getCanExpense());
+//            payee.setCanIncome(i.getCanIncome());
+//            payee.setBook(book);
+//            payeesToSave.add(payee);
+//        });
+//        payeeRepository.saveAll(payeesToSave);
+
+        return true;
+    }
+
     // 注册功能使用。
     public Book addDefaultTemplate(Group group) {
         var bookTemplate = restTemplate.getForObject("http://tpl.moneywhere.com/default.json", BookTemplate.class);
@@ -220,6 +256,8 @@ public class BookService {
             }
         }
     }
+
+
 
     private void saveCategory(List<CategoryTemplate> detailsList, Book book) {
         Queue<CategoryTemplate> queue = new LinkedList<>();
