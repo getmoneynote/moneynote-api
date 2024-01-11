@@ -6,6 +6,7 @@ import com.querydsl.core.types.Predicate;
 import lombok.Getter;
 import lombok.Setter;
 import cn.biq.mn.base.utils.CalendarUtil;
+import org.springframework.util.StringUtils;
 
 import java.util.Set;
 
@@ -37,7 +38,7 @@ public class BalanceFlowQueryForm {
         if (type != null) {
             booleanBuilder.and(balanceFlow.type.eq(type));
         }
-        if (title != null) {
+        if (StringUtils.hasText(title)) {
             booleanBuilder.and(balanceFlow.title.contains(title));
         }
         if (minAmount != null) {
@@ -77,7 +78,7 @@ public class BalanceFlowQueryForm {
         if (tags != null) {
             booleanBuilder.and(balanceFlow.tags.any().tag.id.in(tags));
         }
-        if (notes != null) {
+        if (StringUtils.hasText(notes)) {
             booleanBuilder.and(balanceFlow.notes.contains(notes));
         }
         return booleanBuilder;

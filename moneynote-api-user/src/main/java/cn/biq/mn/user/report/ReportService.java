@@ -1,8 +1,13 @@
 package cn.biq.mn.user.report;
 
+import cn.biq.mn.user.balanceflow.BalanceFlow;
+import cn.biq.mn.user.balanceflow.BalanceFlowQueryForm;
+import cn.biq.mn.user.balanceflow.BalanceFlowRepository;
 import cn.biq.mn.user.base.BaseService;
 import cn.biq.mn.user.book.Book;
 import cn.biq.mn.user.group.Group;
+import cn.biq.mn.user.payee.Payee;
+import cn.biq.mn.user.payee.PayeeRepository;
 import cn.biq.mn.user.tag.Tag;
 import cn.biq.mn.user.tag.TagRepository;
 import cn.biq.mn.user.utils.SessionUtil;
@@ -28,6 +33,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,8 +44,10 @@ public class ReportService {
     private final SessionUtil sessionUtil;
     private final CategoryRepository categoryRepository;
     private final TagRepository tagRepository;
+    private final PayeeRepository payeeRepository;
     private final CategoryRelationRepository categoryRelationRepository;
     private final TagRelationRepository tagRelationRepository;
+    private final BalanceFlowRepository balanceFlowRepository;
     private final AccountService accountService;
     private final CurrencyService currencyService;
     private final BaseService baseService;
@@ -132,12 +140,51 @@ public class ReportService {
                 result.add(vo);
             }
         }
+        // 查询单个标签，上面会把他的子标签统计上，但是还要把自己的的也统计上
         if (!CollectionUtils.isEmpty(form.getTags()) && form.getTags().size() == 1) {
             ChartVO vo = new ChartVO();
             vo.setX(requestTag.getName());
             vo.setY(tagRelations.stream().filter(i -> i.getTag().getId().
                             equals(form.getTags().iterator().next())).
                     map(TagRelation::getConvertedAmount).reduce(BigDecimal.ZERO, BigDecimal::add));
+            if (vo.getY().signum() != 0) {
+                result.add(vo);
+            }
+        }
+        result.sort(Comparator.comparing(ChartVO::getY).reversed());
+        BigDecimal total = result.stream().map(ChartVO::getY).reduce(BigDecimal.ZERO, BigDecimal::add);
+        if (total.signum() == 0) {
+            return new ArrayList<>();
+        }
+        result.forEach(vo -> vo.setPercent(vo.getY().multiply(new BigDecimal(100)).divide(total, 2, RoundingMode.HALF_UP)));
+        return result;
+    }
+
+    public List<ChartVO> reportPayee(BalanceFlowQueryForm form, FlowType type) {
+        List<ChartVO> result = new ArrayList<>();
+        Book book = baseService.findBookById(form.getBook());
+        List<Payee> payees = new ArrayList<>();
+        if (type == FlowType.EXPENSE) {
+            payees = payeeRepository.findByBookAndEnableAndCanExpense(book, true, true);
+        } else if (type == FlowType.INCOME) {
+            payees = payeeRepository.findByBookAndEnableAndCanIncome(book, true, true);
+        }
+        List<Payee> rootPayees = new ArrayList<>();
+        if (CollectionUtils.isEmpty(form.getPayees())) {
+            rootPayees = payees;
+        } else {
+            for (Integer id : form.getPayees()) {
+                // 传入的id不存在，会报index异常。
+                Payee payee = payees.stream().filter(i-> i.getId().equals(id)).toList().get(0);
+                rootPayees.add(payee);
+            }
+        }
+        Group group = sessionUtil.getCurrentGroup();
+        List<BalanceFlow> balanceFlows = balanceFlowRepository.findAll(form.buildPredicate(group));
+        for (Payee i : rootPayees) {
+            ChartVO vo = new ChartVO();
+            vo.setX(i.getName());
+            vo.setY(balanceFlows.stream().filter(j -> i.getId().equals((j.getPayee() != null) ? j.getPayee().getId() : null)).map(BalanceFlow::getConvertedAmount).reduce(BigDecimal.ZERO, BigDecimal::add));
             if (vo.getY().signum() != 0) {
                 result.add(vo);
             }

@@ -72,4 +72,7 @@ public class CategoryReportQueryForm {
         return booleanBuilder;
     }
 
+
+
+
 }

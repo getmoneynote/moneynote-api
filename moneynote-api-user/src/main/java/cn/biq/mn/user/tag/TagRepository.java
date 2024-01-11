@@ -18,8 +18,6 @@ public interface TagRepository extends BaseRepository<Tag> {
 
     long countByBook(Book book);
 
-    List<Tag> findAllByBook(Book book);
-
     boolean existsByBookAndParentAndName(Book book, Tag parent, String name);
 
     List<Tag> findByBookAndEnableAndCanExpense(Book book, Boolean enable, Boolean canExpense);
