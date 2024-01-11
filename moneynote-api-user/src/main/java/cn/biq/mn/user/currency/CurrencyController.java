@@ -21,4 +21,9 @@ public class CurrencyController extends BaseController {
         return new DataResponse<>(currencyService.queryAll());
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/refresh")
+    public BaseResponse handleRefresh() {
+        return new DataResponse<>(currencyService.refreshCurrency());
+    }
+
 }

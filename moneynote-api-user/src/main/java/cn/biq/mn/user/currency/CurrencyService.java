@@ -2,6 +2,7 @@ package cn.biq.mn.user.currency;
 
 import cn.biq.mn.base.exception.FailureMessageException;
 import cn.biq.mn.base.exception.ItemNotFoundException;
+import cn.biq.mn.base.utils.WebUtils;
 import cn.biq.mn.user.bean.ApplicationScopeBean;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,13 +11,14 @@ import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class CurrencyService {
 
     private final ApplicationScopeBean applicationScopeBean;
+    private final WebUtils webUtils;
 
     @Transactional(readOnly = true)
     public List<CurrencyDetails> queryAll() {
@@ -52,6 +54,26 @@ public class CurrencyService {
             return amount;
         }
         return amount.multiply(convert(fromCode, toCode)).setScale(2, RoundingMode.CEILING);
+    }
+
+    public boolean refreshCurrency() {
+        try {
+            HashMap<String, Object> resMap =  webUtils.get("https://api.exchangerate-api.com/v4/latest/USD");
+            var ratesMap = (Map<String, Number>) resMap.get("rates");
+            List<CurrencyDetails> currencyDetailsList = applicationScopeBean.getCurrencyDetailsList();
+            ratesMap.forEach((key, value) -> {
+                Optional<CurrencyDetails> currencyDetailsOptional = currencyDetailsList.stream()
+                        .filter(user -> user.getName().equals(key))
+                        .findFirst();
+                if (currencyDetailsOptional.isPresent()) {
+                    var currencyDetails = currencyDetailsOptional.get();
+                    currencyDetails.setRate(value.doubleValue());
+                }
+            });
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
 }
