@@ -1,5 +1,6 @@
 package cn.biq.mn.bean;
 
+import cn.biq.mn.book.tpl.BookTemplate;
 import cn.biq.mn.currency.CurrencyDetails;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,5 +16,7 @@ import java.util.List;
 public class ApplicationScopeBean {
 
     private List<CurrencyDetails> currencyDetailsList;
+
+    private BookTemplate[] bookTplList;
 
 }

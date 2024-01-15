@@ -13,8 +13,6 @@ public class CategoryMapper {
         details.setType( entity.getType() );
         details.setNotes( entity.getNotes() );
         details.setEnable( entity.getEnable() );
-        details.setCanExpense( entity.getType() == CategoryType.EXPENSE );
-        details.setCanIncome( entity.getType() == CategoryType.INCOME );
         if (entity.getParent() != null) {
             details.setParentId( entity.getParent().getId() );
         }

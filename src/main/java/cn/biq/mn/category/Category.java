@@ -28,9 +28,7 @@ public class Category extends TreeEntity<Category> {
     private Boolean enable = true;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    @NotNull
-    private CategoryType type;
+    private Integer type; // 100是支出分类，200是收入分类
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     private Category parent;

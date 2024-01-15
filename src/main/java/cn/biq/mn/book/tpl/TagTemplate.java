@@ -14,5 +14,6 @@ public class TagTemplate extends TreeNode<TagTemplate> {
     private Boolean canIncome;
     private Boolean canTransfer;
     private Integer level;
+    private Integer sort;
 
 }

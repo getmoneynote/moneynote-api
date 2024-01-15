@@ -11,7 +11,6 @@ import cn.biq.mn.base.BaseService;
 import cn.biq.mn.book.Book;
 import cn.biq.mn.category.Category;
 import cn.biq.mn.category.CategoryRepository;
-import cn.biq.mn.category.CategoryType;
 import cn.biq.mn.categoryrelation.CategoryRelation;
 import cn.biq.mn.categoryrelation.CategoryRelationRepository;
 import cn.biq.mn.currency.CurrencyService;
@@ -51,7 +50,7 @@ public class ReportService {
     private final CurrencyService currencyService;
     private final BaseService baseService;
 
-    public List<ChartVO> reportCategory(CategoryReportQueryForm form, CategoryType type) {
+    public List<ChartVO> reportCategory(CategoryReportQueryForm form, Integer type) {
         List<ChartVO> result = new ArrayList<>();
         Book book = baseService.findBookById(form.getBookId());
         List<Category> categories = categoryRepository.findAllByBookAndType(book, type);

@@ -42,10 +42,6 @@ public class CategoryService {
         if (categoryRepository.countByBook(book) >= Limitation.category_max_count) {
             throw new FailureMessageException("category.max.count");
         }
-        // 检查重复
-        if (categoryRepository.existsByBookAndParentAndTypeAndName(book, parent, form.getType(), form.getName())) {
-            throw new ItemExistsException();
-        }
         Category entity = CategoryMapper.toEntity(form);
         entity.setBook(book);
         entity.setParent(parent);
@@ -100,14 +96,6 @@ public class CategoryService {
             entity.setParent(baseService.findCategoryById(form.getPId()));
             if (entity.getParent() != null && entity.getParent().getLevel().equals(Limitation.category_max_level - 1)) {
                 throw new FailureMessageException("category.max.level");
-            }
-        }
-
-        if (!entity.getName().equals(form.getName())) {
-            if (StringUtils.hasText(form.getName())) {
-                if (categoryRepository.existsByBookAndParentAndTypeAndName(book, entity.getParent(), entity.getType(), form.getName())) {
-                    throw new ItemExistsException();
-                }
             }
         }
         // 不能父类改成自己

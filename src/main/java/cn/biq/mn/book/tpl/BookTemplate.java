@@ -12,6 +12,7 @@ public class BookTemplate extends BaseDetails {
 
     private String name;
     private String notes;
+    private String previewUrl;
 
     private List<TagTemplate> tags;
     private List<CategoryTemplate> categories;

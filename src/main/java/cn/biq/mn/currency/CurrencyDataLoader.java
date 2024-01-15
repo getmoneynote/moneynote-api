@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -22,21 +21,15 @@ public class CurrencyDataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        ArrayList<CurrencyDetails> currencyDetailsList = new ArrayList<>();
+        List<CurrencyDetails> currencyDetailsList = new ArrayList<>();
         try {
             Resource resource = new ClassPathResource("currency.json");
             ObjectMapper objectMapper = new ObjectMapper();
-            List<Map<String, Object>> lists = objectMapper.readValue(resource.getInputStream(), new TypeReference<>() {});
-            for (Map<String, Object> item : lists) {
-                CurrencyDetails currencyDetails = new CurrencyDetails();
-                currencyDetails.setId((Integer) item.get("id"));
-                currencyDetails.setName(item.get("name").toString());
-                currencyDetails.setRate(((Number) item.get("rate")).doubleValue());
-                currencyDetailsList.add(currencyDetails);
-            }
+            currencyDetailsList = objectMapper.readValue(resource.getInputStream(), new TypeReference<>() { });
         } catch (Exception e) {
-//            currencyDetailsList.add(new CurrencyDetails(1, "USD", 1.0));
-//            currencyDetailsList.add(new CurrencyDetails(2, "CNY", 7.1));
+            currencyDetailsList.clear();
+            currencyDetailsList.add(new CurrencyDetails(1, "USD", 1.0));
+            currencyDetailsList.add(new CurrencyDetails(2, "CNY", 7.1));
         }
         applicationScopeBean.setCurrencyDetailsList(currencyDetailsList);
     }
