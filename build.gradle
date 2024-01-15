@@ -1,42 +1,42 @@
 plugins {
-    id 'org.springframework.boot' version '3.0.1' apply false
-    id 'io.spring.dependency-management' version '1.1.0' apply false
+	id 'java'
+	id 'org.springframework.boot' version '3.2.1'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'cn.biq'
+version = '1.0.0'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
 }
 
 ext {
-    querydslVersion = '5.0.0'
+	querydslVersion = '5.0.0'
 }
 
-subprojects {
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation "org.springframework.boot:spring-boot-starter-validation"
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	// QueryDSL
+	// https://velog.io/@juhyeon1114/Spring-QueryDsl-gradle-%EC%84%A4%EC%A0%95-Spring-boot-3.0-%EC%9D%B4%EC%83%81
+	implementation "com.querydsl:querydsl-jpa:${querydslVersion}:jakarta"
+	annotationProcessor "com.querydsl:querydsl-apt:${querydslVersion}:jakarta"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 
-    apply plugin: 'java'
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
-
-    group 'cn.biq'
-    version '1.0.0'
-    sourceCompatibility = '17'
-
-    repositories {
-//        mavenLocal()
-//        maven { url "https://maven.aliyun.com/repository/public" }
-        mavenCentral()
-    }
-
-    dependencies {
-        implementation "org.springframework.boot:spring-boot-starter-web"
-        implementation "org.springframework.boot:spring-boot-starter-data-jpa"
-        implementation "org.springframework.boot:spring-boot-starter-validation"
-        runtimeOnly "com.mysql:mysql-connector-j"
-        // lombok
-        compileOnly "org.projectlombok:lombok"
-        annotationProcessor "org.projectlombok:lombok"
-        // QueryDSL
-        // https://velog.io/@juhyeon1114/Spring-QueryDsl-gradle-%EC%84%A4%EC%A0%95-Spring-boot-3.0-%EC%9D%B4%EC%83%81
-        implementation "com.querydsl:querydsl-jpa:${querydslVersion}:jakarta"
-        annotationProcessor "com.querydsl:querydsl-apt:${querydslVersion}:jakarta"
-        annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-        annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    }
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'com.auth0:java-jwt:4.2.1'
+	implementation 'org.apache.poi:poi:5.2.2'
+	implementation 'org.apache.poi:poi-ooxml:5.2.2'
 
 }

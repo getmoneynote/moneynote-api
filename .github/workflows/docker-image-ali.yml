@@ -17,7 +17,7 @@ jobs:
         with:
           java-version: 17
       - name: Build
-        run: chmod +x ./gradlew && ./gradlew :moneynote-api-user:build && ls ./moneynote-api-user/build/libs/
+        run: chmod +x ./gradlew && ./gradlew bootJar && ls ./build/libs/
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -33,7 +33,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./moneynote-api-user/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest

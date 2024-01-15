@@ -1,1 +1,0 @@
-export $(grep -v '^#' /www/moneynote-user-api/.env | xargs) && java -jar /www/moneynote-user-api/moneynote-api-user-1.0.0.jar
