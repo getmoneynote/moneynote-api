@@ -52,7 +52,10 @@ public class Book extends IdAndNameEntity {
     @NotNull
     private String defaultCurrencyCode;//默认的币种
 
-    private Long exportAt;
+    private Long exportAt; //上次操作导出的时间
+
+    @Column(name="ranking")
+    private Integer sort;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<Tag> tags = new ArrayList<>();

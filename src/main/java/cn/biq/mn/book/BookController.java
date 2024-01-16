@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -25,7 +27,10 @@ public class BookController extends BaseController {
     private final BookService bookService;
 
     @RequestMapping(method = RequestMethod.GET, value = "")
-    public BaseResponse handleQuery(BookQueryForm form, Pageable page) {
+    public BaseResponse handleQuery(
+            BookQueryForm form,
+            @PageableDefault(sort = "sort", direction = Sort.Direction.ASC) Pageable page
+    ) {
         return new PageResponse<>(bookService.query(form, page));
     }
 

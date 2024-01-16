@@ -21,5 +21,6 @@ public class BookDetails extends IdAndNameDetails {
     private CategoryDetails defaultExpenseCategory;
     private CategoryDetails defaultIncomeCategory;
     private boolean isDefault;
+    private Integer sort;
 
 }

@@ -21,4 +21,6 @@ public class BookUpdateForm {
     @NotesField
     private String notes;
 
+    private Integer sort;
+
 }

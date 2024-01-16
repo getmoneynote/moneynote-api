@@ -36,6 +36,7 @@ public class BookMapper {
         details.setDefaultTransferToAccount( AccountMapper.toDetails( entity.getDefaultTransferToAccount() ) );
         details.setDefaultExpenseCategory( CategoryMapper.toDetails( entity.getDefaultExpenseCategory() ) );
         details.setDefaultIncomeCategory( CategoryMapper.toDetails( entity.getDefaultIncomeCategory() ) );
+        details.setSort(entity.getSort());
         return details;
     }
 
@@ -78,6 +79,7 @@ public class BookMapper {
         }
         entity.setGroup(group);
         entity.setEnable(true);
+        entity.setSort(form.getSort());
         return entity;
     }
 
@@ -135,6 +137,7 @@ public class BookMapper {
         if(!Objects.equals(Optional.ofNullable(entity.getDefaultIncomeCategory()).map(i->i.getId()).orElse(null), form.getDefaultIncomeCategoryId())) {
             entity.setDefaultIncomeCategory(baseService.findCategoryByBookAndId(entity, form.getDefaultIncomeCategoryId()));
         }
+        entity.setSort(form.getSort());
 
     }
 

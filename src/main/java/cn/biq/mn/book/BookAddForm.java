@@ -28,4 +28,6 @@ public class BookAddForm {
     @NotesField
     private String notes;
 
+    private Integer sort;
+
 }
