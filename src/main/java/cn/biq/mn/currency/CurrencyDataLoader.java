@@ -27,6 +27,7 @@ public class CurrencyDataLoader implements ApplicationRunner {
             ObjectMapper objectMapper = new ObjectMapper();
             currencyDetailsList = objectMapper.readValue(resource.getInputStream(), new TypeReference<>() { });
         } catch (Exception e) {
+            e.printStackTrace();
             currencyDetailsList.clear();
             currencyDetailsList.add(new CurrencyDetails(1, "USD", 1.0));
             currencyDetailsList.add(new CurrencyDetails(2, "CNY", 7.1));

@@ -17,6 +17,6 @@ public class ApplicationScopeBean {
 
     private List<CurrencyDetails> currencyDetailsList;
 
-    private BookTemplate[] bookTplList;
+    private List<BookTemplate> bookTplList;
 
 }

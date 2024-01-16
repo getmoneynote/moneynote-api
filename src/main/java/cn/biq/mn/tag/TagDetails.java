@@ -14,5 +14,6 @@ public class TagDetails extends TreeNode<TagDetails> {
     private Boolean canIncome;
     private Boolean canTransfer;
     private Integer level;
+    private Integer sort;
 
 }

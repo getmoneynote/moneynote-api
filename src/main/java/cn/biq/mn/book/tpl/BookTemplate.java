@@ -18,5 +18,4 @@ public class BookTemplate extends BaseDetails {
     private List<CategoryTemplate> categories;
     private List<PayeeTemplate> payees;
 
-
 }

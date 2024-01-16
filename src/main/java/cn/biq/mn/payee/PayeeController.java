@@ -7,6 +7,8 @@ import cn.biq.mn.response.PageResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -23,7 +25,10 @@ public class PayeeController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "")
-    public BaseResponse handleQuery(@Valid PayeeQueryForm form, Pageable page) {
+    public BaseResponse handleQuery(
+            @Valid PayeeQueryForm form,
+            @PageableDefault(sort = "sort", direction = Sort.Direction.ASC) Pageable page
+    ) {
         return new PageResponse<>(payeeService.query(form, page));
     }
 

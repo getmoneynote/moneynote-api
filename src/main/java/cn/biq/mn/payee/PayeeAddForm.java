@@ -28,4 +28,6 @@ public class PayeeAddForm {
     @NotNull
     private Boolean canIncome;
 
+    private Integer sort;
+
 }

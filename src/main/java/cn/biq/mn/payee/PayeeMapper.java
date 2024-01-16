@@ -1,5 +1,6 @@
 package cn.biq.mn.payee;
 
+import cn.biq.mn.book.tpl.PayeeTemplate;
 import org.springframework.util.StringUtils;
 
 public class PayeeMapper {
@@ -14,29 +15,46 @@ public class PayeeMapper {
         details.setCanExpense( entity.getCanExpense() );
         details.setCanIncome( entity.getCanIncome() );
         details.setEnable( entity.getEnable() );
+        details.setSort(entity.getSort());
         return details;
     }
 
-    public static Payee toEntity(PayeeAddForm payeeAddForm) {
+    public static Payee toEntity(PayeeAddForm form) {
         Payee payee = new Payee();
-        payee.setName( payeeAddForm.getName() );
-        payee.setNotes( payeeAddForm.getNotes() );
-        payee.setCanExpense( payeeAddForm.getCanExpense() );
-        payee.setCanIncome( payeeAddForm.getCanIncome() );
+        payee.setName( form.getName() );
+        payee.setNotes( form.getNotes() );
+        payee.setCanExpense( form.getCanExpense() );
+        payee.setCanIncome( form.getCanIncome() );
+        payee.setSort(form.getSort());
+        return payee;
+    }
+
+    public static Payee toEntity(PayeeTemplate template) {
+        Payee payee = new Payee();
+        payee.setName( template.getName() );
+        payee.setNotes( template.getNotes() );
+        payee.setCanExpense( template.getCanExpense() );
+        payee.setCanIncome( template.getCanIncome() );
+        payee.setSort( template.getSort() );
+        return payee;
+    }
+
+    public static Payee toEntity(Payee entity) {
+        Payee payee = new Payee();
+        payee.setName( entity.getName() );
+        payee.setNotes( entity.getNotes() );
+        payee.setCanExpense( entity.getCanExpense() );
+        payee.setCanIncome( entity.getCanIncome() );
+        payee.setSort( entity.getSort() );
         return payee;
     }
 
     public static void updateEntity(PayeeUpdateForm form, Payee payee) {
-        if (StringUtils.hasText(form.getName())) {
-            payee.setName( form.getName() );
-        }
+        payee.setName( form.getName() );
         payee.setNotes( form.getNotes() );
-        if (form.getCanExpense() != null) {
-            payee.setCanExpense( form.getCanExpense() );
-        }
-        if (form.getCanIncome() != null) {
-            payee.setCanIncome( form.getCanIncome() );
-        }
+        payee.setCanExpense( form.getCanExpense() );
+        payee.setCanIncome( form.getCanIncome() );
+        payee.setSort(form.getSort());
     }
 
 }

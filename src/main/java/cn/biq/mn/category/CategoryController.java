@@ -4,6 +4,9 @@ import cn.biq.mn.response.BaseResponse;
 import cn.biq.mn.response.DataResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +20,11 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @RequestMapping(method = RequestMethod.GET, value = "")
-    public BaseResponse handleQuery(CategoryQueryForm form) {
-        return new DataResponse<>(categoryService.query(form));
+    public BaseResponse handleQuery(
+            CategoryQueryForm form,
+            @PageableDefault(sort = "sort", direction = Sort.Direction.ASC) Pageable page
+    ) {
+        return new DataResponse<>(categoryService.query(form, page));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/all")

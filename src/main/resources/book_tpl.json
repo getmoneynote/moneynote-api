@@ -951,7 +951,7 @@
         "type": 100,
         "notes": null,
         "level": 2,
-        "sort": null,
+        "sort": 100,
         "pId": 18
       },
       {
@@ -961,7 +961,7 @@
         "type": 100,
         "notes": null,
         "level": 2,
-        "sort": null,
+        "sort": 200,
         "pId": 18
       },
       {
@@ -971,7 +971,7 @@
         "type": 100,
         "notes": null,
         "level": 2,
-        "sort": null,
+        "sort": 300,
         "pId": 18
       },
       {
@@ -1111,7 +1111,7 @@
         "type": 100,
         "notes": null,
         "level": 2,
-        "sort": null,
+        "sort": 400,
         "pId": 18
       }
     ],
@@ -1780,7 +1780,7 @@
         "type": 200,
         "notes": null,
         "level": 1,
-        "sort": null,
+        "sort": 100,
         "pId": 94
       },
       {
@@ -1790,7 +1790,7 @@
         "type": 200,
         "notes": null,
         "level": 1,
-        "sort": null,
+        "sort": 200,
         "pId": 94
       },
       {
@@ -1800,7 +1800,7 @@
         "type": 200,
         "notes": null,
         "level": 1,
-        "sort": null,
+        "sort": 300,
         "pId": 94
       }
     ],

@@ -1,0 +1,1 @@
+UPDATE `t_user_category` SET type = (type+1)*100;

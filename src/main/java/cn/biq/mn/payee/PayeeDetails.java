@@ -13,5 +13,6 @@ public class PayeeDetails extends IdAndNameDetails {
     private Boolean enable;
     private Boolean canExpense;
     private Boolean canIncome;
+    private Integer sort;
 
 }

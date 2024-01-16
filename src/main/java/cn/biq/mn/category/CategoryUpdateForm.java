@@ -18,4 +18,6 @@ public class CategoryUpdateForm {
     @JsonProperty("pId")
     private Integer pId;
 
+    private Integer sort;
+
 }

@@ -34,4 +34,6 @@ public class TagAddForm {
     @NotNull
     private Boolean canTransfer;
 
+    private Integer sort;
+
 }

@@ -16,7 +16,10 @@ public class Tag extends TreeEntity<Tag> {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Book book;
 
-    @Column(length = 1024)
+    @Column(length = 16, nullable = false)
+    private String name;
+
+    @Column(length = 4096)
     private String notes;
 
     @Column(nullable = false)
@@ -31,7 +34,7 @@ public class Tag extends TreeEntity<Tag> {
     @Column(nullable = false)
     private Boolean canTransfer;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    private Tag parent;
+    @Column(name="ranking")
+    private Integer sort;
 
 }

@@ -25,4 +25,6 @@ public class TagUpdateForm {
 
     private Boolean canTransfer;
 
+    private Integer sort;
+
 }

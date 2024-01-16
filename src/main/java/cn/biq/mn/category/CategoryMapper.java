@@ -1,7 +1,6 @@
 package cn.biq.mn.category;
 
 import cn.biq.mn.book.tpl.CategoryTemplate;
-import org.springframework.util.StringUtils;
 
 public class CategoryMapper {
 
@@ -17,6 +16,7 @@ public class CategoryMapper {
             details.setParentId( entity.getParent().getId() );
         }
         details.setLevel(entity.getLevel());
+        details.setSort(entity.getSort());
         return details;
     }
 
@@ -25,15 +25,15 @@ public class CategoryMapper {
         category.setName( form.getName() );
         category.setNotes( form.getNotes() );
         category.setType( form.getType() );
+        category.setSort(form.getSort());
         category.setEnable(true);
         return category;
     }
 
     public static void updateEntity(CategoryUpdateForm form, Category category) {
-        if (StringUtils.hasText(form.getName())) {
-            category.setName( form.getName() );
-        }
+        category.setName( form.getName() );
         category.setNotes( form.getNotes() );
+        category.setSort(form.getSort());
     }
 
     public static Category toEntity(CategoryTemplate template) {
@@ -43,6 +43,7 @@ public class CategoryMapper {
         category.setName( template.getName() );
         category.setNotes( template.getNotes() );
         category.setType( template.getType() );
+        category.setSort(template.getSort());
         return category;
     }
 
@@ -53,6 +54,7 @@ public class CategoryMapper {
         category.setName( details.getName() );
         category.setNotes( details.getNotes() );
         category.setType( details.getType() );
+        category.setSort(details.getSort());
         return category;
     }
 

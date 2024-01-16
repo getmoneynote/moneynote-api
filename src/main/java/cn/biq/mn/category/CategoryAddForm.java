@@ -27,4 +27,6 @@ public class CategoryAddForm {
     @JsonProperty("pId")
     private Integer pId;
 
+    private Integer sort;
+
 }

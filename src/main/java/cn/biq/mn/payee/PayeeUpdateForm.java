@@ -20,4 +20,6 @@ public class PayeeUpdateForm {
 
     private Boolean canIncome;
 
+    private Integer sort;
+
 }

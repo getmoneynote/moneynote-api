@@ -4,6 +4,9 @@ import cn.biq.mn.response.BaseResponse;
 import cn.biq.mn.response.DataResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +20,11 @@ public class TagController {
     private final TagService tagService;
 
     @RequestMapping(method = RequestMethod.GET, value = "")
-    public BaseResponse handleQuery(TagQueryForm form) {
-        return new DataResponse<>(tagService.query(form));
+    public BaseResponse handleQuery(
+            TagQueryForm form,
+            @PageableDefault(sort = "sort", direction = Sort.Direction.ASC) Pageable page
+    ) {
+        return new DataResponse<>(tagService.query(form, page));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/all")

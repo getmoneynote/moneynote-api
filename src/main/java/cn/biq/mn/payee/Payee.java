@@ -31,4 +31,7 @@ public class Payee extends IdAndNameEntity {
     @NotNull
     private Boolean canIncome; //是否可收入
 
+    @Column(name="ranking")
+    private Integer sort;
+
 }

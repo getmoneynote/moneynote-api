@@ -1,7 +1,6 @@
 package cn.biq.mn.tag;
 
 import cn.biq.mn.book.tpl.TagTemplate;
-import org.springframework.util.StringUtils;
 
 public class TagMapper {
 
@@ -19,6 +18,7 @@ public class TagMapper {
             details.setParentId( entity.getParent().getId() );
         }
         details.setLevel(entity.getLevel());
+        details.setSort(entity.getSort());
         return details;
     }
 
@@ -30,23 +30,17 @@ public class TagMapper {
         tag.setCanIncome( form.getCanIncome() );
         tag.setCanTransfer( form.getCanTransfer() );
         tag.setEnable(true);
+        tag.setSort(form.getSort());
         return tag;
     }
 
     public static void updateEntity(TagUpdateForm form, Tag tag) {
-        if (StringUtils.hasText(form.getName())) {
-            tag.setName( form.getName() );
-        }
+        tag.setName( form.getName() );
         tag.setNotes( form.getNotes() );
-        if (form.getCanExpense() != null) {
-            tag.setCanExpense( form.getCanExpense() );
-        }
-        if (form.getCanIncome() != null) {
-            tag.setCanIncome( form.getCanIncome() );
-        }
-        if (form.getCanTransfer() != null) {
-            tag.setCanTransfer( form.getCanTransfer() );
-        }
+        tag.setCanExpense( form.getCanExpense() );
+        tag.setCanIncome( form.getCanIncome() );
+        tag.setCanTransfer( form.getCanTransfer() );
+        tag.setSort(form.getSort());
     }
 
     public static Tag toEntity(TagTemplate template) {
@@ -58,6 +52,7 @@ public class TagMapper {
         tag.setCanExpense( template.getCanExpense() );
         tag.setCanIncome( template.getCanIncome() );
         tag.setCanTransfer( template.getCanTransfer() );
+        tag.setSort(template.getSort());
         return tag;
     }
 
@@ -70,6 +65,7 @@ public class TagMapper {
         tag.setCanExpense( details.getCanExpense() );
         tag.setCanIncome( details.getCanIncome() );
         tag.setCanTransfer( details.getCanTransfer() );
+        tag.setSort(details.getSort() );
         return tag;
     }
 

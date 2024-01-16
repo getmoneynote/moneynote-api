@@ -1,8 +1,10 @@
 package cn.biq.mn.book;
 
+import cn.biq.mn.bean.ApplicationScopeBean;
 import cn.biq.mn.exception.FailureMessageException;
 import cn.biq.mn.exception.ItemExistsException;
 import cn.biq.mn.exception.ItemNotFoundException;
+import cn.biq.mn.payee.PayeeMapper;
 import cn.biq.mn.tree.TreeUtils;
 import cn.biq.mn.balanceflow.BalanceFlow;
 import cn.biq.mn.balanceflow.BalanceFlowDetails;
@@ -10,7 +12,6 @@ import cn.biq.mn.balanceflow.BalanceFlowMapper;
 import cn.biq.mn.balanceflow.BalanceFlowRepository;
 import cn.biq.mn.base.BaseService;
 import cn.biq.mn.book.tpl.BookTemplate;
-import cn.biq.mn.book.tpl.BookTemplateResponse;
 import cn.biq.mn.book.tpl.CategoryTemplate;
 import cn.biq.mn.book.tpl.TagTemplate;
 import cn.biq.mn.category.Category;
@@ -30,13 +31,11 @@ import cn.biq.mn.utils.SessionUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -55,9 +54,7 @@ public class BookService {
     private final BalanceFlowMapper balanceFlowMapper;
     private final BaseService baseService;
     private final CurrencyService currencyService;
-    private final RestTemplate restTemplate;
-    @Value("${user_api_base_url}")
-    private String userApiBaseUrl;
+    private final ApplicationScopeBean applicationScopeBean;
 
     @Transactional(readOnly = true)
     public Page<BookDetails> query(BookQueryForm form, Pageable page) {
@@ -152,20 +149,24 @@ public class BookService {
     // 账本模板列表，复制功能使用
     public boolean addByTemplate(BookAddByTemplateForm form) {
         Group group = sessionUtil.getCurrentGroup();
-        var response =  restTemplate.getForObject(userApiBaseUrl + "/book-templates/" + form.getTemplateId(), BookTemplateResponse.class);
-        if (!response.isSuccess()) {
+        List<BookTemplate> bookTplList = applicationScopeBean.getBookTplList();
+        Optional<BookTemplate> bookTemplateOptional = bookTplList.stream()
+                .filter(bookTemplate -> bookTemplate.getId().equals(form.getTemplateId()))
+                .findFirst();
+        if (bookTemplateOptional.isPresent()) {
+            BookTemplate bookTemplate = bookTemplateOptional.get();
+            Book book = new Book();
+            String bookName;
+            if (StringUtils.hasText(form.getBookName())) {
+                bookName = form.getBookName();
+            } else {
+                bookName = bookTemplate.getName();
+            }
+            book.setName(bookName);
+            setBookByBookTemplate(bookTemplate, group, book);
+        } else {
             throw new ItemNotFoundException();
         }
-        Book book = new Book();
-        var bookTemplate = response.getData();
-        String bookName;
-        if (StringUtils.hasText(form.getBookName())) {
-            bookName = form.getBookName();
-        } else {
-            bookName = bookTemplate.getName();
-        }
-        book.setName(bookName);
-        setBookByBookTemplate(bookTemplate, group, book);
         return true;
     }
 
@@ -194,11 +195,7 @@ public class BookService {
 
         List<Payee> payeesToSave = new ArrayList<>();
         bookSrc.getPayees().forEach(i -> {
-            Payee payee = new Payee();
-            payee.setName(i.getName());
-            payee.setNotes(i.getNotes());
-            payee.setCanExpense(i.getCanExpense());
-            payee.setCanIncome(i.getCanIncome());
+            Payee payee = PayeeMapper.toEntity(i);
             payee.setBook(book);
             payeesToSave.add(payee);
         });
@@ -209,7 +206,7 @@ public class BookService {
 
     // 注册功能使用。
     public Book addDefaultTemplate(Group group) {
-        var bookTemplate = restTemplate.getForObject("http://tpl.moneywhere.com/default.json", BookTemplate.class);
+        var bookTemplate = applicationScopeBean.getBookTplList().get(0);
         Book book = new Book();
         book.setName(bookTemplate.getName());
         setBookByBookTemplate(bookTemplate, group, book);
@@ -230,11 +227,7 @@ public class BookService {
         saveCategory(TreeUtils.buildTree(bookTemplate.getCategories()), book);
         List<Payee> payeesToSave = new ArrayList<>();
         bookTemplate.getPayees().forEach(i -> {
-            Payee payee = new Payee();
-            payee.setName(i.getName());
-            payee.setNotes(i.getNotes());
-            payee.setCanExpense(i.getCanExpense());
-            payee.setCanIncome(i.getCanIncome());
+            Payee payee = PayeeMapper.toEntity(i);
             payee.setBook(book);
             payeesToSave.add(payee);
         });
