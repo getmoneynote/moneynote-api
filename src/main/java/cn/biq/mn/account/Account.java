@@ -25,7 +25,8 @@ public class Account extends IdAndNameEntity {
     private Group group; // 账簿必须属于某个组
 
     @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+//    @Enumerated(EnumType.ORDINAL)
+    @Convert(converter = AccountTypeAttributeConverter.class)
     @NotNull
     private AccountType type; //1活期，2信用，3贷款，4资产
 

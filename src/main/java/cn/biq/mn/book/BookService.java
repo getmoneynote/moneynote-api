@@ -62,22 +62,20 @@ public class BookService {
         Page<Book> entityPage = bookRepository.findAll(form.buildPredicate(group), page);
         return entityPage.map(book -> {
             var details = BookMapper.toDetails(book);
+            // 是否是默认账本
             if (sessionUtil.getCurrentUser().getDefaultBook() != null) {
-                details.setDefault(details.getId().equals(sessionUtil.getCurrentUser().getDefaultBook().getId()));
+                details.setCurrent(details.getId().equals(sessionUtil.getCurrentUser().getDefaultBook().getId()));
             }
             return details;
         });
     }
 
+    // select下拉数据使用
     @Transactional(readOnly = true)
     public List<BookDetails> queryAll(BookQueryForm form) {
         form.setEnable(true);
         Group group = sessionUtil.getCurrentGroup();
         List<Book> entityList = bookRepository.findAll(form.buildPredicate(group));
-        Book keep = baseService.findBookById(form.getKeep());
-        if (keep != null && !entityList.contains(keep)) {
-            entityList.add(0, keep);
-        }
         return entityList.stream().map(BookMapper::toDetails).toList();
     }
 
@@ -85,7 +83,7 @@ public class BookService {
     public BookDetails get(Integer id) {
         Book entity = baseService.findBookById(id);
         var details = BookMapper.toDetails(entity);
-        details.setDefault(details.getId().equals(sessionUtil.getCurrentUser().getDefaultBook().getId()));
+        details.setCurrent(details.getId().equals(sessionUtil.getCurrentUser().getDefaultBook().getId()));
         return details;
     }
 

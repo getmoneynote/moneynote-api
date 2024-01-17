@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter @Setter
 public class CategoryDetails extends TreeNode<CategoryDetails> {
 
-    private Integer type;
+    private CategoryType type;
     private String notes;
     private Boolean enable;
     private Boolean canExpense;

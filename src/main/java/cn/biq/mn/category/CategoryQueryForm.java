@@ -12,7 +12,7 @@ import java.util.Set;
 public class CategoryQueryForm {
 
     private Integer bookId;
-    private Integer type;
+    private CategoryType type;
     private String name;
     private Boolean enable;
     //处理修改时，已禁用的情况。

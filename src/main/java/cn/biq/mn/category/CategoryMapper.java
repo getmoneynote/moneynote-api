@@ -42,7 +42,7 @@ public class CategoryMapper {
         category.setLevel( template.getLevel() );
         category.setName( template.getName() );
         category.setNotes( template.getNotes() );
-        category.setType( template.getType() );
+        category.setType( CategoryType.fromCode(template.getType()) );
         category.setSort(template.getSort());
         return category;
     }

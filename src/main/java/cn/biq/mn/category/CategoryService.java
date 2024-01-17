@@ -1,7 +1,6 @@
 package cn.biq.mn.category;
 
 import cn.biq.mn.exception.FailureMessageException;
-import cn.biq.mn.exception.ItemExistsException;
 import cn.biq.mn.exception.ItemNotFoundException;
 import cn.biq.mn.tree.TreeUtils;
 import cn.biq.mn.utils.MyCollectionUtil;
@@ -12,10 +11,8 @@ import cn.biq.mn.categoryrelation.CategoryRelationRepository;
 import cn.biq.mn.utils.Limitation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,5 @@
 package cn.biq.mn.utils;
 
-import cn.biq.mn.utils.MessageSourceUtil;
 import cn.biq.mn.account.AccountType;
 import cn.biq.mn.balanceflow.FlowType;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +50,5 @@ public class EnumUtils {
         }
         return "Unknown";
     }
-
-
 
 }

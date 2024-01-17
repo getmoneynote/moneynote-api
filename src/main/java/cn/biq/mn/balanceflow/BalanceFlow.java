@@ -32,7 +32,8 @@ public class BalanceFlow extends BaseEntity {
     private Book book;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+//    @Enumerated(EnumType.ORDINAL)
+    @Convert(converter = FlowTypeAttributeConverter.class)
     @NotNull
     private FlowType type; //1支出，2收入，3转账，4余额调整
 

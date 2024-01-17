@@ -26,7 +26,9 @@ public class Category extends TreeEntity<Category> {
     private Boolean enable = true;
 
     @Column(nullable = false)
-    private Integer type; // 100是支出分类，200是收入分类
+//    @Enumerated(EnumType.ORDINAL)
+    @Convert(converter = CategoryTypeAttributeConverter.class)
+    private CategoryType type; // 100是支出分类，200是收入分类
 
     @Column(name="ranking")
     private Integer sort;

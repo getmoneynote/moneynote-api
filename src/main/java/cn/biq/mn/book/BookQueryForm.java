@@ -14,7 +14,6 @@ public class BookQueryForm {
 
     private Boolean enable;
     private String name;
-    private Integer keep;
 
     public Predicate buildPredicate(Group group) {
         QBook book = QBook.book;

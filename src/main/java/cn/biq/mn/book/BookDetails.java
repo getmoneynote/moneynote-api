@@ -20,7 +20,7 @@ public class BookDetails extends IdAndNameDetails {
     private AccountDetails defaultTransferToAccount;
     private CategoryDetails defaultExpenseCategory;
     private CategoryDetails defaultIncomeCategory;
-    private boolean isDefault;
+    private Boolean current; //是否是当前的默认账本
     private Integer sort;
 
 }

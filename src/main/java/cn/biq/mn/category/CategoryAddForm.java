@@ -15,7 +15,7 @@ public class CategoryAddForm {
     private Integer bookId;
 
     @NotNull
-    private Integer type;
+    private CategoryType type;
 
     @NotBlank
     @NameField
