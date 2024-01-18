@@ -16,8 +16,6 @@ public class TagQueryForm {
     private Boolean canExpense;
     private Boolean canIncome;
     private Boolean canTransfer;
-    //处理修改时，已禁用的情况。
-    private Set<Integer> keeps;
 
     public Predicate buildPredicate() {
         QTag tag = QTag.tag;

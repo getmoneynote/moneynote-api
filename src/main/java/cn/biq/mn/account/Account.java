@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 
 @Entity
@@ -84,20 +83,7 @@ public class Account extends IdAndNameEntity {
     @Digits(integer = 4, fraction = 4)
     private BigDecimal apr; // 年化利率(%)
 
-    @Column(name="deleted", columnDefinition="bit(1) default 0")
-    private Boolean deleted = false;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Account account = (Account) o;
-        return Objects.equals(getId(), account.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
+    @Column(name="ranking")
+    private Integer sort;
 
 }

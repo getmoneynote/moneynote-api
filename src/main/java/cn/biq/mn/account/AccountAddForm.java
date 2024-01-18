@@ -44,7 +44,7 @@ public class AccountAddForm {
     @NotesField
     private String notes;
 
-//    @NotBlank
+    @NotBlank
     @AccountCurrencyCodeField
     private String currencyCode;
 
@@ -56,5 +56,7 @@ public class AccountAddForm {
 
     @Digits(integer = 4, fraction = 4)
     private BigDecimal apr;
+
+    private Integer sort;
 
 }

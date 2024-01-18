@@ -128,4 +128,11 @@ public class GlobalExceptionHandler {
         return new SimpleResponse(false, messageSourceUtil.getMessage(e.getClass().getSimpleName()));
     }
 
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public BaseResponse exceptionHandler(Exception e) {
+        e.printStackTrace();
+        return new SimpleResponse(false, messageSourceUtil.getMessage("DefaultException"));
+    }
+
 }

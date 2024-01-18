@@ -18,8 +18,9 @@ public interface CategoryRepository extends BaseRepository<Category> {
 
     long countByBook(Book book);
 
+    boolean existsByBookAndParentAndTypeAndName(Book book, Category parent, CategoryType type, String name);
 
-    List<Category> findAllByBookAndType(Book book, Integer type);
+    List<Category> findAllByBookAndType(Book book, CategoryType type);
 
 //    @Modifying
 //    @Query("delete from Category where book = :book")

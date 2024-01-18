@@ -1,9 +1,9 @@
 package cn.biq.mn.category;
 
 import cn.biq.mn.exception.FailureMessageException;
+import cn.biq.mn.exception.ItemExistsException;
 import cn.biq.mn.exception.ItemNotFoundException;
 import cn.biq.mn.tree.TreeUtils;
-import cn.biq.mn.utils.MyCollectionUtil;
 import cn.biq.mn.base.BaseService;
 import cn.biq.mn.book.Book;
 import cn.biq.mn.book.BookRepository;
@@ -11,8 +11,10 @@ import cn.biq.mn.categoryrelation.CategoryRelationRepository;
 import cn.biq.mn.utils.Limitation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,10 @@ public class CategoryService {
         if (categoryRepository.countByBook(book) >= Limitation.category_max_count) {
             throw new FailureMessageException("category.max.count");
         }
+        // 检查重复
+        if (categoryRepository.existsByBookAndParentAndTypeAndName(book, parent, form.getType(), form.getName())) {
+            throw new ItemExistsException();
+        }
         Category entity = CategoryMapper.toEntity(form);
         entity.setBook(book);
         entity.setParent(parent);
@@ -61,16 +67,16 @@ public class CategoryService {
 
     @Transactional(readOnly = true)
     public List<CategoryDetails> queryAll(CategoryQueryForm form) {
+        // TODO 重构
+        // 搜索的时候不输入，返回空
         if (form.getBookId() == null) {
             return new ArrayList<>();
         }
         // 确保传入的bookId是自己组里面的。
-        Book book = baseService.findBookById(form.getBookId());
+        baseService.findBookById(form.getBookId());
         form.setEnable(true);
-        List<Category> entityList = categoryRepository.findAll(form.buildPredicate());
-        List<Category> keeps = baseService.findCategoriesByBookAndIds(book, form.getKeeps());
-        List<Category> result = MyCollectionUtil.unionWithoutDuplicates(keeps, entityList);
-        List<CategoryDetails> detailsList = result.stream().map(CategoryMapper::toDetails).toList();
+        List<Category> entityList = categoryRepository.findAll(form.buildPredicate(), Sort.by(Sort.Direction.ASC, "sort"));
+        List<CategoryDetails> detailsList = entityList.stream().map(CategoryMapper::toDetails).toList();
         return TreeUtils.buildTree(detailsList);
     }
 
@@ -95,6 +101,14 @@ public class CategoryService {
             entity.setParent(baseService.findCategoryById(form.getPId()));
             if (entity.getParent() != null && entity.getParent().getLevel().equals(Limitation.category_max_level - 1)) {
                 throw new FailureMessageException("category.max.level");
+            }
+        }
+
+        if (!entity.getName().equals(form.getName())) {
+            if (StringUtils.hasText(form.getName())) {
+                if (categoryRepository.existsByBookAndParentAndTypeAndName(book, entity.getParent(), entity.getType(), form.getName())) {
+                    throw new ItemExistsException();
+                }
             }
         }
         // 不能父类改成自己

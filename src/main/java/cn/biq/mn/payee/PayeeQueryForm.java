@@ -13,7 +13,6 @@ public class PayeeQueryForm {
     private Boolean enable;
     private Boolean canExpense;
     private Boolean canIncome;
-    private Integer keep;
 
     public Predicate buildPredicate() {
         QPayee payee = QPayee.payee;

@@ -9,6 +9,7 @@ import cn.biq.mn.utils.Limitation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -51,19 +52,14 @@ public class PayeeService {
 
     @Transactional(readOnly = true)
     public List<PayeeDetails> queryAll(PayeeQueryForm form) {
+        // TODO 重构
         if (form.getBookId() == null) {
             return new ArrayList<>();
         }
         // 确保传入的bookId是自己组里面的。
-        Book book = baseService.findBookById(form.getBookId());
+        baseService.findBookById(form.getBookId());
         form.setEnable(true);
-        List<Payee> entityList = payeeRepository.findAll(form.buildPredicate());
-        Payee keep = baseService.findPayeeById(form.getKeep());
-        if (keep != null && !entityList.contains(keep)) {
-            if (keep.getBook().getId().equals(book.getId())) {
-                entityList.add(0, keep);
-            }
-        }
+        List<Payee> entityList = payeeRepository.findAll(form.buildPredicate(), Sort.by(Sort.Direction.ASC, "sort"));
         return entityList.stream().map(PayeeMapper::toDetails).toList();
     }
 

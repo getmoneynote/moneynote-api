@@ -5,13 +5,13 @@ import cn.biq.mn.exception.FailureMessageException;
 import cn.biq.mn.exception.ItemExistsException;
 import cn.biq.mn.exception.ItemNotFoundException;
 import cn.biq.mn.tree.TreeUtils;
-import cn.biq.mn.utils.MyCollectionUtil;
 import cn.biq.mn.base.BaseService;
 import cn.biq.mn.book.Book;
 import cn.biq.mn.tagrelation.TagRelationRepository;
 import cn.biq.mn.utils.Limitation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -67,16 +67,15 @@ public class TagService {
 
     @Transactional(readOnly = true)
     public List<TagDetails> queryAll(TagQueryForm form) {
+        // TODO 重构
         if (form.getBookId() == null) {
             return new ArrayList<>();
         }
         // 确保传入的bookId是自己组里面的。
-        Book book = baseService.findBookById(form.getBookId());
+        baseService.findBookById(form.getBookId());
         form.setEnable(true);
-        List<Tag> entityList = tagRepository.findAll(form.buildPredicate());
-        List<Tag> keeps = baseService.findTagsByBookAndIds(book, form.getKeeps());
-        List<Tag> result = MyCollectionUtil.unionWithoutDuplicates(keeps, entityList);
-        List<TagDetails> detailsList = result.stream().map(TagMapper::toDetails).toList();
+        List<Tag> entityList = tagRepository.findAll(form.buildPredicate(), Sort.by(Sort.Direction.ASC, "sort"));
+        List<TagDetails> detailsList = entityList.stream().map(TagMapper::toDetails).toList();
         return TreeUtils.buildTree(detailsList);
     }
 

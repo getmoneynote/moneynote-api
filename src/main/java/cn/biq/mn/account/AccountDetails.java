@@ -29,6 +29,8 @@ public class AccountDetails extends IdAndNameDetails {
     private BigDecimal apr;
     private Long asOfDate;
 
+    private Integer sort;
+
     public BigDecimal getRemainLimit() {
         if (creditLimit == null) return null;
         return creditLimit.add(getBalance());

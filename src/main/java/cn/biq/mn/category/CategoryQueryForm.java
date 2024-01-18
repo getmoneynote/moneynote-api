@@ -15,8 +15,6 @@ public class CategoryQueryForm {
     private CategoryType type;
     private String name;
     private Boolean enable;
-    //处理修改时，已禁用的情况。
-    private Set<Integer> keeps;
 
     public Predicate buildPredicate() {
         QCategory category = QCategory.category;

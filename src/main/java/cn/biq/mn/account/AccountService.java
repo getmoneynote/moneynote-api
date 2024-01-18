@@ -16,6 +16,7 @@ import cn.biq.mn.utils.SessionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -47,9 +48,6 @@ public class AccountService {
             throw new ItemExistsException();
         }
         Account account = AccountMapper.toEntity(form);
-        if (!StringUtils.hasText(form.getCurrencyCode())) {
-            account.setCurrencyCode(group.getDefaultCurrencyCode());
-        }
         if (!Objects.equals(group.getDefaultCurrencyCode(), account.getCurrencyCode())) {
             currencyService.checkCode(form.getCurrencyCode());
         }
@@ -89,11 +87,8 @@ public class AccountService {
     public List<AccountDetails> queryAll(AccountQueryForm form) {
         form.setEnable(true);
         Group group = sessionUtil.getCurrentGroup();
-        List<Account> entityList = accountRepository.findAll(form.buildPredicate(group));
-        Account keep = baseService.findAccountById(form.getKeep());
-        if (keep != null && !entityList.contains(keep)) {
-            entityList.add(0, keep);
-        }
+        // select下拉的，按sort排序
+        List<Account> entityList = accountRepository.findAll(form.buildPredicate(group), Sort.by(Sort.Direction.ASC, "sort"));
         return entityList.stream().map(AccountMapper::toDetails).toList();
     }
 
@@ -125,32 +120,6 @@ public class AccountService {
         result[1] = creditLimit;
         result[2] = creditLimit.add(balance);
         return result;
-    }
-
-    // 软删除
-    public boolean delete(Integer id) {
-        Account entity = baseService.findAccountById(id);
-        entity.setDeleted(true);
-        entity.setEnable(false);
-        entity.setInclude(false);
-        entity.setCanExpense(false);
-        entity.setCanIncome(false);
-        entity.setCanTransferFrom(false);
-        entity.setCanTransferTo(false);
-        return true;
-    }
-
-    // 删除恢复
-    public boolean recover(Integer id) {
-        Account entity = baseService.findAccountById(id);
-        entity.setDeleted(false);
-        entity.setEnable(true);
-        entity.setInclude(true);
-        entity.setCanExpense(true);
-        entity.setCanIncome(true);
-        entity.setCanTransferFrom(true);
-        entity.setCanTransferTo(true);
-        return true;
     }
 
     // 彻底删除

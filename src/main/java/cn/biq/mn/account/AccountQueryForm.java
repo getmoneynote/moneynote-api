@@ -24,17 +24,12 @@ public class AccountQueryForm {
     private Boolean canTransferFrom;
     private Boolean canTransferTo;
     private String currencyCode;
-    private Integer keep;
-    private Boolean deleted;
 
     public Predicate buildPredicate(Group group) {
         QAccount account = QAccount.account;
         BooleanBuilder expression = new BooleanBuilder(account.group.eq(group));
         if (enable != null) {
            expression.and(account.enable.eq(enable));
-        }
-        if (deleted != null) {
-            expression.and(account.deleted.eq(deleted));
         }
         if (type != null) {
             expression.and(account.type.eq(type));

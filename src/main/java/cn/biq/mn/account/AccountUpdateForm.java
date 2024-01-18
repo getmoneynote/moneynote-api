@@ -38,4 +38,6 @@ public class AccountUpdateForm {
     @Digits(integer = 4, fraction = 4)
     private BigDecimal apr;
 
+    private Integer sort;
+
 }

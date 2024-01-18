@@ -23,6 +23,7 @@ public class AccountMapper {
         details.setCreditLimit( entity.getCreditLimit() );
         details.setBillDay( entity.getBillDay() );
         details.setApr( entity.getApr() );
+        details.setSort(entity.getSort() );
         return details;
     }
 
@@ -45,6 +46,7 @@ public class AccountMapper {
         account.setApr( form.getApr() );
         account.setEnable(true);
         account.setCurrencyCode(form.getCurrencyCode());
+        account.setSort(form.getSort());
         return account;
     }
 
@@ -72,6 +74,7 @@ public class AccountMapper {
         account.setCreditLimit( form.getCreditLimit() );
         account.setBillDay( form.getBillDay() );
         account.setApr( form.getApr() );
+        account.setSort(form.getSort());
     }
 
 }

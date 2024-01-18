@@ -1,5 +1,6 @@
 package cn.biq.mn.report;
 
+import cn.biq.mn.category.CategoryType;
 import cn.biq.mn.tree.TreeUtils;
 import cn.biq.mn.account.Account;
 import cn.biq.mn.account.AccountService;
@@ -50,7 +51,7 @@ public class ReportService {
     private final CurrencyService currencyService;
     private final BaseService baseService;
 
-    public List<ChartVO> reportCategory(CategoryReportQueryForm form, Integer type) {
+    public List<ChartVO> reportCategory(CategoryReportQueryForm form, CategoryType type) {
         List<ChartVO> result = new ArrayList<>();
         Book book = baseService.findBookById(form.getBookId());
         List<Category> categories = categoryRepository.findAllByBookAndType(book, type);

@@ -1,6 +1,7 @@
 package cn.biq.mn.report;
 
 import cn.biq.mn.base.BaseController;
+import cn.biq.mn.category.CategoryType;
 import cn.biq.mn.response.BaseResponse;
 import cn.biq.mn.response.DataResponse;
 import cn.biq.mn.balanceflow.BalanceFlowQueryForm;
@@ -20,12 +21,12 @@ public class ReportController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET, value = "expense-category")
     public BaseResponse handleExpenseCategory(@Valid CategoryReportQueryForm form) {
-        return new DataResponse<>(reportService.reportCategory(form, 1));
+        return new DataResponse<>(reportService.reportCategory(form, CategoryType.EXPENSE));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "income-category")
     public BaseResponse handleIncomeCategory(@Valid CategoryReportQueryForm form) {
-        return new DataResponse<>(reportService.reportCategory(form, 2));
+        return new DataResponse<>(reportService.reportCategory(form, CategoryType.INCOME));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "expense-tag")

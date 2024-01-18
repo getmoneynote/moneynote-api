@@ -51,16 +51,6 @@ public class AccountController extends BaseController {
         return new BaseResponse(accountService.remove(id));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/delete")
-    public BaseResponse handleDelete(@PathVariable("id") Integer id) {
-        return new BaseResponse(accountService.delete(id));
-    }
-
-    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/recover")
-    public BaseResponse handleRecover(@PathVariable("id") Integer id) {
-        return new BaseResponse(accountService.recover(id));
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/all")
     public BaseResponse handleAll(AccountQueryForm form) {
         return new DataResponse<>(accountService.queryAll(form));
