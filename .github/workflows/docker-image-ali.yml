@@ -5,8 +5,8 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - README.md
+    paths:
+      - 'src/**'
 
 jobs:
   build:
