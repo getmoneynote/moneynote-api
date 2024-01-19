@@ -1,3 +1,5 @@
+-- 版本升级需要执行的sql
+
 UPDATE `t_user_category` SET type = 100 where type = 0;
 UPDATE `t_user_category` SET type = 200 where type = 1;
 
