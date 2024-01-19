@@ -1,5 +1,16 @@
 # 九快记账后台API
 
+## 升级说明：
+api版本是92以下的请注意，升级到最新版本会出现分类，账户，账单等数据消失的情况，请执行以下数据库脚本，即可恢复正常。
+
+```sql
+
+UPDATE `t_user_category` SET type = (type+1)*100;
+UPDATE `t_user_balance_flow` SET type = (type+1)*100;
+UPDATE `t_user_account` SET type = (type+1)*100;
+
+```
+
 ## 系统介绍
 
 一个开源免费的记账解决方案，包括[后端](https://github.com/getmoneynote/moneynote-api)，[网页版](https://github.com/getmoneynote/moneywhere-user-fe)，[App](https://github.com/getmoneynote/moneywhere_user_flutter)，主要用于个人生活记账，开店收支记账，支持[docker一键部署](https://github.com/getmoneynote/docker-compose-moneywhere)自己的记账程序。
