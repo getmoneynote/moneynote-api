@@ -4,7 +4,7 @@ name: api user acr image
 on:
   push:
     branches:
-      - main1
+      - main
 
 jobs:
   build:

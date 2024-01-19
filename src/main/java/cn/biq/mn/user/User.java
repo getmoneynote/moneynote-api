@@ -56,11 +56,11 @@ public class User extends BaseEntity {
     @TimeField
     private Long registerTime; //注册时间
 
-    @Column(length = 32)
-    private String openId;
-
-    @Column(length = 32, unique = true)
-    private String unionId;
+//    @Column(length = 32)
+//    private String openId;
+//
+//    @Column(length = 32, unique = true)
+//    private String unionId;
 
     @Column(length = 256)
     private String headimgurl;
