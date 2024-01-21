@@ -45,7 +45,7 @@ public class CurrencyService {
         CurrencyDetails toCurrency = currencyList.stream().filter(currencyDetails -> toCode.equals(currencyDetails.getName())).findAny().orElseThrow(ItemNotFoundException::new);
         BigDecimal fromRate = BigDecimal.valueOf(fromCurrency.getRate());
         BigDecimal toRate = BigDecimal.valueOf(toCurrency.getRate());
-        return toRate.divide(fromRate, 2, RoundingMode.CEILING);
+        return toRate.divide(fromRate, 20, RoundingMode.CEILING);
     }
 
     public BigDecimal convert(BigDecimal amount, String fromCode, String toCode) {
