@@ -9,6 +9,7 @@ import cn.biq.mn.base.BaseService;
 import cn.biq.mn.book.Book;
 import cn.biq.mn.tagrelation.TagRelationRepository;
 import cn.biq.mn.utils.Limitation;
+import cn.biq.mn.utils.SessionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,6 +30,7 @@ public class TagService {
     private final TagRepository tagRepository;
     private final BaseService baseService;
     private final TagRelationRepository tagRelationRepository;
+    private final SessionUtil sessionUtil;
 
     public boolean add(TagAddForm form) {
         Book book = baseService.findBookById(form.getBookId());
@@ -59,7 +61,11 @@ public class TagService {
     @Transactional(readOnly = true)
     public List<TagDetails> query(TagQueryForm form, Pageable page) {
         // 确保传入的bookId是自己组里面的。
-        baseService.findBookById(form.getBookId());
+        if (form.getBookId() != null) {
+            baseService.findBookById(form.getBookId());
+        } else {
+            form.setBookId(sessionUtil.getCurrentBook().getId());
+        }
         List<Tag> entityList = tagRepository.findAll(form.buildPredicate(), page.getSort());
         List<TagDetails> detailsList = entityList.stream().map(TagMapper::toDetails).toList();
         return TreeUtils.buildTree(detailsList);

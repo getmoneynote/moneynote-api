@@ -9,6 +9,7 @@ import cn.biq.mn.book.Book;
 import cn.biq.mn.book.BookRepository;
 import cn.biq.mn.categoryrelation.CategoryRelationRepository;
 import cn.biq.mn.utils.Limitation;
+import cn.biq.mn.utils.SessionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,6 +31,7 @@ public class CategoryService {
     private final BaseService baseService;
     private final CategoryRelationRepository categoryRelationRepository;
     private final BookRepository bookRepository;
+    private final SessionUtil sessionUtil;
 
     public boolean add(CategoryAddForm form) {
         Book book = baseService.findBookById(form.getBookId());
@@ -59,7 +61,11 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public List<CategoryDetails> query(CategoryQueryForm form, Pageable page) {
         // 确保传入的bookId是自己组里面的。
-        baseService.findBookById(form.getBookId());
+        if (form.getBookId() != null) {
+            baseService.findBookById(form.getBookId());
+        } else {
+            form.setBookId(sessionUtil.getCurrentBook().getId());
+        }
         List<Category> entityList = categoryRepository.findAll(form.buildPredicate(), page.getSort());
         List<CategoryDetails> detailsList = entityList.stream().map(CategoryMapper::toDetails).toList();
         return TreeUtils.buildTree(detailsList);

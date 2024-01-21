@@ -6,6 +6,7 @@ import cn.biq.mn.balanceflow.BalanceFlowRepository;
 import cn.biq.mn.base.BaseService;
 import cn.biq.mn.book.Book;
 import cn.biq.mn.utils.Limitation;
+import cn.biq.mn.utils.SessionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,7 @@ public class PayeeService {
     private final PayeeRepository payeeRepository;
     private final BaseService baseService;
     private final BalanceFlowRepository balanceFlowRepository;
+    private final SessionUtil sessionUtil;
 
     public PayeeDetails add(PayeeAddForm form) {
         Book book = baseService.findBookById(form.getBookId());
@@ -45,7 +47,11 @@ public class PayeeService {
     @Transactional(readOnly = true)
     public Page<PayeeDetails> query(PayeeQueryForm form, Pageable page) {
         // 确保传入的bookId是自己组里面的。
-        baseService.findBookById(form.getBookId());
+        if (form.getBookId() != null) {
+            baseService.findBookById(form.getBookId());
+        } else {
+            form.setBookId(sessionUtil.getCurrentBook().getId());
+        }
         Page<Payee> entityPage = payeeRepository.findAll(form.buildPredicate(), page);
         return entityPage.map(PayeeMapper::toDetails);
     }

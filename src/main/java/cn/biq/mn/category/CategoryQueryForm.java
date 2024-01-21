@@ -20,8 +20,6 @@ public class CategoryQueryForm {
         BooleanBuilder builder = new BooleanBuilder();
         if (bookId != null) {
             builder.and(category.book.id.eq(bookId));
-        } else {
-            builder.and(category.book.id.eq(-1));
         }
         if (type != null) {
             builder.and(category.type.eq(type));

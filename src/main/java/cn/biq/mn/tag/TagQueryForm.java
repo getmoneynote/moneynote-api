@@ -5,7 +5,6 @@ import com.querydsl.core.types.Predicate;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
 
 @Getter @Setter
 public class TagQueryForm {
@@ -22,8 +21,6 @@ public class TagQueryForm {
         BooleanBuilder builder = new BooleanBuilder();
         if (bookId != null) {
             builder.and(tag.book.id.eq(bookId));
-        } else {
-            builder.and(tag.book.id.eq(-1));
         }
         if (name != null) {
             builder.and(tag.name.contains(name));

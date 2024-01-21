@@ -19,8 +19,6 @@ public class PayeeQueryForm {
         BooleanBuilder builder = new BooleanBuilder();
         if (bookId != null) {
             builder.and(payee.book.id.eq(bookId));
-        } else {
-            builder.and(payee.book.id.eq(-1));
         }
         if (name != null) {
             builder.and(payee.name.contains(name));
