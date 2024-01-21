@@ -14,6 +14,7 @@ public class AccountDetails extends IdAndNameDetails {
     private String no;
     private BigDecimal balance;
     private BigDecimal convertedBalance;
+    private BigDecimal rate;
     private Boolean enable;
     private Boolean include;
     private Boolean canExpense;

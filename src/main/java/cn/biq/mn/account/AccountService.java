@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -77,7 +78,8 @@ public class AccountService {
         Page<Account> entityPage = accountRepository.findAll(form.buildPredicate(group), page);
         return entityPage.map(account -> {
             var details = AccountMapper.toDetails(account);
-            details.setConvertedBalance(currencyService.convert(details.getBalance(), details.getCurrencyCode(), sessionUtil.getCurrentGroup().getDefaultCurrencyCode()));
+            details.setRate(currencyService.convert(details.getCurrencyCode(), sessionUtil.getCurrentGroup().getDefaultCurrencyCode()));
+            details.setConvertedBalance(details.getBalance().multiply(details.getRate()).setScale(2, RoundingMode.CEILING));
             details.setTypeName(enumUtils.translateAccountType(details.getType()));
             return details;
         });
@@ -96,7 +98,8 @@ public class AccountService {
     public AccountDetails get(Integer id) {
         Account entity = baseService.findAccountById(id);
         var details = AccountMapper.toDetails(entity);
-        details.setConvertedBalance(currencyService.convert(details.getBalance(), details.getCurrencyCode(), sessionUtil.getCurrentGroup().getDefaultCurrencyCode()));
+        details.setRate(currencyService.convert(details.getCurrencyCode(), sessionUtil.getCurrentGroup().getDefaultCurrencyCode()));
+        details.setConvertedBalance(details.getBalance().multiply(details.getRate()).setScale(2, RoundingMode.CEILING));
         details.setTypeName(enumUtils.translateAccountType(details.getType()));
         return details;
     }
