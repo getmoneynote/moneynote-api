@@ -95,15 +95,19 @@ public class CategoryService {
     }
 
     public boolean update(Integer id, CategoryUpdateForm form) {
+        // 在当前组里面找 Category
         Category entity = baseService.findCategoryById(id);
         Book book = entity.getBook();
+        // 修改父类了
         if(!Objects.equals(Optional.ofNullable(entity.getParent()).map(i->i.getId()).orElse(null), form.getPId())) {
+            // 如果form id为空，则parent会被置空
             entity.setParent(baseService.findCategoryById(form.getPId()));
+            // 限制最多层级
             if (entity.getParent() != null && entity.getParent().getLevel().equals(Limitation.category_max_level - 1)) {
                 throw new FailureMessageException("category.max.level");
             }
         }
-
+        // 不能重名
         if (!entity.getName().equals(form.getName())) {
             if (StringUtils.hasText(form.getName())) {
                 if (categoryRepository.existsByBookAndParentAndTypeAndName(book, entity.getParent(), entity.getType(), form.getName())) {

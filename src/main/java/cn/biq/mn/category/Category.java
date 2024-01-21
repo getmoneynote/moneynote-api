@@ -16,9 +16,6 @@ public class Category extends TreeEntity<Category> {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Book book;
 
-    @Column(length = 16, nullable = false)
-    private String name;
-
     @Column(length = 4096)
     private String notes;
 

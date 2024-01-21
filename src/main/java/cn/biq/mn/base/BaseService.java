@@ -65,7 +65,6 @@ public class BaseService {
         return book;
     }
 
-    // 调用者保证传来的book是currentGroup下面的
     public Category findCategoryByBookAndId(Book book, Integer id) {
         if (id == null) return null;
         Category category = categoryRepository.findById(id).orElseThrow(ItemNotFoundException::new);
@@ -75,7 +74,6 @@ public class BaseService {
         return category;
     }
 
-    // 调用者保证传来的book是currentGroup下面的
     public List<Category> findCategoriesByBookAndIds(Book book, Set<Integer> ids) {
         List<Category> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(ids)) {
@@ -99,10 +97,28 @@ public class BaseService {
         return category;
     }
 
+    public Category findCurrentBookCategoryById(Integer id) {
+        if (id == null) return null;
+        Category category = categoryRepository.findById(id).orElseThrow(ItemNotFoundException::new);
+        if (!category.getBook().getId().equals(sessionUtil.getCurrentBook().getId())) {
+            throw new ItemNotFoundException();
+        }
+        return category;
+    }
+
     public Tag findTagById(Integer id) {
         if (id == null) return null;
         Tag tag = tagRepository.findById(id).orElseThrow(ItemNotFoundException::new);
         if (!tag.getBook().getGroup().getId().equals(sessionUtil.getCurrentGroup().getId())) {
+            throw new ItemNotFoundException();
+        }
+        return tag;
+    }
+
+    public Tag findCurrentBookTagById(Integer id) {
+        if (id == null) return null;
+        Tag tag = tagRepository.findById(id).orElseThrow(ItemNotFoundException::new);
+        if (!tag.getBook().getId().equals(sessionUtil.getCurrentBook().getId())) {
             throw new ItemNotFoundException();
         }
         return tag;

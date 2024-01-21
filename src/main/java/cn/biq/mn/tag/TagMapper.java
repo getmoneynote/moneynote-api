@@ -1,5 +1,6 @@
 package cn.biq.mn.tag;
 
+import cn.biq.mn.base.IdAndNameMapper;
 import cn.biq.mn.book.tpl.TagTemplate;
 
 public class TagMapper {
@@ -16,6 +17,7 @@ public class TagMapper {
         details.setCanTransfer( entity.getCanTransfer() );
         if (entity.getParent() != null) {
             details.setParentId( entity.getParent().getId() );
+            details.setParent(IdAndNameMapper.toDetails(entity.getParent()));
         }
         details.setLevel(entity.getLevel());
         details.setSort(entity.getSort());

@@ -1,6 +1,7 @@
 package cn.biq.mn.tree;
 
 import cn.biq.mn.base.BaseEntity;
+import cn.biq.mn.base.IdAndNameEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
@@ -11,7 +12,7 @@ import lombok.Setter;
 @MappedSuperclass
 @Getter
 @Setter
-public abstract class TreeEntity<T extends TreeEntity<T>> extends BaseEntity {
+public abstract class TreeEntity<T extends TreeEntity<T>> extends IdAndNameEntity {
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     private T parent;

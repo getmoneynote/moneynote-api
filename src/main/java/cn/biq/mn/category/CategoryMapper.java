@@ -1,5 +1,6 @@
 package cn.biq.mn.category;
 
+import cn.biq.mn.base.IdAndNameMapper;
 import cn.biq.mn.book.tpl.CategoryTemplate;
 
 public class CategoryMapper {
@@ -14,6 +15,7 @@ public class CategoryMapper {
         details.setEnable( entity.getEnable() );
         if (entity.getParent() != null) {
             details.setParentId( entity.getParent().getId() );
+            details.setParent(IdAndNameMapper.toDetails(entity.getParent()));
         }
         details.setLevel(entity.getLevel());
         details.setSort(entity.getSort());

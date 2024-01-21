@@ -15,4 +15,6 @@ public class TreeNode<T> extends IdAndNameDetails {
     private Integer parentId;
     private List<T> children;
 
+    private IdAndNameDetails parent;
+
 }
