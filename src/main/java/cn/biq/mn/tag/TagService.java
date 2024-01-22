@@ -33,7 +33,7 @@ public class TagService {
     private final SessionUtil sessionUtil;
 
     public boolean add(TagAddForm form) {
-        Book book = baseService.findBookById(form.getBookId());
+        Book book = sessionUtil.getCurrentBook();
         Tag parent = null;
         if (form.getPId() != null) {
             parent = tagRepository.findOneByBookAndId(book, form.getPId()).orElseThrow(ItemNotFoundException::new);
@@ -62,7 +62,7 @@ public class TagService {
     public List<TagDetails> query(TagQueryForm form, Pageable page) {
         // 确保传入的bookId是自己组里面的。
         if (form.getBookId() != null) {
-            baseService.findBookById(form.getBookId());
+            baseService.getBookInGroup(form.getBookId());
         } else {
             form.setBookId(sessionUtil.getCurrentBook().getId());
         }
@@ -73,12 +73,12 @@ public class TagService {
 
     @Transactional(readOnly = true)
     public List<TagDetails> queryAll(TagQueryForm form) {
-        // TODO 重构
         if (form.getBookId() == null) {
-            return new ArrayList<>();
+            form.setBookId(sessionUtil.getCurrentBook().getId());
+        } else {
+            // 确保传入的bookId是自己组里面的。
+            baseService.getBookInGroup(form.getBookId());
         }
-        // 确保传入的bookId是自己组里面的。
-        baseService.findBookById(form.getBookId());
         form.setEnable(true);
         List<Tag> entityList = tagRepository.findAll(form.buildPredicate(), Sort.by(Sort.Direction.ASC, "sort"));
         List<TagDetails> detailsList = entityList.stream().map(TagMapper::toDetails).toList();

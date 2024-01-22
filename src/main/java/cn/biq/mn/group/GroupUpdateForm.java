@@ -16,4 +16,7 @@ public class GroupUpdateForm {
     @NotesField
     private String notes;
 
+    @NotBlank
+    private String defaultCurrencyCode;
+
 }

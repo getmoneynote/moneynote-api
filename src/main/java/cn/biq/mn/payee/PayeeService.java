@@ -29,7 +29,7 @@ public class PayeeService {
     private final SessionUtil sessionUtil;
 
     public PayeeDetails add(PayeeAddForm form) {
-        Book book = baseService.findBookById(form.getBookId());
+        Book book = sessionUtil.getCurrentBook();
         // 限制每个账本的交易对象数量
         if (payeeRepository.countByBook(book) >= Limitation.payee_max_count) {
             throw new FailureMessageException("payee.max.count");
@@ -48,7 +48,7 @@ public class PayeeService {
     public Page<PayeeDetails> query(PayeeQueryForm form, Pageable page) {
         // 确保传入的bookId是自己组里面的。
         if (form.getBookId() != null) {
-            baseService.findBookById(form.getBookId());
+            baseService.getBookInGroup(form.getBookId());
         } else {
             form.setBookId(sessionUtil.getCurrentBook().getId());
         }
@@ -58,12 +58,12 @@ public class PayeeService {
 
     @Transactional(readOnly = true)
     public List<PayeeDetails> queryAll(PayeeQueryForm form) {
-        // TODO 重构
         if (form.getBookId() == null) {
-            return new ArrayList<>();
+            form.setBookId(sessionUtil.getCurrentBook().getId());
+        } else {
+            // 确保传入的bookId是自己组里面的。
+            baseService.getBookInGroup(form.getBookId());
         }
-        // 确保传入的bookId是自己组里面的。
-        baseService.findBookById(form.getBookId());
         form.setEnable(true);
         List<Payee> entityList = payeeRepository.findAll(form.buildPredicate(), Sort.by(Sort.Direction.ASC, "sort"));
         return entityList.stream().map(PayeeMapper::toDetails).toList();

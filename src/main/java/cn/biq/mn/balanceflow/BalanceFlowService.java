@@ -149,7 +149,7 @@ public class BalanceFlowService {
     public boolean add(BalanceFlowAddForm form) {
         User user = sessionUtil.getCurrentUser();
         Group group = sessionUtil.getCurrentGroup();
-        Book book = baseService.findBookById(form.getBookId());
+        Book book = baseService.getBookInGroup(form.getBookId());
         checkBeforeAdd(form, book, user);
         BalanceFlow entity = BalanceFlowMapper.toEntity(form);
         entity.setGroup(group);

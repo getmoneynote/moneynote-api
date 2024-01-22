@@ -34,7 +34,7 @@ public class CategoryService {
     private final SessionUtil sessionUtil;
 
     public boolean add(CategoryAddForm form) {
-        Book book = baseService.findBookById(form.getBookId());
+        Book book = sessionUtil.getCurrentBook();
         Category parent = null;
         if (form.getPId() != null) {
             parent = categoryRepository.findOneByBookAndId(book, form.getPId()).orElseThrow(ItemNotFoundException::new);
@@ -62,7 +62,7 @@ public class CategoryService {
     public List<CategoryDetails> query(CategoryQueryForm form, Pageable page) {
         // 确保传入的bookId是自己组里面的。
         if (form.getBookId() != null) {
-            baseService.findBookById(form.getBookId());
+            baseService.getBookInGroup(form.getBookId());
         } else {
             form.setBookId(sessionUtil.getCurrentBook().getId());
         }
@@ -73,13 +73,13 @@ public class CategoryService {
 
     @Transactional(readOnly = true)
     public List<CategoryDetails> queryAll(CategoryQueryForm form) {
-        // TODO 重构
         // 搜索的时候不输入，返回空
         if (form.getBookId() == null) {
-            return new ArrayList<>();
+            form.setBookId(sessionUtil.getCurrentBook().getId());
+        } else {
+            // 确保传入的bookId是自己组里面的。
+            baseService.getBookInGroup(form.getBookId());
         }
-        // 确保传入的bookId是自己组里面的。
-        baseService.findBookById(form.getBookId());
         form.setEnable(true);
         List<Category> entityList = categoryRepository.findAll(form.buildPredicate(), Sort.by(Sort.Direction.ASC, "sort"));
         List<CategoryDetails> detailsList = entityList.stream().map(CategoryMapper::toDetails).toList();

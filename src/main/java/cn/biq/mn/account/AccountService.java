@@ -227,7 +227,7 @@ public class AccountService {
         flow.setType(FlowType.ADJUST);
         flow.setGroup(group);
         flow.setCreator(sessionUtil.getCurrentUser());
-        flow.setBook(baseService.findBookById(form.getBookId()));
+        flow.setBook(baseService.getBookInGroup(form.getBookId()));
         flow.setAccount(entity);
         flow.setAmount(adjustAmount);
         flow.setTitle(form.getTitle());
@@ -242,7 +242,7 @@ public class AccountService {
         BalanceFlow balanceFlow = baseService.findFlowById(id);
         BalanceFlowMapper.updateEntity(form, balanceFlow);
         if (form.getBookId() != null) {
-            balanceFlow.setBook(baseService.findBookById(form.getBookId()));
+            balanceFlow.setBook(baseService.getBookInGroup(form.getBookId()));
         }
         balanceFlowRepository.save(balanceFlow);
         return true;

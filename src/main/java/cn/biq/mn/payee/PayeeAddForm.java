@@ -12,9 +12,6 @@ import lombok.Setter;
 @Setter
 public class PayeeAddForm {
 
-    @NotNull
-    private Integer bookId;
-
     @NotBlank
     @NameField
     private String name;

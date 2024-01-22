@@ -56,7 +56,12 @@ public class BaseService {
         return account;
     }
 
-    public Book findBookById(Integer id) {
+    /**
+     * 默认的组里面找账本
+     * @param id
+     * @return
+     */
+    public Book getBookInGroup(Integer id) {
         if (id == null) return null;
         Book book = bookRepository.findById(id).orElseThrow(ItemNotFoundException::new);
         if (!book.getGroup().getId().equals(sessionUtil.getCurrentGroup().getId())) {

@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
+
 
 @Service
 @Transactional
@@ -141,15 +143,17 @@ public class UserService {
     }
 
     public boolean setDefaultBook(Integer id) {
-        User user = sessionUtil.getCurrentUser();
-        Group group = sessionUtil.getCurrentGroup();
-        Book entity = baseService.findBookById(id);
+        Book entity = baseService.getBookInGroup(id);
         if (!entity.getEnable()) {
             throw new ItemNotFoundException();
         }
-        group.setDefaultBook(entity);
+
+        User user = sessionUtil.getCurrentUser();
+//        Group group = sessionUtil.getCurrentGroup();
+
+//        group.setDefaultBook(entity);
         user.setDefaultBook(entity);
-        groupRepository.save(group);
+//        groupRepository.save(group);
         userRepository.save(user);
         sessionUtil.setCurrentBook(entity);
         return true;
@@ -160,6 +164,11 @@ public class UserService {
         User user = sessionUtil.getCurrentUser();
         var relationOptional = userGroupRelationRepository.findByGroupAndUser(group, user);
         if (relationOptional.isEmpty()) {
+            throw new FailureMessageException("group.update.auth.error");
+        }
+        var relation = relationOptional.get();
+        // 检查权限
+        if (!Arrays.asList(1, 2, 3).contains(relation.getRole())) {
             throw new FailureMessageException("group.update.auth.error");
         }
         user.setDefaultGroup(group);

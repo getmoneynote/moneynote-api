@@ -1,5 +1,8 @@
 package cn.biq.mn.group;
 
+import cn.biq.mn.bean.ApplicationScopeBean;
+import cn.biq.mn.book.BookService;
+import cn.biq.mn.book.tpl.BookTemplate;
 import cn.biq.mn.exception.FailureMessageException;
 import cn.biq.mn.exception.ItemNotFoundException;
 import cn.biq.mn.balanceflow.BalanceFlowRepository;
@@ -23,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +45,8 @@ public class GroupService {
     private final PayeeRepository payeeRepository;
     private final UserRepository userRepository;
     private final BaseEntityRepository baseEntityRepository;
+    private final ApplicationScopeBean applicationScopeBean;
+    private final BookService bookService;
 
     @Transactional(readOnly = true)
     public Page<GroupDetails> query(Pageable page) {
@@ -71,16 +77,25 @@ public class GroupService {
         group.setDefaultCurrencyCode(form.getDefaultCurrencyCode());
         group.setCreator(user);
         groupRepository.save(group);
-        Book book = new Book();
-        book.setName("默认账本");
-        book.setDefaultCurrencyCode(group.getDefaultCurrencyCode());
-        book.setGroup(group);
-        bookRepository.save(book);
-        group.setDefaultBook(book);
-        groupRepository.save(group);
-        UserGroupRelation relation = new UserGroupRelation(user, group, 1);
-        userGroupRelationRepository.save(relation);
-        return true;
+
+        // 生成一个账本
+        List<BookTemplate> bookTplList = applicationScopeBean.getBookTplList();
+        Optional<BookTemplate> bookTemplateOptional = bookTplList.stream()
+                .filter(bookTemplate -> bookTemplate.getId().equals(form.getTemplateId()))
+                .findFirst();
+        if (bookTemplateOptional.isPresent()) {
+            BookTemplate bookTemplate = bookTemplateOptional.get();
+            Book book = new Book();
+            book.setName(bookTemplate.getName());
+            bookService.setBookByBookTemplate(bookTemplate, group, book);
+            group.setDefaultBook(book);
+            groupRepository.save(group);
+            UserGroupRelation relation = new UserGroupRelation(user, group, 1);
+            userGroupRelationRepository.save(relation);
+            return true;
+        } else {
+            throw new ItemNotFoundException();
+        }
     }
 
     private void checkRole(Group group) {
@@ -108,10 +123,17 @@ public class GroupService {
     }
 
     public boolean update(Integer id, GroupUpdateForm form) {
+        currencyService.checkCode(form.getDefaultCurrencyCode());
         Group entity = groupRepository.findById(id).orElseThrow(ItemNotFoundException::new);
         checkRole(entity);
         entity.setName(form.getName());
         entity.setNotes(form.getNotes());
+        entity.setDefaultCurrencyCode(form.getDefaultCurrencyCode());
+        groupRepository.save(entity);
+        // 更新的是当前的默认组，则需要更新CurrentSession里面的对象
+        if (entity.getId().equals(sessionUtil.getCurrentGroup().getId())) {
+            sessionUtil.setCurrentGroup(entity);
+        }
         return true;
     }
 

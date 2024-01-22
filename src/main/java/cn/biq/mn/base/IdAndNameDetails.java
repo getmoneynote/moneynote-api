@@ -20,4 +20,11 @@ public class IdAndNameDetails extends BaseDetails {
         return name;
     }
 
+    public IdAndNameDetails() { }
+
+    public IdAndNameDetails(Integer id, String name) {
+        this.setId(id);
+        this.name = name;
+    }
+
 }

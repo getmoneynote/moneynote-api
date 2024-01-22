@@ -81,7 +81,7 @@ public class BookService {
 
     @Transactional(readOnly = true)
     public BookDetails get(Integer id) {
-        Book entity = baseService.findBookById(id);
+        Book entity = baseService.getBookInGroup(id);
         var details = BookMapper.toDetails(entity);
         details.setCurrent(details.getId().equals(sessionUtil.getCurrentUser().getDefaultBook().getId()));
         return details;
@@ -102,7 +102,7 @@ public class BookService {
 
     public boolean update(Integer id, BookUpdateForm form) {
         Group group = sessionUtil.getCurrentGroup();
-        Book entity = baseService.findBookById(id);
+        Book entity = baseService.getBookInGroup(id);
         if (!Objects.equals(entity.getName(), form.getName())) {
             if (StringUtils.hasText(form.getName())) {
                 if (bookRepository.existsByGroupAndName(group, form.getName())) {
@@ -118,10 +118,13 @@ public class BookService {
     public boolean remove(Integer id) {
         // 默认的账本不能操作，前端按钮禁用
         Group group = sessionUtil.getCurrentGroup();
+        // 组的默认账本不能删除，保证一个组必须有一个账本
         if (group.getDefaultBook().getId().equals(id)) {
-            return false;
+            // 前端会禁止操作
+            throw new FailureMessageException();
         }
-        Book entity = baseService.findBookById(id);
+        // TODO 要更新用户默认的
+        Book entity = baseService.getBookInGroup(id);
         if (balanceFlowRepository.existsByBook(entity)) {
             throw new FailureMessageException("book.delete.has.flow");
         }
@@ -138,7 +141,7 @@ public class BookService {
         if (group.getDefaultBook().getId().equals(id)) {
             return false;
         }
-        Book entity = baseService.findBookById(id);
+        Book entity = baseService.getBookInGroup(id);
         entity.setEnable(!entity.getEnable());
         bookRepository.save(entity);
         return true;
@@ -171,7 +174,7 @@ public class BookService {
     // 复制账本
     public boolean addByBook(BookAddByBookForm form) {
         Group group = sessionUtil.getCurrentGroup();
-        Book bookSrc = baseService.findBookById(form.getBookId());
+        Book bookSrc = baseService.getBookInGroup(form.getBookId());
         Book book = new Book();
         String bookName;
         if (StringUtils.hasText(form.getBookName())) {
@@ -211,7 +214,7 @@ public class BookService {
         return book;
     }
 
-    private void setBookByBookTemplate(BookTemplate bookTemplate, Group group, Book book) {
+    public void setBookByBookTemplate(BookTemplate bookTemplate, Group group, Book book) {
         if (bookRepository.existsByGroupAndName(group, book.getName())) {
             throw new ItemExistsException();
         }
@@ -309,7 +312,7 @@ public class BookService {
     }
 
     public Workbook exportFlow(Integer id) {
-        Book book = baseService.findBookById(id);
+        Book book = baseService.getBookInGroup(id);
         // 24小时内只能导出一次
 //        if (CalendarUtil.inLastDay(book.getExportAt())) {
 //            throw new FailureMessageException("book.export.limit.fail");

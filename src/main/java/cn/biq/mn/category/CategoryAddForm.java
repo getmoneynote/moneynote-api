@@ -12,9 +12,6 @@ import lombok.Setter;
 public class CategoryAddForm {
 
     @NotNull
-    private Integer bookId;
-
-    @NotNull
     private CategoryType type;
 
     @NotBlank

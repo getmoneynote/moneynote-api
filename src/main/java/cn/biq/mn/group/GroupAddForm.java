@@ -4,6 +4,7 @@ import cn.biq.mn.validation.AccountCurrencyCodeField;
 import cn.biq.mn.validation.NameField;
 import cn.biq.mn.validation.NotesField;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,5 +21,8 @@ public class GroupAddForm {
 
     @NotesField
     private String notes;
+
+    @NotNull
+    private Integer templateId; //账本模板id，新建组默认生成一个账本
 
 }

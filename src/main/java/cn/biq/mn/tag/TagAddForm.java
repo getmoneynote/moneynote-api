@@ -12,9 +12,6 @@ import lombok.Setter;
 @Getter @Setter
 public class TagAddForm {
 
-    @NotNull
-    private Integer bookId;
-
     @NotBlank
     @NameField
     private String name;
