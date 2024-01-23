@@ -28,10 +28,10 @@ public class TestController {
         return new DataResponse<>(baseUrl);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/test@killyou765")
-    public BaseResponse handleStop() {
-        System.exit(0);
-        return new DataResponse<>(61);
-    }
+//    @RequestMapping(method = RequestMethod.GET, value = "/test@killyou765")
+//    public BaseResponse handleStop() {
+//        System.exit(0);
+//        return new DataResponse<>(61);
+//    }
 
 }
