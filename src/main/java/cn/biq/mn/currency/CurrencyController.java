@@ -7,7 +7,9 @@ import cn.biq.mn.response.DataResponse;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @RequestMapping("/currencies")
@@ -24,6 +26,11 @@ public class CurrencyController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, value = "/refresh")
     public BaseResponse handleRefresh() {
         return new DataResponse<>(currencyService.refreshCurrency());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/rate")
+    public BaseResponse handleRate(@RequestParam String from, @RequestParam String to) {
+        return new DataResponse<>(currencyService.convert(from, to));
     }
 
 }
