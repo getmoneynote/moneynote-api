@@ -63,7 +63,7 @@ public class GroupService {
             var relation = userGroupRelationRepository.findByGroupAndUser(group, user).get();
             details.setRoleId(relation.getRole());
             details.setRole(enumUtils.translateRoleType(relation.getRole()));
-            details.setCurrent(details.getId().equals(sessionUtil.getCurrentUser().getDefaultGroup().getId()));
+            details.setCurrent(details.getId().equals(sessionUtil.getCurrentGroup().getId()));
             details.setDefaultBook(IdAndNameMapper.toDetails(group.getDefaultBook()));
             return details;
         });
@@ -152,6 +152,12 @@ public class GroupService {
         if (entity.getId().equals(sessionUtil.getCurrentGroup().getId())) {
             throw new FailureMessageException("group.update.auth.error");
         }
+        // 如果只剩一个自己创建的组，则无法删除，用于回退
+        var relations = userGroupRelationRepository.findByUserAndRole(sessionUtil.getCurrentUser(), 1);
+        if (relations.size() <= 1) {
+            throw new FailureMessageException("group.delete.size.error");
+        }
+
         List<Book> books = bookRepository.findAllByGroup(entity);
         books.forEach(book -> {
             if (balanceFlowRepository.existsByBook(book)) {
@@ -192,6 +198,7 @@ public class GroupService {
         }
         // 如果这个组是他之前的默认组
         if (group.getId().equals(user.getDefaultGroup().getId())) {
+            // 应该最少有一条是他创建的组
             var relations = userGroupRelationRepository.findByUserAndRole(user, 1);
             Group newDefaultGroup = relations.get(0).getGroup();
             user.setDefaultGroup(newDefaultGroup);

@@ -124,15 +124,14 @@ public class UserService {
 //        initState.setBook(BookMapper.INSTANCE.toSessionVo(sessionUtil.getCurrentBook()));
 //        initState.setGroup(GroupMapper.INSTANCE.toSessionVo(sessionUtil.getCurrentGroup()));
         // 需要最新数据
-        User user = sessionUtil.getCurrentUser();
-        Book book = null;
-        if (user.getDefaultBook() != null) {
-            book = bookRepository.findById(user.getDefaultBook().getId()).orElseThrow(ItemNotFoundException::new);
-        }
+        User user = userRepository.findById(sessionUtil.getCurrentUser().getId()).orElseThrow(ItemNotFoundException::new);
+        Book book = bookRepository.findById(user.getDefaultBook().getId()).orElseThrow(ItemNotFoundException::new);
         Group group = groupRepository.findById(user.getDefaultGroup().getId()).orElseThrow(ItemNotFoundException::new);
         initState.setUser(UserMapper.toSessionVo(user));
         initState.setBook(BookMapper.toSessionVo(book));
         initState.setGroup(GroupMapper.toSessionVo(group));
+        sessionUtil.setCurrentBook(book);
+        sessionUtil.setCurrentGroup(group);
         return initState;
     }
 

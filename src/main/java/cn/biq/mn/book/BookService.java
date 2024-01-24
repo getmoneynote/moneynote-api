@@ -119,13 +119,12 @@ public class BookService {
 
     public boolean remove(Integer id) {
         // 默认的账本不能操作，前端按钮禁用
-        Group group = sessionUtil.getCurrentGroup();
-        // 组的默认账本不能删除，保证一个组必须有一个账本
-        if (group.getDefaultBook().getId().equals(id)) {
-            // 前端会禁止操作
-            throw new FailureMessageException();
-        }
-        // TODO 要更新用户默认的
+//        Group group = sessionUtil.getCurrentGroup();
+//        // 组的默认账本不能删除，保证一个组必须有一个账本
+//        if (group.getDefaultBook().getId().equals(id)) {
+//            // 前端会禁止操作
+//            throw new FailureMessageException();
+//        }
         Book entity = baseService.getBookInGroup(id);
         if (balanceFlowRepository.existsByBook(entity)) {
             throw new FailureMessageException("book.delete.has.flow");
