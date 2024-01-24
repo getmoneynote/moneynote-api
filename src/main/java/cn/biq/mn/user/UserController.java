@@ -64,4 +64,14 @@ public class UserController {
         return new BaseResponse(userService.changePassword(request));
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/books/select")
+    public BaseResponse handleBooksSelect() {
+        return new DataResponse<>(userService.getBooksSelect());
+    }
+
+    @RequestMapping(method = RequestMethod.PATCH, value = "/setDefaultGroupAndBook")
+    public BaseResponse handleSetDefaultGroup(@RequestParam String id) {
+        return new BaseResponse(userService.setDefaultGroupAndBook(id));
+    }
+
 }

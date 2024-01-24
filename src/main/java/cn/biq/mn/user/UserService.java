@@ -3,6 +3,8 @@ package cn.biq.mn.user;
 import cn.biq.mn.exception.FailureMessageException;
 import cn.biq.mn.exception.ItemExistsException;
 import cn.biq.mn.exception.ItemNotFoundException;
+import cn.biq.mn.group.QGroup;
+import cn.biq.mn.response.SelectVo;
 import cn.biq.mn.utils.WebUtils;
 import cn.biq.mn.base.BaseEntityRepository;
 import cn.biq.mn.base.BaseService;
@@ -12,6 +14,7 @@ import cn.biq.mn.group.GroupMapper;
 import cn.biq.mn.group.GroupRepository;
 import cn.biq.mn.security.JwtUtils;
 import cn.biq.mn.utils.SessionUtil;
+import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +23,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 @Service
@@ -161,21 +166,57 @@ public class UserService {
 
     public boolean setDefaultGroup(Integer id) {
         Group group = groupRepository.findById(id).orElseThrow(ItemNotFoundException::new);
+        baseService.checkGroupAuth(group);
         User user = sessionUtil.getCurrentUser();
-        var relationOptional = userGroupRelationRepository.findByGroupAndUser(group, user);
-        if (relationOptional.isEmpty()) {
-            throw new FailureMessageException("group.update.auth.error");
-        }
-        var relation = relationOptional.get();
-        // 检查权限
-        if (!Arrays.asList(1, 2, 3).contains(relation.getRole())) {
-            throw new FailureMessageException("group.update.auth.error");
-        }
         user.setDefaultGroup(group);
         user.setDefaultBook(group.getDefaultBook());
         userRepository.save(user);
         sessionUtil.setCurrentGroup(group);
         sessionUtil.setCurrentBook(group.getDefaultBook());
+        return true;
+    }
+
+    public List<SelectVo> getBooksSelect() {
+        List<SelectVo> result = new ArrayList<>();
+        User user = sessionUtil.getCurrentUser();
+        QGroup qGroup = QGroup.group;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.and(qGroup.relations.any().user.eq(user));
+        List<Group> groups = groupRepository.findAll(booleanBuilder);
+        groups.forEach(group -> {
+            baseService.checkGroupAuth(group);
+            List<Book> books = bookRepository.findAllByGroup(group);
+            books.forEach(book -> {
+                if (book.getEnable()) {
+                    SelectVo vo = new SelectVo();
+                    vo.setValue(group.getId() + "-" + book.getId());
+                    vo.setLabel(group.getName() + "(" + group.getDefaultCurrencyCode() + ")" + " - " + book.getName() + "(" + book.getDefaultCurrencyCode() + ")");
+                    result.add(vo);
+                }
+            });
+        });
+        return result;
+    }
+
+    public boolean setDefaultGroupAndBook(String id) {
+        String[] ids = id.split("-");
+        if (ids.length < 2) {
+            throw new FailureMessageException();
+        }
+        Integer groupId = Integer.valueOf(ids[0]);
+        Integer bookId = Integer.valueOf(ids[1]);
+        Group group = groupRepository.findById(groupId).orElseThrow(ItemNotFoundException::new);
+        baseService.checkGroupAuth(group);
+        Book book = bookRepository.findById(bookId).orElseThrow(ItemNotFoundException::new);
+        if (!book.getEnable() || !book.getGroup().getId().equals(groupId)) {
+            throw new ItemNotFoundException();
+        }
+        User user = sessionUtil.getCurrentUser();
+        user.setDefaultGroup(group);
+        user.setDefaultBook(book);
+        userRepository.save(user);
+        sessionUtil.setCurrentGroup(group);
+        sessionUtil.setCurrentBook(book);
         return true;
     }
 

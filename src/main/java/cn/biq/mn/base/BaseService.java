@@ -1,5 +1,6 @@
 package cn.biq.mn.base;
 
+import cn.biq.mn.exception.FailureMessageException;
 import cn.biq.mn.exception.ItemNotFoundException;
 import cn.biq.mn.account.Account;
 import cn.biq.mn.account.AccountRepository;
@@ -9,18 +10,22 @@ import cn.biq.mn.book.Book;
 import cn.biq.mn.book.BookRepository;
 import cn.biq.mn.category.Category;
 import cn.biq.mn.category.CategoryRepository;
+import cn.biq.mn.group.Group;
 import cn.biq.mn.noteday.NoteDay;
 import cn.biq.mn.noteday.NoteDayRepository;
 import cn.biq.mn.payee.Payee;
 import cn.biq.mn.payee.PayeeRepository;
 import cn.biq.mn.tag.Tag;
 import cn.biq.mn.tag.TagRepository;
+import cn.biq.mn.user.User;
+import cn.biq.mn.user.UserGroupRelationRepository;
 import cn.biq.mn.utils.SessionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -36,6 +41,7 @@ public class BaseService {
     private final TagRepository tagRepository;
     private final BalanceFlowRepository balanceFlowRepository;
     private final NoteDayRepository noteDayRepository;
+    private final UserGroupRelationRepository userGroupRelationRepository;
 
 
     public BalanceFlow findFlowById(Integer id) {
@@ -161,4 +167,21 @@ public class BaseService {
         }
         return noteDay;
     }
+
+    public void checkGroupAuth(Group group) {
+        if (!group.getEnable()) {
+            throw new FailureMessageException("group.update.auth.error");
+        }
+        User user = sessionUtil.getCurrentUser();
+        var relationOptional = userGroupRelationRepository.findByGroupAndUser(group, user);
+        if (relationOptional.isEmpty()) {
+            throw new FailureMessageException("group.update.auth.error");
+        }
+        var relation = relationOptional.get();
+        // 检查权限
+        if (!Arrays.asList(1, 2, 3).contains(relation.getRole())) {
+            throw new FailureMessageException("group.update.auth.error");
+        }
+    }
+
 }
