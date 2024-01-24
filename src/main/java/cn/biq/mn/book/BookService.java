@@ -26,6 +26,8 @@ import cn.biq.mn.tag.Tag;
 import cn.biq.mn.tag.TagDetails;
 import cn.biq.mn.tag.TagMapper;
 import cn.biq.mn.tag.TagRepository;
+import cn.biq.mn.user.User;
+import cn.biq.mn.user.UserRepository;
 import cn.biq.mn.utils.Limitation;
 import cn.biq.mn.utils.SessionUtil;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,7 @@ import java.util.*;
 public class BookService {
 
     private final SessionUtil sessionUtil;
+    private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final CategoryRepository categoryRepository;
     private final BalanceFlowRepository balanceFlowRepository;
@@ -63,9 +66,8 @@ public class BookService {
         return entityPage.map(book -> {
             var details = BookMapper.toDetails(book);
             // 是否是默认账本
-            if (sessionUtil.getCurrentUser().getDefaultBook() != null) {
-                details.setCurrent(details.getId().equals(sessionUtil.getCurrentUser().getDefaultBook().getId()));
-            }
+            details.setCurrent(details.getId().equals(sessionUtil.getCurrentBook().getId()));
+            details.setGroupDefault(details.getId().equals(book.getGroup().getDefaultBook().getId()));
             return details;
         });
     }
@@ -136,12 +138,21 @@ public class BookService {
     }
 
     public boolean toggle(Integer id) {
-        // 默认的账本不能操作，前端按钮禁用
         Group group = sessionUtil.getCurrentGroup();
         if (group.getDefaultBook().getId().equals(id)) {
-            return false;
+            throw new FailureMessageException();
         }
         Book entity = baseService.getBookInGroup(id);
+        // 移入回收站的操作
+        if (entity.getEnable()) {
+            //将所有用户默认账本是该账本的用户的默认账本，回退到组的默认账本
+            List<User> users = userRepository.findByDefaultBook(entity);
+            users.forEach(user -> {
+                user.setDefaultBook(group.getDefaultBook());
+                userRepository.save(user);
+            });
+            // TODO 用户是登录状态，正在操作怎么处理
+        }
         entity.setEnable(!entity.getEnable());
         bookRepository.save(entity);
         return true;

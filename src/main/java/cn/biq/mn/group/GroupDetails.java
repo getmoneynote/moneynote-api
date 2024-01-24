@@ -1,6 +1,7 @@
 package cn.biq.mn.group;
 
 import cn.biq.mn.base.BaseDetails;
+import cn.biq.mn.base.IdAndNameDetails;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,8 @@ public class GroupDetails extends BaseDetails {
     private Boolean enable;
     private String defaultCurrencyCode;
     private String role;
-    private boolean isDefault;
+    private Boolean current;
     private Integer roleId;
+    private IdAndNameDetails defaultBook;
 
 }

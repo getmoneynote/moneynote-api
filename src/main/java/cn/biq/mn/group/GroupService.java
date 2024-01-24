@@ -1,5 +1,7 @@
 package cn.biq.mn.group;
 
+import cn.biq.mn.base.BaseService;
+import cn.biq.mn.base.IdAndNameMapper;
 import cn.biq.mn.bean.ApplicationScopeBean;
 import cn.biq.mn.book.BookService;
 import cn.biq.mn.book.tpl.BookTemplate;
@@ -47,6 +49,7 @@ public class GroupService {
     private final BaseEntityRepository baseEntityRepository;
     private final ApplicationScopeBean applicationScopeBean;
     private final BookService bookService;
+    private final BaseService baseService;
 
     @Transactional(readOnly = true)
     public Page<GroupDetails> query(Pageable page) {
@@ -60,7 +63,8 @@ public class GroupService {
             var relation = userGroupRelationRepository.findByGroupAndUser(group, user).get();
             details.setRoleId(relation.getRole());
             details.setRole(enumUtils.translateRoleType(relation.getRole()));
-            details.setDefault(details.getId().equals(sessionUtil.getCurrentUser().getDefaultGroup().getId()));
+            details.setCurrent(details.getId().equals(sessionUtil.getCurrentUser().getDefaultGroup().getId()));
+            details.setDefaultBook(IdAndNameMapper.toDetails(group.getDefaultBook()));
             return details;
         });
     }
@@ -129,6 +133,11 @@ public class GroupService {
         entity.setName(form.getName());
         entity.setNotes(form.getNotes());
         entity.setDefaultCurrencyCode(form.getDefaultCurrencyCode());
+        Book book = baseService.getBookInGroup(form.getDefaultBookId());
+        if (!book.getEnable()) {
+            throw new ItemNotFoundException();
+        }
+        entity.setDefaultBook(book);
         groupRepository.save(entity);
         // 更新的是当前的默认组，则需要更新CurrentSession里面的对象
         if (entity.getId().equals(sessionUtil.getCurrentGroup().getId())) {

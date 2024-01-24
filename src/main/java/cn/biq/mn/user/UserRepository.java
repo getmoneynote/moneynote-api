@@ -1,8 +1,10 @@
 package cn.biq.mn.user;
 
 import cn.biq.mn.base.BaseRepository;
+import cn.biq.mn.book.Book;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -12,6 +14,6 @@ public interface UserRepository extends BaseRepository<User>  {
 
     boolean existsByUsername(String username);
 
-//    Optional<User> findOneByUnionId(String unionId);
+    List<User> findByDefaultBook(Book book);
 
 }
