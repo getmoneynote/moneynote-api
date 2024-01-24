@@ -61,6 +61,7 @@ public class TagService {
     @Transactional(readOnly = true)
     public List<TagDetails> query(TagQueryForm form, Pageable page) {
         // 确保传入的bookId是自己组里面的。
+        // bookId不传则查当前账本的
         if (form.getBookId() != null) {
             baseService.getBookInGroup(form.getBookId());
         } else {
@@ -73,11 +74,12 @@ public class TagService {
 
     @Transactional(readOnly = true)
     public List<TagDetails> queryAll(TagQueryForm form) {
-        if (form.getBookId() == null) {
-            form.setBookId(sessionUtil.getCurrentBook().getId());
-        } else {
-            // 确保传入的bookId是自己组里面的。
+        // 确保传入的bookId是自己组里面的。
+        // bookId不传则查当前账本的
+        if (form.getBookId() != null) {
             baseService.getBookInGroup(form.getBookId());
+        } else {
+            form.setBookId(sessionUtil.getCurrentBook().getId());
         }
         form.setEnable(true);
         List<Tag> entityList = tagRepository.findAll(form.buildPredicate(), Sort.by(Sort.Direction.ASC, "sort"));

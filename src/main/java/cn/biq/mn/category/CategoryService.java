@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -61,6 +60,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public List<CategoryDetails> query(CategoryQueryForm form, Pageable page) {
         // 确保传入的bookId是自己组里面的。
+        // bookId不传则查当前账本的
         if (form.getBookId() != null) {
             baseService.getBookInGroup(form.getBookId());
         } else {
@@ -73,12 +73,12 @@ public class CategoryService {
 
     @Transactional(readOnly = true)
     public List<CategoryDetails> queryAll(CategoryQueryForm form) {
-        // 搜索的时候不输入，返回空
-        if (form.getBookId() == null) {
-            form.setBookId(sessionUtil.getCurrentBook().getId());
-        } else {
-            // 确保传入的bookId是自己组里面的。
+        // 确保传入的bookId是自己组里面的。
+        // bookId不传则查当前账本的
+        if (form.getBookId() != null) {
             baseService.getBookInGroup(form.getBookId());
+        } else {
+            form.setBookId(sessionUtil.getCurrentBook().getId());
         }
         form.setEnable(true);
         List<Category> entityList = categoryRepository.findAll(form.buildPredicate(), Sort.by(Sort.Direction.ASC, "sort"));
