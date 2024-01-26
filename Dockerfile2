@@ -1,16 +1,6 @@
-# Stage 1: Build the application
-FROM gradle:8.5-jdk17 as build
-WORKDIR /workspace/app
-
-COPY build.gradle settings.gradle ./
-COPY src ./src
-
-RUN gradle clean build
-
-# Stage 2: Create the runtime image
 FROM markliu2018/moneywhere-all:latest
 WORKDIR /app
-
-COPY --from=build /workspace/app/build/libs/*.jar /app/app.jar
+COPY ./build/libs/*.jar app.jar
+CMD service php8.1-fpm start && service mysql start && service nginx start && java -jar app.jar
+#CMD ["sh", "-c", "service php8.1-fpm start && service mysql start && service nginx start && java -jar app.jar"]
 EXPOSE 9092
-CMD ["sh", "-c", "service php8.1-fpm start && service mysql start && service nginx start && java -jar app.jar"]

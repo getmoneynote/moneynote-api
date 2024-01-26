@@ -15,6 +15,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up Java 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: Build
+        run: chmod +x ./gradlew && ./gradlew bootJar
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -29,6 +35,6 @@ jobs:
         with:
           context: .
           file: ./Dockerfile2
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: markliu2018/moneywhere-all:latest
