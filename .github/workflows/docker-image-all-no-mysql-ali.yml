@@ -29,7 +29,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerfile2
+          file: ./Dockerfile3
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-all-no-mysql:latest
