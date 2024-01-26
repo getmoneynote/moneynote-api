@@ -1,4 +1,4 @@
-name: all docker hub image
+name: api user acr image
 
 # 触发条件：在 push 到 main 分支后
 on:
@@ -7,7 +7,6 @@ on:
       - main
     paths:
       - 'src/**'
-
 
 jobs:
   build:
@@ -19,11 +18,13 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Login to Docker Hub
+      - name: Login to Aliyun Container Registry (ACR)
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASS }}
+          registry: registry.cn-hangzhou.aliyuncs.com
+          #          region-id: cn-hangzhou  # 3
+          username: "${{ secrets.ACR_USERNAME }}"
+          password: "${{ secrets.ACR_PASSWORD }}"
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
@@ -31,4 +32,4 @@ jobs:
           file: ./Dockerfile2
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: markliu2018/moneywhere-all:latest
+          tags: registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-all:latest
