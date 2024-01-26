@@ -30,6 +30,6 @@ jobs:
         with:
           context: .
           file: ./Dockerfile3
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-all-no-mysql:latest
