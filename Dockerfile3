@@ -2,4 +2,7 @@ FROM markliu2018/moneywhere-all-no-mysql:latest
 WORKDIR /app
 COPY ./build/libs/*.jar app.jar
 CMD service nginx start && java -jar app.jar
+
 EXPOSE 9092
+EXPOSE 81
+EXPOSE 82
