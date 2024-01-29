@@ -27,6 +27,7 @@ public class BalanceFlowQueryForm {
     private Boolean include;
     private Integer toId;
     private String notes;
+    private Boolean hasFile;//搜索是否有文件的账单
 
     public Predicate buildPredicate(Group group) {
         QBalanceFlow balanceFlow = QBalanceFlow.balanceFlow;
@@ -79,6 +80,13 @@ public class BalanceFlowQueryForm {
         }
         if (StringUtils.hasText(notes)) {
             booleanBuilder.and(balanceFlow.notes.contains(notes));
+        }
+        if (hasFile != null) {
+            if (hasFile) {
+                booleanBuilder.and(balanceFlow.files.isNotEmpty());
+            } else {
+                booleanBuilder.and(balanceFlow.files.isEmpty());
+            }
         }
         return booleanBuilder;
     }
