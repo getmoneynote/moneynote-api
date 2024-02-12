@@ -24,6 +24,7 @@ public class CategoryReportQueryForm {
     private Set<Integer> payees;
     private Set<Integer> categories;
     private Set<Integer> tags;
+    private Integer accountId;
 
     public void buildPredicate(BooleanBuilder booleanBuilder, QBalanceFlow balanceFlow) {
         if (minTime != null) {
@@ -41,6 +42,11 @@ public class CategoryReportQueryForm {
         }
         if (payees != null) {
             booleanBuilder.and(balanceFlow.payee.id.in(payees));
+        }
+        if (accountId != null) {
+            BooleanBuilder builder1 = new BooleanBuilder(balanceFlow.account.id.eq(accountId));
+            BooleanBuilder builder2 = new BooleanBuilder(balanceFlow.to.id.eq(accountId));
+            booleanBuilder.and(builder1.or(builder2));
         }
 //        if (categories != null) {
 //            booleanBuilder.and(balanceFlow.categories.any().category.id.in(categories));
@@ -70,8 +76,5 @@ public class CategoryReportQueryForm {
         buildPredicate(booleanBuilder, tagRelation.balanceFlow);
         return booleanBuilder;
     }
-
-
-
 
 }

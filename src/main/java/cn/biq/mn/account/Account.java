@@ -41,9 +41,9 @@ public class Account extends IdAndNameEntity {
     @AccountNoField
     private String no; //卡号
 
-    @Column(nullable = false) //最多9亿
+    @Column(nullable = false)
     @NotNull
-    @AmountField
+    @BalanceField
     private BigDecimal balance; // 当前余额
 
     @Column(nullable = false)
@@ -71,10 +71,10 @@ public class Account extends IdAndNameEntity {
     @AccountCurrencyCodeField
     private String currencyCode;
 
-    @AmountField
+    @BalanceField
     private BigDecimal initialBalance; // 期初余额
 
-    @AmountField
+    @BalanceField
     private BigDecimal creditLimit; // 信用额度
 
     @BillDayField

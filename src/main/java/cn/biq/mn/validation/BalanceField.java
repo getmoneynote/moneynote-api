@@ -7,14 +7,14 @@ import jakarta.validation.constraints.Digits;
 import java.lang.annotation.*;
 
 
-// 所有与金额有关的，包括账单金额等。
-@Digits(integer = 15, fraction = 2)
+// 所有与余额有关的，账户余额等。
+@Digits(integer = 20, fraction = 2)
 
 @Documented
 @Constraint(validatedBy = {})
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AmountField {
+public @interface BalanceField {
     
     String message() default "{valid.fail}";
 

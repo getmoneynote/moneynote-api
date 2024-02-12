@@ -845,7 +845,8 @@
         "canIncome": false,
         "sort": 300
       }
-    ]
+    ],
+    "lang": 100
   },
   {
     "id": 2,
@@ -1164,7 +1165,8 @@
         "canIncome": false,
         "sort": 600
       }
-    ]
+    ],
+    "lang": 100
   },
   {
     "id": 3,
@@ -1837,6 +1839,393 @@
         "canIncome": false,
         "sort": 400
       }
-    ]
+    ],
+    "lang": 100
+  },
+  {
+    "id": 4,
+    "name": "Daily Life",
+    "notes": "A book template for personal daily life using.",
+    "previewUrl": "http://tpl.moneywhere.com/Daily_Life.png",
+    "tags": [
+      {
+        "id": 191,
+        "name": "Food",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 0,
+        "sort": 100,
+        "pId": null
+      },
+      {
+        "id": 213,
+        "name": "Housing",
+        "children": null,
+        "notes": "",
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 0,
+        "sort": 200,
+        "pId": null
+      },
+      {
+        "id": 214,
+        "name": "Transportation",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 0,
+        "sort": 300,
+        "pId": null
+      },
+      {
+        "id": 215,
+        "name": "Utilities",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 0,
+        "sort": 400,
+        "pId": null
+      },
+      {
+        "id": 216,
+        "name": "Insurance",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 0,
+        "sort": 500,
+        "pId": null
+      },
+      {
+        "id": 217,
+        "name": "Personal",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 0,
+        "sort": 600,
+        "pId": null
+      },
+      {
+        "id": 218,
+        "name": "Clothing",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 100,
+        "pId": 217
+      },
+      {
+        "id": 219,
+        "name": "Education",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 0,
+        "sort": 700,
+        "pId": null
+      },
+      {
+        "id": 220,
+        "name": "Entertainment",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 0,
+        "sort": 800,
+        "pId": null
+      },
+      {
+        "id": 221,
+        "name": "Breakfast",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 100,
+        "pId": 191
+      },
+      {
+        "id": 222,
+        "name": "Lunch",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 200,
+        "pId": 191
+      },
+      {
+        "id": 223,
+        "name": "Supper",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 300,
+        "pId": 191
+      },
+      {
+        "id": 224,
+        "name": "Groceries",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 400,
+        "pId": 191
+      },
+      {
+        "id": 225,
+        "name": "Restaurants",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 500,
+        "pId": 191
+      },
+      {
+        "id": 226,
+        "name": "Fruit",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 600,
+        "pId": 191
+      },
+      {
+        "id": 227,
+        "name": "Rent",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 100,
+        "pId": 213
+      },
+      {
+        "id": 228,
+        "name": "Mortgage",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 200,
+        "pId": 213
+      },
+      {
+        "id": 249,
+        "name": "Electricity",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 100,
+        "pId": 215
+      },
+      {
+        "id": 250,
+        "name": "Water",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 200,
+        "pId": 215
+      },
+      {
+        "id": 251,
+        "name": "Haircuts",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 200,
+        "pId": 217
+      },
+      {
+        "id": 252,
+        "name": "Property Taxes",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 300,
+        "pId": 213
+      },
+      {
+        "id": 253,
+        "name": "Household Repairs",
+        "children": null,
+        "notes": null,
+        "canExpense": true,
+        "canIncome": false,
+        "canTransfer": false,
+        "level": 1,
+        "sort": 400,
+        "pId": 213
+      }
+    ],
+    "categories": [
+      {
+        "id": 103,
+        "name": "Maintenance",
+        "children": null,
+        "type": 100,
+        "notes": null,
+        "level": 0,
+        "sort": 100,
+        "pId": null
+      },
+      {
+        "id": 104,
+        "name": "promotion",
+        "children": null,
+        "type": 100,
+        "notes": null,
+        "level": 0,
+        "sort": 200,
+        "pId": null
+      },
+      {
+        "id": 105,
+        "name": "Enhancement",
+        "children": null,
+        "type": 100,
+        "notes": null,
+        "level": 0,
+        "sort": 300,
+        "pId": null
+      },
+      {
+        "id": 106,
+        "name": "Socializing",
+        "children": null,
+        "type": 100,
+        "notes": null,
+        "level": 0,
+        "sort": 400,
+        "pId": null
+      },
+      {
+        "id": 107,
+        "name": "Active Income",
+        "children": null,
+        "type": 200,
+        "notes": null,
+        "level": 0,
+        "sort": 100,
+        "pId": null
+      },
+      {
+        "id": 108,
+        "name": "Passive Income",
+        "children": null,
+        "type": 200,
+        "notes": null,
+        "level": 0,
+        "sort": 200,
+        "pId": null
+      },
+      {
+        "id": 109,
+        "name": "Socializing",
+        "children": null,
+        "type": 200,
+        "notes": null,
+        "level": 0,
+        "sort": 300,
+        "pId": null
+      },
+      {
+        "id": 110,
+        "name": "Salary",
+        "children": null,
+        "type": 200,
+        "notes": null,
+        "level": 1,
+        "sort": 100,
+        "pId": 107
+      },
+      {
+        "id": 111,
+        "name": "Part-time",
+        "children": null,
+        "type": 200,
+        "notes": null,
+        "level": 1,
+        "sort": 200,
+        "pId": 107
+      },
+      {
+        "id": 112,
+        "name": "Rental",
+        "children": null,
+        "type": 200,
+        "notes": null,
+        "level": 1,
+        "sort": 100,
+        "pId": 108
+      },
+      {
+        "id": 113,
+        "name": "Investment",
+        "children": null,
+        "type": 200,
+        "notes": null,
+        "level": 1,
+        "sort": 200,
+        "pId": 108
+      }
+    ],
+    "payees": [],
+    "lang": 200
   }
 ]
