@@ -38,4 +38,4 @@ jobs:
           file: ./Dockerfile2
           platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
           push: true
-          tags: registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-all:latest
+          tags: registry.cn-hangzhou.aliyuncs.com/moneynote/moneynote-all:latest

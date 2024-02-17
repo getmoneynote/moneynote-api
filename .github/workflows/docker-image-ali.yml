@@ -37,4 +37,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/ppc64le,linux/s390x
           push: true
-          tags: registry.cn-hangzhou.aliyuncs.com/moneywhere/moneywhere-api-user:latest
+          tags: registry.cn-hangzhou.aliyuncs.com/moneynote/moneynote-api:latest

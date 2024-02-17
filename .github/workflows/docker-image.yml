@@ -36,4 +36,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/ppc64le,linux/s390x
           push: true
-          tags: markliu2018/moneywhere-api-user:latest
+          tags: markliu2018/moneynote-api:latest

@@ -37,4 +37,4 @@ jobs:
           file: ./Dockerfile2
           platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
           push: true
-          tags: markliu2018/moneywhere-all:latest
+          tags: markliu2018/moneynote-all:latest
