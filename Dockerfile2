@@ -1,4 +1,4 @@
-FROM markliu2018/moneywhere-all:latest
+FROM markliu2018/moneynote-all:latest
 WORKDIR /app
 COPY ./build/libs/*.jar app.jar
 CMD service php8.1-fpm start && service mysql start && service nginx start && java -jar app.jar
