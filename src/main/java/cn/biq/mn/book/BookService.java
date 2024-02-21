@@ -215,15 +215,6 @@ public class BookService {
         return true;
     }
 
-    // 注册功能使用。
-    public Book addDefaultTemplate(Group group) {
-        var bookTemplate = applicationScopeBean.getBookTplList().get(0);
-        Book book = new Book();
-        book.setName(bookTemplate.getName());
-        setBookByBookTemplate(bookTemplate, group, book);
-        return book;
-    }
-
     public void setBookByBookTemplate(BookTemplate bookTemplate, Group group, Book book) {
         if (bookRepository.existsByGroupAndName(group, book.getName())) {
             throw new ItemExistsException();

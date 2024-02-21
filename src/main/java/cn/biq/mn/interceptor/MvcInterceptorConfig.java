@@ -19,6 +19,7 @@ public class MvcInterceptorConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/login", "/register")
                 .excludePathPatterns("/loginWechat/**", "/loginGoogle/**")
                 .excludePathPatterns("/flow-files/view")
+                .excludePathPatterns("/book-templates/all")
                 .excludePathPatterns("/version")
                 .excludePathPatterns("/test*");
         WebMvcConfigurer.super.addInterceptors(registry);

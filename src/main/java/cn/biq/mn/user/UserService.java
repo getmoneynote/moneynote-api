@@ -1,10 +1,14 @@
 package cn.biq.mn.user;
 
+import cn.biq.mn.bean.ApplicationScopeBean;
+import cn.biq.mn.book.tpl.BookTemplate;
 import cn.biq.mn.exception.FailureMessageException;
 import cn.biq.mn.exception.ItemExistsException;
 import cn.biq.mn.exception.ItemNotFoundException;
 import cn.biq.mn.group.QGroup;
 import cn.biq.mn.response.SelectVo;
+import cn.biq.mn.utils.CommonUtils;
+import cn.biq.mn.utils.MessageSourceUtil;
 import cn.biq.mn.utils.WebUtils;
 import cn.biq.mn.base.BaseEntityRepository;
 import cn.biq.mn.base.BaseService;
@@ -17,15 +21,15 @@ import cn.biq.mn.utils.SessionUtil;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 
 @Service
@@ -43,7 +47,8 @@ public class UserService {
     private final GroupRepository groupRepository;
     private final BaseService baseService;
     private final BookService bookService;
-    private final UserGroupRelationRepository userGroupRelationRepository;
+    private final MessageSourceUtil messageSourceUtil;
+    private final ApplicationScopeBean applicationScopeBean;
 
     @Value("${invite_code:111111}")
     private String inviteCode;
@@ -85,8 +90,14 @@ public class UserService {
 
         // TODO 待优化，
         Group group = new Group();
-        group.setName("默认组");
-        group.setDefaultCurrencyCode("CNY");
+        group.setName(messageSourceUtil.getMessage("user.register.default.group"));
+        Locale currentLocale = LocaleContextHolder.getLocale();
+        String currentLanguage = currentLocale.getLanguage();
+        if (currentLanguage.equals("zh")) {
+            group.setDefaultCurrencyCode("CNY");
+        } else {
+            group.setDefaultCurrencyCode("USD");
+        }
         baseEntityRepository.save(group);
         user.setDefaultGroup(group);
         baseEntityRepository.save(user);
@@ -97,7 +108,13 @@ public class UserService {
         baseEntityRepository.save(user);
 
         // 给默认账本
-        Book book = bookService.addDefaultTemplate(group);
+        List<BookTemplate> bookTemplateList = applicationScopeBean.getBookTplList();
+//        var bookTemplate = bookTemplateList.get(0);
+        BookTemplate bookTemplate = CommonUtils.findFirstById2(bookTemplateList, form.getTemplateId());
+        Book book = new Book();
+        book.setName(bookTemplate.getName());
+        bookService.setBookByBookTemplate(bookTemplate, group, book);
+
         user.setDefaultBook(book);
         group.setDefaultBook(book);
         baseEntityRepository.save(user);

@@ -1,5 +1,6 @@
 package cn.biq.mn.utils;
 
+import cn.biq.mn.base.BaseDetails;
 import cn.biq.mn.base.BaseEntity;
 import org.springframework.util.CollectionUtils;
 
@@ -8,6 +9,14 @@ import java.util.List;
 public final class CommonUtils {
 
     public static <T extends BaseEntity> T findFirstById(List<T> collection, Integer id) {
+        if (CollectionUtils.isEmpty(collection)) return null;
+        for (T element : collection) {
+            if (element.getId().equals(id)) return element;
+        }
+        return null;
+    }
+
+    public static <T extends BaseDetails> T findFirstById2(List<T> collection, Integer id) {
         if (CollectionUtils.isEmpty(collection)) return null;
         for (T element : collection) {
             if (element.getId().equals(id)) return element;

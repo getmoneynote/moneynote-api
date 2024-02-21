@@ -38,8 +38,11 @@ public class BookTemplateController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/all")
-    public BaseResponse handleAll() {
+    public BaseResponse handleAll(@RequestParam(required = false) String lang) {
         List<BookTemplate> bookTplList = applicationScopeBean.getBookTplList();
+        if (StringUtils.hasText(lang)) {
+            bookTplList = bookTplList.stream().filter(b -> b.getLang().equals(lang)).collect(Collectors.toList());
+        }
         var list = bookTplList.stream().map(i -> new IdAndNameDetails(i.getId(), i.getName())).toList();
         return new DataResponse<>(list);
     }
