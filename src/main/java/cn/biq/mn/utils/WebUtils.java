@@ -6,12 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 
 @Component
@@ -77,6 +79,16 @@ public class WebUtils {
             throw new RuntimeException(e);
         }
         return baseMap;
+    }
+
+    public static String getAcceptLang() {
+        Locale currentLocale = LocaleContextHolder.getLocale();
+        String currentCountry = currentLocale.getCountry();
+        String currentLanguage = currentLocale.getLanguage();
+        if (StringUtils.hasText(currentCountry) && StringUtils.hasText(currentLanguage)) {
+            return currentLanguage + "-" + currentCountry;
+        }
+        return "en-US";
     }
 
 }
