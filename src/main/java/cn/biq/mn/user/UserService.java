@@ -21,7 +21,6 @@ import cn.biq.mn.utils.SessionUtil;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -91,9 +90,8 @@ public class UserService {
         // TODO 待优化，
         Group group = new Group();
         group.setName(messageSourceUtil.getMessage("user.register.default.group"));
-        Locale currentLocale = LocaleContextHolder.getLocale();
-        String currentLanguage = currentLocale.getLanguage();
-        if (currentLanguage.equals("zh")) {
+        String lang = WebUtils.getAcceptLang();
+        if ("zh-CN".equals(lang)) {
             group.setDefaultCurrencyCode("CNY");
         } else {
             group.setDefaultCurrencyCode("USD");

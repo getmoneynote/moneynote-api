@@ -21,6 +21,6 @@ public interface BalanceFlowRepository extends BaseRepository<BalanceFlow>  {
 
     boolean existsByPayee(Payee payee);
 
-    List<BalanceFlow> findAllByBook(Book book);
+    List<BalanceFlow> findAllByBookOrderByCreateTimeDesc(Book book);
 
 }

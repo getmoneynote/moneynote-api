@@ -5,7 +5,6 @@ import cn.biq.mn.exception.ItemNotFoundException;
 import cn.biq.mn.utils.WebUtils;
 import cn.biq.mn.bean.ApplicationScopeBean;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

@@ -29,7 +29,9 @@ import cn.biq.mn.tag.TagRepository;
 import cn.biq.mn.user.User;
 import cn.biq.mn.user.UserRepository;
 import cn.biq.mn.utils.Limitation;
+import cn.biq.mn.utils.MessageSourceUtil;
 import cn.biq.mn.utils.SessionUtil;
+import cn.biq.mn.utils.WebUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -39,6 +41,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.*;
 
 @Service
@@ -58,6 +63,7 @@ public class BookService {
     private final BaseService baseService;
     private final CurrencyService currencyService;
     private final ApplicationScopeBean applicationScopeBean;
+    private final MessageSourceUtil messageSourceUtil;
 
     @Transactional(readOnly = true)
     public Page<BookDetails> query(BookQueryForm form, Pageable page) {
@@ -312,7 +318,7 @@ public class BookService {
         }
     }
 
-    public Workbook exportFlow(Integer id) {
+    public Workbook exportFlow(Integer id, Integer timeZoneOffset) {
         Book book = baseService.getBookInGroup(id);
         // 24小时内只能导出一次
 //        if (CalendarUtil.inLastDay(book.getExportAt())) {
@@ -321,12 +327,21 @@ public class BookService {
         // 创建一个新的工作簿
         Workbook workbook = new SXSSFWorkbook();
         // 创建一个新的工作表
-        Sheet sheet = workbook.createSheet("Data");
+        Sheet sheet = workbook.createSheet("Book");
         // 创建表头
         Row headerRow = sheet.createRow(0);
         String[] headers = {
-                "标题", "交易类型", "金额", "时间", "账户", "分类",
-                "标签", "交易对象", "备注", "是否确认", "是否统计"
+            messageSourceUtil.getMessage("book.export.title"),
+            messageSourceUtil.getMessage("book.export.type"),
+            messageSourceUtil.getMessage("book.export.amount"),
+            messageSourceUtil.getMessage("book.export.time"),
+            messageSourceUtil.getMessage("book.export.account"),
+            messageSourceUtil.getMessage("book.export.category"),
+            messageSourceUtil.getMessage("book.export.tag"),
+            messageSourceUtil.getMessage("book.export.payee"),
+            messageSourceUtil.getMessage("book.export.note"),
+            messageSourceUtil.getMessage("book.export.confirm"),
+            messageSourceUtil.getMessage("book.export.include"),
         };
         for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
@@ -334,7 +349,7 @@ public class BookService {
         }
 
         // 写入数据
-        List<BalanceFlow> balanceFlows = balanceFlowRepository.findAllByBook(book);
+        List<BalanceFlow> balanceFlows = balanceFlowRepository.findAllByBookOrderByCreateTimeDesc(book);
         List<BalanceFlowDetails> balanceFlowDetailsList = balanceFlows.stream().map(balanceFlowMapper::toDetails).toList();
         int rowNum = 1;
         for (BalanceFlowDetails item : balanceFlowDetailsList) {
@@ -343,13 +358,19 @@ public class BookService {
             row.createCell(1).setCellValue(item.getTypeName());
             row.createCell(2).setCellValue(item.getAmount().toString());
 
-            CellStyle cellStyle = workbook.createCellStyle();
-            CreationHelper createHelper = workbook.getCreationHelper();
-            cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("yyyy-MM-dd HH:mm"));
-            cellStyle.setAlignment(HorizontalAlignment.LEFT);
-            Cell cell = row.createCell(3);
-            cell.setCellValue(new Date(item.getCreateTime()));
-            cell.setCellStyle(cellStyle);
+            Date createDate = new Date(item.getCreateTime());
+            String lang = WebUtils.getAcceptLang();
+            String dateFormat;
+            if ("zh-CN".equals(lang)) {
+                dateFormat = "yyyy-MM-dd HH:mm:ss";
+            } else {
+                dateFormat = "MM/dd/yyyy HH:mm";
+            }
+            SimpleDateFormat sf = new SimpleDateFormat(dateFormat);
+            ZoneId zoneId = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(timeZoneOffset));
+            TimeZone timeZone = TimeZone.getTimeZone(zoneId);
+            sf.setTimeZone(timeZone);
+            row.createCell(3).setCellValue(sf.format(createDate));
 
             row.createCell(4).setCellValue(item.getAccountName());
             row.createCell(5).setCellValue(item.getCategoryName());
@@ -362,9 +383,9 @@ public class BookService {
             }
 
             row.createCell(8).setCellValue(item.getNotes());
-            row.createCell(9).setCellValue(item.getConfirm() ? "是" : "否");
+            row.createCell(9).setCellValue(item.getConfirm() ? messageSourceUtil.getMessage("yes") : messageSourceUtil.getMessage("no"));
             if (item.getInclude() != null) {
-                row.createCell(10).setCellValue(item.getInclude() ? "是" : "否");
+                row.createCell(10).setCellValue(item.getInclude() ? messageSourceUtil.getMessage("yes") : messageSourceUtil.getMessage("no"));
             }
         }
         sheet.setColumnWidth(3, 19*256);

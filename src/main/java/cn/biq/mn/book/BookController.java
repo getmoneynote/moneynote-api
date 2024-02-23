@@ -75,13 +75,12 @@ public class BookController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/export")
-    public void handleExport(@PathVariable("id") Integer id, HttpServletResponse response) throws IOException {
-        Workbook workbook = bookService.exportFlow(id);
+    public void handleExport(@PathVariable("id") Integer id, @RequestParam Integer timeZoneOffset, HttpServletResponse response) throws IOException {
+        Workbook workbook = bookService.exportFlow(id, timeZoneOffset);
         // 设置 HTTP 响应头
         response.setContentType("application/vnd.ms-excel");
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-        String currentDateTime = dateFormatter.format(new Date());
-        response.setHeader("Content-disposition", "attachment; filename=users_" + currentDateTime + ".xlsx");
+        String fileName = "book";
+        response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
         // 将工作簿写入响应流
         workbook.write(response.getOutputStream());
         workbook.close();
