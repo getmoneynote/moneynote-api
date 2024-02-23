@@ -29,6 +29,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -107,8 +108,13 @@ public class UserService {
 
         // 给默认账本
         List<BookTemplate> bookTemplateList = applicationScopeBean.getBookTplList();
-//        var bookTemplate = bookTemplateList.get(0);
-        BookTemplate bookTemplate = CommonUtils.findFirstById2(bookTemplateList, form.getTemplateId());
+        var bookTemplateList2 = bookTemplateList.stream().filter(b -> b.getLang().equals(WebUtils.getAcceptLang())).toList();
+        BookTemplate bookTemplate;
+        if (bookTemplateList2.size() > 0) {
+            bookTemplate = bookTemplateList2.get(0);
+        } else {
+            bookTemplate = bookTemplateList.get(0);
+        }
         Book book = new Book();
         book.setName(bookTemplate.getName());
         bookService.setBookByBookTemplate(bookTemplate, group, book);

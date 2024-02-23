@@ -1,10 +1,8 @@
 package cn.biq.mn.user;
 
-
 import cn.biq.mn.validation.PasswordField;
 import cn.biq.mn.validation.UserNameField;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,8 +20,5 @@ public class RegisterForm {
 
     @NotBlank
     private String inviteCode;
-
-    @NotNull
-    private Integer templateId;
 
 }
