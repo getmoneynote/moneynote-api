@@ -1,7 +1,5 @@
 package cn.biq.mn.account;
 
-import cn.biq.mn.category.CategoryType;
-
 public enum AccountType {
 
     CHECKING(100),
