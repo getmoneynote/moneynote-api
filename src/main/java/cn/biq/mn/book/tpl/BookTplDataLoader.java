@@ -9,7 +9,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 @Component
@@ -21,12 +23,21 @@ public class BookTplDataLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         try {
+            applicationScopeBean.setBookTplList(load());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<BookTemplate> load() {
+        try {
             Resource resource = new ClassPathResource("book_tpl.json");
             ObjectMapper objectMapper = new ObjectMapper();
             BookTemplate[] bookTemplateList = objectMapper.readValue(resource.getInputStream(), BookTemplate[].class);
-            applicationScopeBean.setBookTplList(Arrays.asList(bookTemplateList));
+            return Arrays.asList(bookTemplateList);
         } catch (Exception e) {
             e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 

@@ -1,6 +1,7 @@
 package cn.biq.mn.book;
 
 import cn.biq.mn.bean.ApplicationScopeBean;
+import cn.biq.mn.book.tpl.BookTplDataLoader;
 import cn.biq.mn.exception.FailureMessageException;
 import cn.biq.mn.exception.ItemExistsException;
 import cn.biq.mn.exception.ItemNotFoundException;
@@ -166,7 +167,7 @@ public class BookService {
     // 账本模板列表，复制功能使用
     public boolean addByTemplate(BookAddByTemplateForm form) {
         Group group = sessionUtil.getCurrentGroup();
-        List<BookTemplate> bookTplList = applicationScopeBean.getBookTplList();
+        List<BookTemplate> bookTplList = BookTplDataLoader.load();
         Optional<BookTemplate> bookTemplateOptional = bookTplList.stream()
                 .filter(bookTemplate -> bookTemplate.getId().equals(form.getTemplateId()))
                 .findFirst();
