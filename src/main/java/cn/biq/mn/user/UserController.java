@@ -69,8 +69,8 @@ public class UserController {
         return new DataResponse<>(userService.getBooksSelect());
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "/setDefaultGroupAndBook")
-    public BaseResponse handleSetDefaultGroup(@RequestParam String id) {
+    @RequestMapping(method = RequestMethod.PATCH, value = "/setDefaultGroupAndBook/{id}")
+    public BaseResponse handleSetDefaultGroup(@PathVariable("id") String id) {
         return new BaseResponse(userService.setDefaultGroupAndBook(id));
     }
 
