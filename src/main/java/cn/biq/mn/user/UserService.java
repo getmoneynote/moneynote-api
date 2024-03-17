@@ -7,7 +7,6 @@ import cn.biq.mn.exception.ItemExistsException;
 import cn.biq.mn.exception.ItemNotFoundException;
 import cn.biq.mn.group.QGroup;
 import cn.biq.mn.response.SelectVo;
-import cn.biq.mn.utils.CommonUtils;
 import cn.biq.mn.utils.MessageSourceUtil;
 import cn.biq.mn.utils.WebUtils;
 import cn.biq.mn.base.BaseEntityRepository;
@@ -28,8 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -141,9 +138,6 @@ public class UserService {
     @Transactional(propagation = Propagation.NEVER, readOnly = true)
     public InitStateResponse getInitState() {
         var initState = new InitStateResponse();
-//        initState.setUser(UserMapper.INSTANCE.toSessionVo(sessionUtil.getCurrentUser()));
-//        initState.setBook(BookMapper.INSTANCE.toSessionVo(sessionUtil.getCurrentBook()));
-//        initState.setGroup(GroupMapper.INSTANCE.toSessionVo(sessionUtil.getCurrentGroup()));
         // 需要最新数据
         User user = userRepository.findById(sessionUtil.getCurrentUser().getId()).orElseThrow(ItemNotFoundException::new);
         Book book = bookRepository.findById(user.getDefaultBook().getId()).orElseThrow(ItemNotFoundException::new);
@@ -174,11 +168,7 @@ public class UserService {
         }
 
         User user = sessionUtil.getCurrentUser();
-//        Group group = sessionUtil.getCurrentGroup();
-
-//        group.setDefaultBook(entity);
         user.setDefaultBook(entity);
-//        groupRepository.save(group);
         userRepository.save(user);
         sessionUtil.setCurrentBook(entity);
         return true;

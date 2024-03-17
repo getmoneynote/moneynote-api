@@ -64,7 +64,7 @@ public class UserController {
         return new BaseResponse(userService.changePassword(request));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/books/select")
+    @RequestMapping(method = RequestMethod.GET, value = "/bookSelect/all")
     public BaseResponse handleBooksSelect() {
         return new DataResponse<>(userService.getBooksSelect());
     }

@@ -46,7 +46,7 @@ public class BalanceFlowDetails extends BaseDetails {
             } else if (type == FlowType.TRANSFER) {
                 result.append(accountName);
             } else {
-                result.append("调整余额");
+                result.append(accountName);
             }
         }
         if (payee != null) {
