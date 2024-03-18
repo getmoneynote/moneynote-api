@@ -59,8 +59,8 @@ public class BalanceFlowService {
             throw new FailureMessageException("add.flow.daily.overflow");
         }
         Account account = null;
-        if (form.getAccountId() != null) {
-            account = baseService.findAccountById(form.getAccountId());
+        if (form.getAccount() != null) {
+            account = baseService.findAccountById(form.getAccount());
         }
         if (form.getType() == FlowType.EXPENSE || form.getType() == FlowType.INCOME) {
             // 支出和收入的分类不能为空，因为transfer可以为空，所以只能在这里验证
@@ -86,11 +86,11 @@ public class BalanceFlowService {
         }
         if (form.getType() == FlowType.TRANSFER) {
             // 转账必须有account, to id和amount
-            if (account == null || form.getToId() == null || form.getAmount() == null) {
+            if (account == null || form.getTo() == null || form.getAmount() == null) {
                 throw new FailureMessageException("valid.fail");
             }
             // 转账的两个账户的币种不同，必须输入convertedAmount
-            Account toAccount = baseService.findAccountById(form.getToId());
+            Account toAccount = baseService.findAccountById(form.getTo());
             if (!account.getCurrencyCode().equals(toAccount.getCurrencyCode())) {
                 if (form.getConvertedAmount() == null) {
                     throw new FailureMessageException("valid.fail");
@@ -149,14 +149,14 @@ public class BalanceFlowService {
     public boolean add(BalanceFlowAddForm form) {
         User user = sessionUtil.getCurrentUser();
         Group group = sessionUtil.getCurrentGroup();
-        Book book = baseService.getBookInGroup(form.getBookId());
+        Book book = baseService.getBookInGroup(form.getBook());
         checkBeforeAdd(form, book, user);
         BalanceFlow entity = BalanceFlowMapper.toEntity(form);
         entity.setGroup(group);
         entity.setBook(book);
         entity.setCreator(user);
-        if (form.getAccountId() != null) {
-            entity.setAccount(baseService.findAccountById(form.getAccountId()));
+        if (form.getAccount() != null) {
+            entity.setAccount(baseService.findAccountById(form.getAccount()));
         }
         if (form.getType() == FlowType.EXPENSE || form.getType() == FlowType.INCOME) {
             BigDecimal amount = form.getCategories().stream().map(CategoryRelationForm::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -170,7 +170,7 @@ public class BalanceFlowService {
             categoryRelationService.addRelation(form.getCategories(), entity, book, entity.getAccount());
         }
         if (form.getType() == FlowType.TRANSFER) {
-            Account toAccount = baseService.findAccountById(form.getToId());
+            Account toAccount = baseService.findAccountById(form.getTo());
             entity.setTo(toAccount);
             if (entity.getAccount().getCurrencyCode().equals(entity.getTo().getCurrencyCode())) {
                 entity.setConvertedAmount(entity.getAmount());
@@ -181,8 +181,8 @@ public class BalanceFlowService {
         if (form.getTags() != null) {
             tagRelationService.addRelation(form.getTags(), entity, book, entity.getAccount());
         }
-        if (form.getPayeeId() != null) {
-            Payee payee = payeeRepository.findOneByBookAndId(book, form.getPayeeId()).orElseThrow(ItemNotFoundException::new);
+        if (form.getPayee() != null) {
+            Payee payee = payeeRepository.findOneByBookAndId(book, form.getPayee()).orElseThrow(ItemNotFoundException::new);
             entity.setPayee(payee);
         }
         balanceFlowRepository.save(entity);

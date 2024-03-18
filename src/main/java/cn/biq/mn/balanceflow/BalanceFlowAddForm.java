@@ -18,7 +18,7 @@ import java.util.Set;
 public class BalanceFlowAddForm {
 
     @NotNull
-    private Integer bookId; // 默认为当前账本
+    private Integer book; // 默认为当前账本
 
     @NotNull
     private FlowType type;
@@ -30,9 +30,9 @@ public class BalanceFlowAddForm {
     @TimeField
     private Long createTime;
 
-    private Integer accountId;
+    private Integer account;
 
-    private Integer payeeId;
+    private Integer payee;
 
     private Set<Integer> tags;
 
@@ -40,7 +40,7 @@ public class BalanceFlowAddForm {
 //    @NotEmpty  //transfer和adjust可以为空
     private List<CategoryRelationForm> categories;
 
-    private Integer toId;
+    private Integer to;
 
     // 只有transfer和adjust会传
     @AmountField

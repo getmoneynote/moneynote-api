@@ -17,7 +17,7 @@ public class CategoryRelationService {
 
     public void addRelation(Iterable<CategoryRelationForm> categories, BalanceFlow balanceFlow, Book book, Account account) {
         categories.forEach(i -> {
-            Category category = categoryRepository.findOneByBookAndId(book, i.getCategoryId()).orElseThrow(ItemNotFoundException::new);
+            Category category = categoryRepository.findOneByBookAndId(book, i.getCategory()).orElseThrow(ItemNotFoundException::new);
             CategoryRelation relation = new CategoryRelation();
             relation.setBalanceFlow(balanceFlow);
             relation.setCategory(category);

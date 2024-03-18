@@ -13,7 +13,7 @@ import java.util.Objects;
 public class CategoryRelationForm {
 
     @NotNull
-    private Integer categoryId;
+    private Integer category;
 
     @NotNull
     @AmountField
@@ -29,16 +29,16 @@ public class CategoryRelationForm {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CategoryRelationForm that = (CategoryRelationForm) o;
-        return categoryId.equals(that.categoryId);
+        return category.equals(that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(categoryId);
+        return Objects.hash(category);
     }
 
     public boolean equals(CategoryRelation categoryRelation) {
-        if (!categoryRelation.getCategory().getId().equals(categoryId)) {
+        if (!categoryRelation.getCategory().getId().equals(category)) {
             return false;
         }
         if (categoryRelation.getAmount().compareTo(amount) != 0) {
