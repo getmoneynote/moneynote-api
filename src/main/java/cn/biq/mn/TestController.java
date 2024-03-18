@@ -21,7 +21,7 @@ public class TestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/version")
     public BaseResponse handleVersion() {
-        return new DataResponse<>("93.42");
+        return new DataResponse<>("93.43");
     }
 
     @GetMapping("/test3")

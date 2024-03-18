@@ -227,7 +227,7 @@ public class AccountService {
         flow.setType(FlowType.ADJUST);
         flow.setGroup(group);
         flow.setCreator(sessionUtil.getCurrentUser());
-        flow.setBook(baseService.getBookInGroup(form.getBookId()));
+        flow.setBook(baseService.getBookInGroup(form.getBook()));
         flow.setAccount(entity);
         flow.setAmount(adjustAmount);
         flow.setTitle(form.getTitle());

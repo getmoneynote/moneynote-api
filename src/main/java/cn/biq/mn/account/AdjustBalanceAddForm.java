@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class AdjustBalanceAddForm {
 
     @NotNull
-    private Integer bookId;
+    private Integer book;
 
     @NotNull
     @TimeField
