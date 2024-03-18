@@ -48,12 +48,12 @@ public class CategoryReportQueryForm {
             BooleanBuilder builder2 = new BooleanBuilder(balanceFlow.to.id.eq(account));
             booleanBuilder.and(builder1.or(builder2));
         }
-//        if (categories != null) {
-//            booleanBuilder.and(balanceFlow.categories.any().category.id.in(categories));
-//        }
-//        if (tags != null) {
-//            booleanBuilder.and(balanceFlow.tags.any().tag.id.in(tags));
-//        }
+        if (categories != null) {
+            booleanBuilder.and(balanceFlow.categories.any().category.id.in(categories));
+        }
+        if (tags != null) {
+            booleanBuilder.and(balanceFlow.tags.any().tag.id.in(tags));
+        }
     }
 
     public Predicate buildCategoryPredicate(Book book) {
