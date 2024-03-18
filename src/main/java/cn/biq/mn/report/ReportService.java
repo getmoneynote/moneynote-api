@@ -53,7 +53,7 @@ public class ReportService {
 
     public List<ChartVO> reportCategory(CategoryReportQueryForm form, CategoryType type) {
         List<ChartVO> result = new ArrayList<>();
-        Book book = baseService.getBookInGroup(form.getBookId());
+        Book book = baseService.getBookInGroup(form.getBook());
         List<Category> categories = categoryRepository.findAllByBookAndType(book, type);
         Category requestCategory = null;
         List<Category> rootCategories = new ArrayList<>();
@@ -104,7 +104,7 @@ public class ReportService {
 
     public List<ChartVO> reportTag(CategoryReportQueryForm form, FlowType type) {
         List<ChartVO> result = new ArrayList<>();
-        Book book = baseService.getBookInGroup(form.getBookId());
+        Book book = baseService.getBookInGroup(form.getBook());
         List<Tag> tags = new ArrayList<>();
         if (type == FlowType.EXPENSE) {
             tags = tagRepository.findByBookAndEnableAndCanExpense(book, true, true);

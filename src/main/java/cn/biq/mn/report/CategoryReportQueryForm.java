@@ -17,14 +17,14 @@ import java.util.Set;
 public class CategoryReportQueryForm {
 
     @NotNull
-    private Integer bookId;
+    private Integer book;
     private Long minTime;
     private Long maxTime;
     private String title;
     private Set<Integer> payees;
     private Set<Integer> categories;
     private Set<Integer> tags;
-    private Integer accountId;
+    private Integer account;
 
     public void buildPredicate(BooleanBuilder booleanBuilder, QBalanceFlow balanceFlow) {
         if (minTime != null) {
@@ -43,9 +43,9 @@ public class CategoryReportQueryForm {
         if (payees != null) {
             booleanBuilder.and(balanceFlow.payee.id.in(payees));
         }
-        if (accountId != null) {
-            BooleanBuilder builder1 = new BooleanBuilder(balanceFlow.account.id.eq(accountId));
-            BooleanBuilder builder2 = new BooleanBuilder(balanceFlow.to.id.eq(accountId));
+        if (account != null) {
+            BooleanBuilder builder1 = new BooleanBuilder(balanceFlow.account.id.eq(account));
+            BooleanBuilder builder2 = new BooleanBuilder(balanceFlow.to.id.eq(account));
             booleanBuilder.and(builder1.or(builder2));
         }
 //        if (categories != null) {
