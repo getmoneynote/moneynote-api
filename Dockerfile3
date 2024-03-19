@@ -1,4 +1,4 @@
-FROM markliu2018/moneywhere-base-no-mysql:latest
+FROM markliu2018/moneynote-all-no-mysql:latest
 WORKDIR /app
 COPY ./build/libs/*.jar app.jar
 CMD service nginx start && java -jar app.jar
