@@ -108,7 +108,7 @@ public class BalanceFlowMapper {
 
     public static String categoryName(BalanceFlow entity) {
         if (entity.getType() == FlowType.EXPENSE || entity.getType() == FlowType.INCOME) {
-            return entity.getCategories().stream().map(i -> i.getCategory().getName() + "(" + i.getAmount().stripTrailingZeros().toPlainString()+")").collect(Collectors.joining(", "));
+            return entity.getCategories().stream().map(i -> i.getCategory().getName() + ": " + i.getAmount().stripTrailingZeros().toPlainString()).collect(Collectors.joining(", "));
         }
         return null;
     }

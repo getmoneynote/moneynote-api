@@ -72,4 +72,9 @@ public class CurrencyService {
         return true;
     }
 
+    public BigDecimal calc(String from, String to, BigDecimal amount) {
+        BigDecimal rate = convert(from, to);
+        return amount.multiply(rate);
+    }
+
 }

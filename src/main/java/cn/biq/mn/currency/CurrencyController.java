@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+
 
 @RestController
 @RequestMapping("/currencies")
@@ -31,6 +33,11 @@ public class CurrencyController extends BaseController {
     @RequestMapping(method = RequestMethod.GET, value = "/rate")
     public BaseResponse handleRate(@RequestParam String from, @RequestParam String to) {
         return new DataResponse<>(currencyService.convert(from, to));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/calc")
+    public BaseResponse handleCalc(@RequestParam String from, @RequestParam String to, @RequestParam BigDecimal amount) {
+        return new DataResponse<>(currencyService.calc(from, to, amount));
     }
 
 }
