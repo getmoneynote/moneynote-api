@@ -47,7 +47,6 @@ public class TestController {
         TimeZone timeZone = TimeZone.getTimeZone(zoneId);
         sf.setTimeZone(timeZone);
         System.out.println(sf.format(ss));
-
     }
 
 }
