@@ -135,7 +135,6 @@ public class UserService {
         return true;
     }
 
-    @Transactional(propagation = Propagation.NEVER, readOnly = true)
     public InitStateResponse getInitState() {
         var initState = new InitStateResponse();
         // 需要最新数据
