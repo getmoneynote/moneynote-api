@@ -37,4 +37,8 @@ public class AccountDetails extends IdAndNameDetails {
         return creditLimit.add(getBalance());
     }
 
+    @Override
+    public String getLabel() {
+        return getName() + "(" + getCurrencyCode() + ")";
+    }
 }
