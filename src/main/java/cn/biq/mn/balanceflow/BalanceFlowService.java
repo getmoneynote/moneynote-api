@@ -2,7 +2,6 @@ package cn.biq.mn.balanceflow;
 
 import cn.biq.mn.exception.FailureMessageException;
 import cn.biq.mn.exception.ItemNotFoundException;
-import cn.biq.mn.utils.CalendarUtil;
 import cn.biq.mn.utils.MyCollectionUtil;
 import cn.biq.mn.account.Account;
 import cn.biq.mn.account.AccountRepository;
@@ -34,7 +33,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -54,10 +52,10 @@ public class BalanceFlowService {
 
     private void checkBeforeAdd(BalanceFlowAddForm form, Book book, User user) {
         // 对用户添加账单的操作进行限流。
-        Long[] day = CalendarUtil.getIn1Day();
-        if (balanceFlowRepository.countByCreatorAndInsertAtBetween(user, day[0], day[1]) > Limitation.flow_max_count_daily) {
-            throw new FailureMessageException("add.flow.daily.overflow");
-        }
+//        Long[] day = CalendarUtil.getIn1Day();
+//        if (balanceFlowRepository.countByCreatorAndInsertAtBetween(user, day[0], day[1]) > Limitation.flow_max_count_daily) {
+//            throw new FailureMessageException("add.flow.daily.overflow");
+//        }
         Account account = null;
         if (form.getAccount() != null) {
             account = baseService.findAccountById(form.getAccount());
@@ -91,53 +89,6 @@ public class BalanceFlowService {
             }
             // 转账的两个账户的币种不同，必须输入convertedAmount
             Account toAccount = baseService.findAccountById(form.getTo());
-            if (!account.getCurrencyCode().equals(toAccount.getCurrencyCode())) {
-                if (form.getConvertedAmount() == null) {
-                    throw new FailureMessageException("valid.fail");
-                }
-            }
-        }
-    }
-
-    private void checkBeforeUpdate(BalanceFlowUpdateForm form, BalanceFlow entity, Book book) {
-        Account account = entity.getAccount();
-        if(!Objects.equals(entity.getAccount() != null ? entity.getAccount().getId() : null, form.getAccountId())) {
-            account = baseService.findAccountById(form.getAccountId());
-        }
-        if (entity.getType() == FlowType.EXPENSE || entity.getType() == FlowType.INCOME) {
-            // 因为Category为非空，所以更新传入空代表不修改。
-            // 检查Category不能重复
-            if (MyCollectionUtil.hasDuplicate(form.getCategories())) {
-                throw new FailureMessageException("add.flow.category.duplicated");
-            }
-            // 限制每个账单的分类数目
-            if (form.getCategories() != null && form.getCategories().size() > Limitation.flow_max_category_count) {
-                throw new FailureMessageException("add.flow.category.overflow");
-            }
-            // 外币账户必须输入convertedAmount
-            // account修改了才需要判断，account没有修改的，也需要判断是不是外币账户。
-            if (account != null) {
-                if (!account.getCurrencyCode().equals(book.getDefaultCurrencyCode())) {
-                    // 不传代表不修改，所以需要判断非空
-                    if (!CollectionUtils.isEmpty(form.getCategories())) {
-                        form.getCategories().forEach(i -> {
-                            if (i.getConvertedAmount() == null) throw new FailureMessageException("valid.fail");
-                        });
-                    }
-                }
-            }
-        }
-        if (entity.getType() == FlowType.TRANSFER) {
-            // 转账必须有to id和amount
-//            if (form.getToId() == null || form.getAmount() == null) {
-//                throw new FailureMessageException("valid.fail");
-//            }
-            // 转账的两个账户的币种不同，必须输入convertedAmount
-            // 账户有修改才需要判断，账户没有修改，但是之前两个账户的currencyCode不同也需要convertedAmount
-            Account toAccount = entity.getTo();
-            if (form.getToId() != null && !form.getToId().equals(entity.getTo().getId())) {
-                toAccount = baseService.findAccountById(form.getToId());
-            }
             if (!account.getCurrencyCode().equals(toAccount.getCurrencyCode())) {
                 if (form.getConvertedAmount() == null) {
                     throw new FailureMessageException("valid.fail");
@@ -305,74 +256,15 @@ public class BalanceFlowService {
         return true;
     }
 
+    // 不能修改相关账户和金额，不能修改分类
     public boolean update(Integer id, BalanceFlowUpdateForm form) {
         // checkBeforeUpdate
         BalanceFlow entity = baseService.findFlowById(id);
         Book book = entity.getBook();
-        checkBeforeUpdate(form, entity, book);
         BalanceFlowMapper.updateEntity(form, entity);
-        boolean refundFlag = false;
-        Account newAccount = entity.getAccount();
-        BigDecimal newAmount = entity.getAmount();
-        BigDecimal newConvertedAmount = entity.getConvertedAmount();
-        Account newTo = entity.getTo();
-        // 判断账户是否更新
-        if(!Objects.equals(entity.getAccount() != null ? entity.getAccount().getId() : null, form.getAccountId())) {
-            newAccount = baseService.findAccountById(form.getAccountId());
-            refundFlag = true;
-        }
-        if (entity.getType() == FlowType.EXPENSE || entity.getType() == FlowType.INCOME) {
-            // 传入的categories为空，代表不修改。
-            if (!CollectionUtils.isEmpty(form.getCategories()) && !categoryEquals(entity.getCategories(), form.getCategories())) {
-                newAmount = form.getCategories().stream().map(CategoryRelationForm::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
-                if (entity.getAmount().compareTo(newAmount) != 0) {
-                    refundFlag = true;
-                }
-                if (newAccount == null || newAccount.getCurrencyCode().equals(book.getDefaultCurrencyCode())) {
-                    newConvertedAmount = newAmount;
-                } else {
-                    newConvertedAmount = form.getCategories().stream().map(CategoryRelationForm::getConvertedAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
-                }
-                if (entity.getAmount().compareTo(newAmount) != 0) {
-                    // 不然更新金额，标签对应的金额不更新
-                    // 只有更新金额才自动更新标签的金额，更新分类不更新标签的金额
-                    for (TagRelation i : entity.getTags()) {
-                        i.setAmount(newAmount);
-                        i.setConvertedAmount(newConvertedAmount);
-                    }
-                }
-                entity.getCategories().clear();
-                categoryRelationService.addRelation(form.getCategories(), entity, book, newAccount);
-            }
-        } else if (entity.getType() == FlowType.TRANSFER) {
-            if (form.getToId() != null && !form.getToId().equals(entity.getTo().getId())) {
-                newTo = baseService.findAccountById(form.getToId());
-                refundFlag = true;
-            }
-            if (form.getAmount() != null && form.getAmount().compareTo(entity.getAmount()) != 0) {
-                newAmount = form.getAmount();
-                refundFlag = true;
-            }
-            if (newAccount.getCurrencyCode().equals(newTo.getCurrencyCode())) {
-                newConvertedAmount = newAmount;
-            } else {
-                // 这种情况form.getConvertedAmount()一定不为空
-                if (form.getConvertedAmount().compareTo(entity.getConvertedAmount()) != 0) {
-                    newConvertedAmount = form.getConvertedAmount();
-                    refundFlag = true;
-                }
-            }
-        }
-        if (refundFlag && entity.getConfirm()) {
-            refundBalance(entity);
-        }
-        entity.setAccount(newAccount);
-        entity.setAmount(newAmount);
-        entity.setTo(newTo);
-        entity.setConvertedAmount(newConvertedAmount);
-        if (form.getPayeeId() != null) {
-            if (entity.getPayee() == null || !form.getPayeeId().equals(entity.getPayee().getId())) {
-                Payee payee = payeeRepository.findOneByBookAndId(book, form.getPayeeId()).orElseThrow(ItemNotFoundException::new);
+        if (form.getPayee() != null) {
+            if (entity.getPayee() == null || !form.getPayee().equals(entity.getPayee().getId())) {
+                Payee payee = payeeRepository.findOneByBookAndId(book, form.getPayee()).orElseThrow(ItemNotFoundException::new);
                 entity.setPayee(payee);
             }
         } else {
@@ -381,12 +273,9 @@ public class BalanceFlowService {
         // 传入null代表不修改，传入空数组[]，代表清空。
         if (form.getTags() != null && !tagEquals(form.getTags(), entity.getTags())) {
             entity.getTags().clear();
-            tagRelationService.addRelation(form.getTags(), entity, book, newAccount);
+            tagRelationService.addRelation(form.getTags(), entity, book, entity.getAccount());
         }
         balanceFlowRepository.save(entity);
-        if (refundFlag && entity.getConfirm()) {
-            confirmBalance(entity);
-        }
         return true;
     }
 
