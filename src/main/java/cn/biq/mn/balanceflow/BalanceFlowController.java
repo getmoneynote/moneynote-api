@@ -57,6 +57,11 @@ public class BalanceFlowController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/{id}/addFile")
     public BaseResponse handleAddFile(@PathVariable("id") Integer id, @Validated @ValidFile @RequestParam("file") MultipartFile file) {
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return new DataResponse<>(balanceFlowService.addFile(id, file));
     }
 
