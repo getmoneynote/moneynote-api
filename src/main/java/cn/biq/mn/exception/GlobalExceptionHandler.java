@@ -125,6 +125,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseBody
     public BaseResponse exceptionHandler(HttpMessageNotReadableException e) {
+        e.printStackTrace();
         return new SimpleResponse(false, messageSourceUtil.getMessage(e.getClass().getSimpleName()));
     }
 

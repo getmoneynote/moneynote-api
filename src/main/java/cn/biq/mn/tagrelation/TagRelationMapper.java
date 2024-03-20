@@ -1,6 +1,6 @@
 package cn.biq.mn.tagrelation;
 
-import cn.biq.mn.tag.TagMapper;
+import cn.biq.mn.base.IdAndNameMapper;
 
 public class TagRelationMapper {
 
@@ -8,7 +8,7 @@ public class TagRelationMapper {
         if (entity == null) return null;
         var details = new TagRelationDetails();
         details.setId( entity.getId() );
-        details.setTag( TagMapper.toDetails( entity.getTag() ) );
+        details.setTag( IdAndNameMapper.toDetails( entity.getTag() ) );
         details.setAmount( entity.getAmount() );
         details.setConvertedAmount( entity.getConvertedAmount() );
         return details;

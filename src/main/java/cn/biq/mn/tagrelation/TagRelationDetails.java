@@ -1,7 +1,7 @@
 package cn.biq.mn.tagrelation;
 
 import cn.biq.mn.base.BaseDetails;
-import cn.biq.mn.tag.TagDetails;
+import cn.biq.mn.base.IdAndNameDetails;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Setter
 public class TagRelationDetails extends BaseDetails {
 
-    private TagDetails tag;
+    private IdAndNameDetails tag;
     private BigDecimal amount;
     private BigDecimal convertedAmount;
 
