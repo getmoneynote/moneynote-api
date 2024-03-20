@@ -39,6 +39,6 @@ public class AccountDetails extends IdAndNameDetails {
 
     @Override
     public String getLabel() {
-        return getName() + "(" + getCurrencyCode() + ")";
+        return getName();
     }
 }
