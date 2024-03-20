@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter @Setter
 public class AdjustBalanceUpdateForm {
 
-    private Integer bookId;
+    private Integer book;
 
     @NotNull
     @TimeField

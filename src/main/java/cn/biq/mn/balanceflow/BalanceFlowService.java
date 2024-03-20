@@ -132,9 +132,11 @@ public class BalanceFlowService {
         if (form.getTags() != null) {
             tagRelationService.addRelation(form.getTags(), entity, book, entity.getAccount());
         }
-        if (form.getPayee() != null) {
-            Payee payee = payeeRepository.findOneByBookAndId(book, form.getPayee()).orElseThrow(ItemNotFoundException::new);
-            entity.setPayee(payee);
+        if (form.getType() == FlowType.EXPENSE || form.getType() == FlowType.INCOME) {
+            if (form.getPayee() != null) {
+                Payee payee = payeeRepository.findOneByBookAndId(book, form.getPayee()).orElseThrow(ItemNotFoundException::new);
+                entity.setPayee(payee);
+            }
         }
         balanceFlowRepository.save(entity);
         if (form.getConfirm()) {

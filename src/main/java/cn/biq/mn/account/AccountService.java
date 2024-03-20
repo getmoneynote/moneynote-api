@@ -241,8 +241,8 @@ public class AccountService {
     public boolean updateAdjustBalance(Integer id, AdjustBalanceUpdateForm form) {
         BalanceFlow balanceFlow = baseService.findFlowById(id);
         BalanceFlowMapper.updateEntity(form, balanceFlow);
-        if (form.getBookId() != null) {
-            balanceFlow.setBook(baseService.getBookInGroup(form.getBookId()));
+        if (form.getBook() != null) {
+            balanceFlow.setBook(baseService.getBookInGroup(form.getBook()));
         }
         balanceFlowRepository.save(balanceFlow);
         return true;

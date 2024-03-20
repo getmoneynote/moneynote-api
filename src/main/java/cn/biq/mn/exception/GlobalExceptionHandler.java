@@ -30,6 +30,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     public BaseResponse exceptionHandler(MethodArgumentNotValidException e) {
+        e.printStackTrace();
         ValidationErrorResponse response = new ValidationErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), messageSourceUtil.getMessage("valid.fail"));
         for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
             response.getViolations().add(new Violation(fieldError.getField(), fieldError.getDefaultMessage()));
@@ -42,6 +43,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseBody
     ValidationErrorResponse exceptionHandler(ConstraintViolationException e) {
+        e.printStackTrace();
         ValidationErrorResponse response = new ValidationErrorResponse(4221, messageSourceUtil.getMessage("valid.fail"));
         for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
             response.getViolations().add(new Violation(violation.getPropertyPath().toString(), violation.getMessage()));
@@ -53,6 +55,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     @ResponseBody
     ValidationErrorResponse exceptionHandler(BindException e) {
+        e.printStackTrace();
         ValidationErrorResponse response = new ValidationErrorResponse(4223, messageSourceUtil.getMessage("valid.fail"));
         for (FieldError error : e.getBindingResult().getFieldErrors()) {
             response.getViolations().add(new Violation(error.getField(), error.getDefaultMessage()));
@@ -66,6 +69,7 @@ public class GlobalExceptionHandler {
 //    @ExceptionHandler(TransactionSystemException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public BaseResponse exceptionHandler(TransactionSystemException e) {
+        e.printStackTrace();
         if (e.getRootCause() instanceof ConstraintViolationException) {
             ConstraintViolationException constraintViolationException = (ConstraintViolationException) e.getRootCause();
             ValidationErrorResponse response = new ValidationErrorResponse(4222, messageSourceUtil.getMessage("valid.fail"));
@@ -85,6 +89,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseBody
     public BaseResponse exceptionHandler(DataIntegrityViolationException e) {
+        e.printStackTrace();
         String rootMsg = "";
         if (e.getRootCause() != null) {
             rootMsg = e.getRootCause().getMessage();
@@ -95,6 +100,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ItemExistsException.class)
     @ResponseBody
     public BaseResponse exceptionHandler(ItemExistsException e) {
+        e.printStackTrace();
         String errMsg;
         if (StringUtils.hasText(e.getMessage())) {
             errMsg = messageSourceUtil.getMessage(e.getMessage());
@@ -107,6 +113,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ItemNotFoundException.class)
     @ResponseBody  // 404
     public BaseResponse exceptionHandler(ItemNotFoundException e) {
+        e.printStackTrace();
         String errMsg;
         if (StringUtils.hasText(e.getMessage())) {
             errMsg = messageSourceUtil.getMessage(e.getMessage());
@@ -119,6 +126,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(FailureMessageException.class)
     @ResponseBody
     public BaseResponse exceptionHandler(FailureMessageException e) {
+        e.printStackTrace();
         return new SimpleResponse(false, messageSourceUtil.getMessage(e.getMessage()), e.getShowType());
     }
 
