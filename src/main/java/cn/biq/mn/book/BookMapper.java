@@ -1,5 +1,6 @@
 package cn.biq.mn.book;
 
+import cn.biq.mn.balanceflow.BookForFlow;
 import cn.biq.mn.base.IdAndNameMapper;
 import cn.biq.mn.account.Account;
 import cn.biq.mn.account.AccountMapper;
@@ -139,6 +140,15 @@ public class BookMapper {
         }
         entity.setSort(form.getSort());
 
+    }
+
+    public static BookForFlow toBookForFlow(Book entity) {
+        if (entity == null) return null;
+        var details = new BookForFlow();
+        details.setId( entity.getId() );
+        details.setName( entity.getName() );
+        details.setDefaultCurrencyCode( entity.getDefaultCurrencyCode() );
+        return details;
     }
 
 }

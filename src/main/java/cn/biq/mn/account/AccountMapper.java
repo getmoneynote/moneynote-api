@@ -1,5 +1,6 @@
 package cn.biq.mn.account;
 
+import cn.biq.mn.balanceflow.AccountForFlow;
 import org.springframework.util.StringUtils;
 
 public class AccountMapper {
@@ -75,6 +76,15 @@ public class AccountMapper {
         account.setBillDay( form.getBillDay() );
         account.setApr( form.getApr() );
         account.setSort(form.getSort());
+    }
+
+    public static AccountForFlow toAccountForFlow(Account entity) {
+        if (entity == null) return null;
+        var details = new AccountForFlow();
+        details.setId( entity.getId() );
+        details.setName( entity.getName() );
+        details.setCurrencyCode( entity.getCurrencyCode() );
+        return details;
     }
 
 }

@@ -32,14 +32,14 @@ public class BalanceFlowMapper {
         details.setAccountName( BalanceFlowMapper.accountName( entity ) );
         details.setCategoryName( BalanceFlowMapper.categoryName( entity ) );
         details.setId( entity.getId() );
-        details.setBook( IdAndNameMapper.toDetails( entity.getBook() ) );
+        details.setBook( BookMapper.toBookForFlow( entity.getBook() ) );
         details.setType( entity.getType() );
         details.setTitle( entity.getTitle() );
         details.setNotes( entity.getNotes() );
         details.setCreateTime( entity.getCreateTime() );
         details.setAmount( entity.getAmount() );
         details.setConvertedAmount( entity.getConvertedAmount() );
-        details.setAccount( IdAndNameMapper.toDetails( entity.getAccount() ) );
+        details.setAccount( AccountMapper.toAccountForFlow( entity.getAccount() ) );
         details.setConfirm( entity.getConfirm() );
         details.setInclude( entity.getInclude() );
         details.setCategories( categoryRelationSetToCategoryRelationDetailsList( entity.getCategories() ) );
@@ -47,22 +47,6 @@ public class BalanceFlowMapper {
         details.setTo( AccountMapper.toDetails( entity.getTo() ) );
         details.setPayee( IdAndNameMapper.toDetails( entity.getPayee() ) );
         details.setTypeName( enumUtils.translateFlowType(entity.getType()) );
-        {
-            boolean needConvert = false;
-            if (entity.getType() == FlowType.EXPENSE || entity.getType() == FlowType.INCOME) {
-                needConvert = !Objects.equals(entity.getBook().getDefaultCurrencyCode(), entity.getAccount() != null ? entity.getAccount().getCurrencyCode() : null);
-            } else if (entity.getType() == FlowType.TRANSFER) {
-                needConvert = !Objects.equals(entity.getAccount().getCurrencyCode(), entity.getTo().getCurrencyCode());
-            }
-            details.setNeedConvert(needConvert);
-        }
-        {
-            if (entity.getType() == FlowType.EXPENSE || entity.getType() == FlowType.INCOME) {
-                details.setConvertCode(entity.getBook().getDefaultCurrencyCode());
-            } else if (entity.getType() == FlowType.TRANSFER) {
-                details.setConvertCode(entity.getTo().getCurrencyCode());
-            }
-        }
         return details;
     }
 

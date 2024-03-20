@@ -11,12 +11,13 @@ import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter @Setter
 public class BalanceFlowDetails extends BaseDetails {
 
-    private IdAndNameDetails book;
+    private BookForFlow book;
     private FlowType type;
     private String typeName;
     private String title;
@@ -24,7 +25,7 @@ public class BalanceFlowDetails extends BaseDetails {
     private Long createTime;
     private BigDecimal amount;
     private BigDecimal convertedAmount;
-    private IdAndNameDetails account;
+    private AccountForFlow account;
     private Boolean confirm;
     private Boolean include;
     private List<CategoryRelationDetails> categories;
@@ -33,9 +34,6 @@ public class BalanceFlowDetails extends BaseDetails {
     private String categoryName;
     private AccountDetails to;
     private IdAndNameDetails payee;
-    private boolean needConvert;
-    private String convertCode;
-
 
     public String getListTitle() {
         StringBuilder result = new StringBuilder();
@@ -58,6 +56,24 @@ public class BalanceFlowDetails extends BaseDetails {
 
     public String getTagsName() {
         return tags.stream().map(TagRelationDetails::getTagName).collect(Collectors.joining(", "));
+    }
+
+    public boolean getNeedConvert() {
+        if (type == FlowType.EXPENSE || type == FlowType.INCOME) {
+            return !Objects.equals(book.getDefaultCurrencyCode(), account != null ? account.getCurrencyCode() : null);
+        } else if (type == FlowType.TRANSFER) {
+            return !Objects.equals(account.getCurrencyCode(), to.getCurrencyCode());
+        }
+        return false;
+    }
+
+    public String getConvertCode() {
+        if (type == FlowType.EXPENSE || type == FlowType.INCOME) {
+            return book.getDefaultCurrencyCode();
+        } else if (type == FlowType.TRANSFER) {
+            return to.getCurrencyCode();
+        }
+        return null;
     }
 
     public int getTypeIndex() {
