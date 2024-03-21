@@ -4,7 +4,7 @@ name: all acr image
 on:
   push:
     branches:
-      - main
+      - main1
     paths:
       - 'src/**'
 
