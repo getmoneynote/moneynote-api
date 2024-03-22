@@ -4,7 +4,7 @@ name: all hub image
 on:
   push:
     branches:
-      - main1
+      - main
     paths:
       - 'src/**'
 

@@ -4,7 +4,7 @@ name: all no mysql acr image
 on:
   push:
     branches:
-      - main1
+      - main
     paths:
       - 'src/**'
 

@@ -34,7 +34,7 @@ public class MvcInterceptorConfig implements WebMvcConfigurer {
                 //设置放行哪些原始域   SpringBoot2.4.4下低版本使用.allowedOrigins("*")
                 .allowedOriginPatterns("*")
                 //放行哪些请求方式
-                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
                 .maxAge(3600)
                 //放行哪些原始请求头部信息
                 .allowedHeaders("*")
