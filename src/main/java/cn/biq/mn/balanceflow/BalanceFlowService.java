@@ -97,7 +97,7 @@ public class BalanceFlowService {
         }
     }
 
-    public boolean add(BalanceFlowAddForm form) {
+    public BalanceFlow add(BalanceFlowAddForm form) {
         User user = sessionUtil.getCurrentUser();
         Group group = sessionUtil.getCurrentGroup();
         Book book = baseService.getBookInGroup(form.getBook());
@@ -138,11 +138,11 @@ public class BalanceFlowService {
                 entity.setPayee(payee);
             }
         }
-        balanceFlowRepository.save(entity);
+        BalanceFlow balanceFlow = balanceFlowRepository.save(entity);
         if (form.getConfirm()) {
             confirmBalance(entity);
         }
-        return true;
+        return balanceFlow;
     }
 
     // 余额确认，包括账户扣款。
@@ -258,26 +258,21 @@ public class BalanceFlowService {
         return true;
     }
 
-    // 不能修改相关账户和金额，不能修改分类
-    public boolean update(Integer id, BalanceFlowUpdateForm form) {
-        // checkBeforeUpdate
-        BalanceFlow entity = baseService.findFlowById(id);
-        Book book = entity.getBook();
-        BalanceFlowMapper.updateEntity(form, entity);
-        if (form.getPayee() != null) {
-            if (entity.getPayee() == null || !form.getPayee().equals(entity.getPayee().getId())) {
-                Payee payee = payeeRepository.findOneByBookAndId(book, form.getPayee()).orElseThrow(ItemNotFoundException::new);
-                entity.setPayee(payee);
-            }
-        } else {
-            entity.setPayee(null);
-        }
-        // 传入null代表不修改，传入空数组[]，代表清空。
-        if (form.getTags() != null && !tagEquals(form.getTags(), entity.getTags())) {
-            entity.getTags().clear();
-            tagRelationService.addRelation(form.getTags(), entity, book, entity.getAccount());
-        }
-        balanceFlowRepository.save(entity);
+    // 修改的逻辑，删除旧的，新增一条新纪录
+    public boolean update(Integer id, BalanceFlowAddForm form) {
+        BalanceFlow oldBalanceFlow = baseService.findFlowById(id);
+        // book type confirm不能修改
+        form.setBook(oldBalanceFlow.getBook().getId());
+        form.setType(oldBalanceFlow.getType());
+        form.setConfirm(oldBalanceFlow.getConfirm());
+        BalanceFlow newBalanceFlow = add(form);
+        // 处理文件
+        Set<FlowFile> files = oldBalanceFlow.getFiles();
+        files.forEach(file -> {
+            file.setFlow(newBalanceFlow);
+            flowFileRepository.save(file);
+        });
+        remove(oldBalanceFlow.getId());
         return true;
     }
 

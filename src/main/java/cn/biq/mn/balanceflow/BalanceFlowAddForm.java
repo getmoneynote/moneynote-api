@@ -32,13 +32,13 @@ public class BalanceFlowAddForm {
 
     private Integer account;
 
-    private Integer payee;
-
-    private Set<Integer> tags;
-
     @Valid
 //    @NotEmpty  //transfer和adjust可以为空
     private List<CategoryRelationForm> categories;
+
+    private Integer payee;
+
+    private Set<Integer> tags;
 
     private Integer to;
 

@@ -22,7 +22,8 @@ public class BalanceFlowController {
 
     @RequestMapping(method = RequestMethod.POST, value = "")
     public BaseResponse handleAdd(@Valid @RequestBody BalanceFlowAddForm form) {
-        return new BaseResponse(balanceFlowService.add(form));
+        balanceFlowService.add(form);
+        return new BaseResponse(true);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "")
@@ -36,7 +37,7 @@ public class BalanceFlowController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    public BaseResponse handleUpdate(@PathVariable("id") Integer id, @Valid @RequestBody BalanceFlowUpdateForm form) {
+    public BaseResponse handleUpdate(@PathVariable("id") Integer id, @Valid @RequestBody BalanceFlowAddForm form) {
         return new BaseResponse(balanceFlowService.update(id, form));
     }
 
