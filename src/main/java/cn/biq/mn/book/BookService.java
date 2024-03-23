@@ -96,7 +96,7 @@ public class BookService {
         return details;
     }
 
-    public boolean add(BookAddForm form) {
+    public Book add(BookAddForm form) {
         Group group = sessionUtil.getCurrentGroup();
         if (bookRepository.countByGroup(group) >= Limitation.book_max_count) {
             throw new FailureMessageException("book.max.count");
@@ -105,8 +105,8 @@ public class BookService {
             throw new ItemExistsException();
         }
         currencyService.checkCode(form.getDefaultCurrencyCode());
-        bookRepository.save(bookMapper.toEntity(form));
-        return true;
+        Book book = bookRepository.save(bookMapper.toEntity(form));
+        return book;
     }
 
     public boolean update(Integer id, BookUpdateForm form) {
@@ -173,14 +173,7 @@ public class BookService {
                 .findFirst();
         if (bookTemplateOptional.isPresent()) {
             BookTemplate bookTemplate = bookTemplateOptional.get();
-            Book book = new Book();
-            String bookName;
-            if (StringUtils.hasText(form.getBookName())) {
-                bookName = form.getBookName();
-            } else {
-                bookName = bookTemplate.getName();
-            }
-            book.setName(bookName);
+            Book book = add(form.getBook());
             setBookByBookTemplate(bookTemplate, group, book);
         } else {
             throw new ItemNotFoundException();
@@ -190,21 +183,8 @@ public class BookService {
 
     // 复制账本
     public boolean addByBook(BookAddByBookForm form) {
-        Group group = sessionUtil.getCurrentGroup();
+        Book book = add(form.getBook());
         Book bookSrc = baseService.getBookInGroup(form.getBookId());
-        Book book = new Book();
-        String bookName;
-        if (StringUtils.hasText(form.getBookName())) {
-            bookName = form.getBookName();
-        } else {
-            bookName = bookSrc.getName();
-        }
-        book.setName(bookName);
-        book.setNotes(bookSrc.getNotes());
-        book.setDefaultCurrencyCode(group.getDefaultCurrencyCode());
-        book.setGroup(group);
-        bookRepository.save(book);
-
         List<TagDetails> tagDetailList = bookSrc.getTags().stream().map(TagMapper::toDetails).toList();
         saveTag1(TreeUtils.buildTree(tagDetailList), book);
 
@@ -223,13 +203,18 @@ public class BookService {
     }
 
     public void setBookByBookTemplate(BookTemplate bookTemplate, Group group, Book book) {
-        if (bookRepository.existsByGroupAndName(group, book.getName())) {
-            throw new ItemExistsException();
+//        if (bookRepository.existsByGroupAndName(group, book.getName())) {
+//            throw new ItemExistsException();
+//        }
+        if (book.getNotes() == null) {
+            book.setNotes(bookTemplate.getNotes());
         }
-
-        book.setNotes(bookTemplate.getNotes());
-        book.setDefaultCurrencyCode(group.getDefaultCurrencyCode());
-        book.setGroup(group);
+        if (book.getDefaultCurrencyCode() == null) {
+            book.setDefaultCurrencyCode(group.getDefaultCurrencyCode());
+        }
+        if (book.getGroup() == null) {
+            book.setGroup(group);
+        }
         bookRepository.save(book);
 
         saveTag(TreeUtils.buildTree(bookTemplate.getTags()), book);

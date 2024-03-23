@@ -22,8 +22,6 @@ public class BookAddForm {
     private Integer defaultIncomeAccountId;
     private Integer defaultTransferFromAccountId;
     private Integer defaultTransferToAccountId;
-    private Integer defaultExpenseCategoryId;
-    private Integer defaultIncomeCategoryId;
 
     @NotesField
     private String notes;

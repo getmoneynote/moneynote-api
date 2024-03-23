@@ -41,7 +41,8 @@ public class BookController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST, value = "")
     public BaseResponse handleAdd(@Valid @RequestBody BookAddForm form) {
-        return new BaseResponse(bookService.add(form));
+        bookService.add(form);
+        return new BaseResponse(true);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/all")
