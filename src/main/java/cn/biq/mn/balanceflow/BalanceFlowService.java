@@ -259,7 +259,7 @@ public class BalanceFlowService {
     }
 
     // 修改的逻辑，删除旧的，新增一条新纪录
-    public boolean update(Integer id, BalanceFlowAddForm form) {
+    public Integer update(Integer id, BalanceFlowAddForm form) {
         BalanceFlow oldBalanceFlow = baseService.findFlowById(id);
         // book type confirm不能修改
         form.setBook(oldBalanceFlow.getBook().getId());
@@ -273,7 +273,7 @@ public class BalanceFlowService {
             flowFileRepository.save(file);
         });
         remove(oldBalanceFlow.getId());
-        return true;
+        return newBalanceFlow.getId();
     }
 
     public boolean confirm(Integer id) {

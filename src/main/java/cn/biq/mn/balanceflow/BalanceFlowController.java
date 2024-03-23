@@ -38,7 +38,7 @@ public class BalanceFlowController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     public BaseResponse handleUpdate(@PathVariable("id") Integer id, @Valid @RequestBody BalanceFlowAddForm form) {
-        return new BaseResponse(balanceFlowService.update(id, form));
+        return new DataResponse<>(balanceFlowService.update(id, form));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
