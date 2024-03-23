@@ -74,7 +74,7 @@ public class CurrencyService {
 
     public BigDecimal calc(String from, String to, BigDecimal amount) {
         BigDecimal rate = convert(from, to);
-        return amount.multiply(rate);
+        return amount.multiply(rate).setScale(2, RoundingMode.HALF_EVEN);
     }
 
 }
