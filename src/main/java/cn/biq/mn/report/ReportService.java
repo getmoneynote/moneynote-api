@@ -179,6 +179,7 @@ public class ReportService {
             }
         }
         Group group = sessionUtil.getCurrentGroup();
+        form.setType(type);
         List<BalanceFlow> balanceFlows = balanceFlowRepository.findAll(form.buildPredicate(group));
         for (Payee i : rootPayees) {
             ChartVO vo = new ChartVO();
