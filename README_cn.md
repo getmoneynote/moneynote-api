@@ -1,5 +1,8 @@
-# 九快记账后台API
+<p align="left">
+    <a href="README_en.md">English</a> &nbsp ｜ &nbsp 中文
+</p>
 
+# MoneyNote
 
 ## 系统介绍
 
