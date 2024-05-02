@@ -101,4 +101,10 @@ public class AccountController extends BaseController {
         return new DataResponse<>(accountService.overview());
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/updateNotes")
+    public BaseResponse handleUpdateNotes(@PathVariable("id") int id, @Valid @RequestBody AccountUpdateNotesForm form) {
+        accountService.updateNotes(id, form);
+        return new BaseResponse(true);
+    }
+
 }

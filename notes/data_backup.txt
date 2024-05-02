@@ -1,0 +1,31 @@
+1. 使用phpmyadmin的导入导出功能。
+2. 备份文件夹
+
+要把存储引擎改为 MyISAM。
+先把docker里面的 var/lib/mysql/moneynote 文件夹捞出来
+https://docker.easydoc.net/doc/81170005/cCewZWoN/XQEqNjiu
+
+docker run --rm --volumes-from moneynote -v .:/backup ubuntu bash -c "cd /var/lib/mysql && tar -xzvf /backup/moneynote.tar.gz"
+下载moneynote.tar.gz
+
+在目标机器运行moneynote all
+运行起来之后在phpmyadmin，删掉moneynote数据库，重新创建，为了把spring boot自动建的表清空。
+在包含moneynote.tar.gz的目录执行：
+docker run --rm --volumes-from moneynote -v .:/backup ubuntu bash -c "cd /var/lib/mysql && mkdir m_temp && cd m_temp && tar -xzvf /backup/moneynote.tar.gz"
+
+在phpmyadmin查看
+show variables like 'secure_file_priv';
+UNLOCK TABLES;
+
+进入moneynote容器的命令行
+cp /var/lib/mysql/m_temp/moneynote/*.MYI /var/lib/mysql/moneynote
+cp /var/lib/mysql/m_temp/moneynote/*.MYD /var/lib/mysql/moneynote
+cp /var/lib/mysql/m_temp/moneynote/*.sdi /var/lib/mysql-files
+chmod -R 777 /var/lib/mysql-files
+
+https://www.xiebruce.top/689.html
+
+import table from '/var/lib/mysql-files/*.sdi';
+
+如果出现table is readonly
+chown -R mysql:mysql /var/lib/mysql/moneynote

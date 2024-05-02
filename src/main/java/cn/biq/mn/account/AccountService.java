@@ -285,4 +285,11 @@ public class AccountService {
         return debtAccounts;
     }
 
+    public void updateNotes(int id, AccountUpdateNotesForm form) {
+        Group group = sessionUtil.getCurrentGroup();
+        Account entity = baseService.findAccountById(id);
+        entity.setNotes(form.getNotes());
+        accountRepository.save(entity);
+    }
+
 }
