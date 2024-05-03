@@ -6,7 +6,12 @@
 
 ## 系统介绍
 
-一个开源免费的记账解决方案，包括[后端](https://github.com/getmoneynote/moneynote-api)，[网页版](https://github.com/getmoneynote/moneywhere-user-fe)，[App](https://github.com/getmoneynote/moneywhere_user_flutter)，主要用于个人生活记账，开店收支记账，支持[docker一键部署](https://github.com/getmoneynote/docker-compose-moneywhere)自己的记账程序。独立运行，不依赖任何第三方服务。
+一个开源免费的记账解决方案，包括[后端](https://github.com/getmoneynote/moneynote-api)，[网页版](https://github.com/getmoneynote/moneynote-pc)，[App](https://github.com/getmoneynote/moneynote-flutter)，主要用于个人生活记账，开店收支记账，支持[docker一键部署](https://github.com/getmoneynote/docker-compose-moneynote-ali)自己的记账程序。独立运行，不依赖任何第三方服务。
+
+## 相关项目
+- [PC Web](https://github.com/getmoneynote/moneynote-pc)
+- [App Flutter](https://github.com/getmoneynote/moneynote-flutter)
+- [Docker Compose](https://github.com/getmoneynote/docker-compose-moneynote-ali)
 
 ## 个人部署
 请参考[docker compose](https://github.com/getmoneynote/docker-compose-moneynote-ali)项目
@@ -31,7 +36,7 @@
 ## 使用文档
 [从零开始搭建完善的记账体系](https://sspai.com/post/58025)
 
-[https://help.moneywhere.com](https://help.moneynote.com)
+[https://help.moneynote.com](https://help.moneynote.com)
 
 
 如遇到任何问题欢迎加入 QQ群: 639653091 讨论。
