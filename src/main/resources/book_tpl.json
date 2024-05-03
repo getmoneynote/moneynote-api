@@ -3,7 +3,7 @@
     "id": 1,
     "name": "生活账本1",
     "notes": "用于个人生活记账。将支出分为维持类，消费类，提升类，社交类4个大类，收入分为主动收入，被动收入，社交收入3个大类。",
-    "previewUrl": "http://tpl.moneywhere.com/生活账本1.png",
+    "previewUrl": "/api/v1/生活账本1.png",
     "tags": [
       {
         "id": 1,
@@ -852,7 +852,7 @@
     "id": 2,
     "name": "餐饮店账本",
     "notes": "用于开餐饮店记录收支情况。",
-    "previewUrl": "http://tpl.moneywhere.com/餐饮店账本1.png",
+    "previewUrl": "/api/v1/餐饮店账本1.png",
     "tags": [],
     "categories": [
       {
@@ -1172,7 +1172,7 @@
     "id": 3,
     "name": "生活账本2",
     "notes": "参考随手记",
-    "previewUrl": "http://tpl.moneywhere.com/生活账本2.png",
+    "previewUrl": "/api/v1/生活账本2.png",
     "tags": [],
     "categories": [
       {
@@ -1846,7 +1846,7 @@
     "id": 4,
     "name": "Daily Life",
     "notes": "A book template for personal daily life using.",
-    "previewUrl": "http://tpl.moneywhere.com/Daily_Life.png",
+    "previewUrl": "/api/v1/Daily_Life.png",
     "tags": [
       {
         "id": 191,
