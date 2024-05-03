@@ -11,12 +11,17 @@
 ## 个人部署
 请参考[docker compose](https://github.com/getmoneynote/docker-compose-moneynote-ali)项目
 
-[PC示例站点](https://demo.moneywhere.com)  注册邀请码 111111（6个1）
+[PC示例站点](http://150.158.18.44:43743)  注册邀请码 111111（6个1）
 
-[手机示例站点](https://mdemo.moneywhere.com)   api地址：https://mdemo.moneywhere.com/api/v1/, 用pc站点注册的账号登录。
+[手机示例站点](http://150.158.18.44:43744) 
+
+后台地址：http://150.158.18.44:43744, 用pc站点注册的账号登录。
 
 ## 如何搭建
 [B站视频教程](https://space.bilibili.com/392661804/channel/collectiondetail?sid=2604159)
+
+## 如何记账
+[B站视频教程](https://space.bilibili.com/392661804/channel/collectiondetail?sid=2907921)
 
 ## 数据备份和还原
 [B站视频教程](https://space.bilibili.com/392661804/channel/collectiondetail?sid=2899524&ctype=0)
@@ -26,7 +31,7 @@
 ## 使用文档
 [从零开始搭建完善的记账体系](https://sspai.com/post/58025)
 
-[https://help.moneywhere.com](https://help.moneywhere.com)
+[https://help.moneywhere.com](https://help.moneynote.com)
 
 
 如遇到任何问题欢迎加入 QQ群: 639653091 讨论。
@@ -49,7 +54,4 @@
 
 ## ToDo
 - 预算功能
-- 汇率和账本模板服务downgrade
-- 完善代码最佳实践
-- 完善分组功能
-- 开发微信小程序
+- 组成员管理
