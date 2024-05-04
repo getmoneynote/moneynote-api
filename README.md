@@ -24,6 +24,7 @@
 
 ## 如何搭建
 [B站视频教程](https://space.bilibili.com/392661804/channel/collectiondetail?sid=2604159)
+[下载App](https://github.com/getmoneynote/moneynote-flutter/releases/tag/v1.0.44)
 
 ## 如何记账
 [B站视频教程](https://space.bilibili.com/392661804/channel/collectiondetail?sid=2907921)
@@ -37,7 +38,6 @@
 [从零开始搭建完善的记账体系](https://sspai.com/post/58025)
 
 [https://help.moneynote.com](https://help.moneynote.com)
-
 
 如遇到任何问题欢迎加入 QQ群: 639653091 讨论。
 
