@@ -18,7 +18,7 @@
 
 [PC示例站点](http://150.158.18.44:43743)  注册邀请码 111111（6个1）
 
-[手机示例站点](http://150.158.18.44:43744) 
+[手机示例站点](http://150.158.18.44:43744)
 
 后台地址：http://150.158.18.44:43744, 用pc站点注册的账号登录。
 
@@ -34,9 +34,8 @@
 - [备份数据库文件夹](https://www.bilibili.com/read/cv34264576/?spm_id_from=333.999.0.0)
 
 ## 使用文档
-[从零开始搭建完善的记账体系](https://sspai.com/post/58025)
-
-[https://help.moneynote.com](https://help.moneynote.com)
+- [从零开始搭建完善的记账体系](https://sspai.com/post/58025)
+- [https://help.moneynote.com](https://help.moneynote.com)
 
 如遇到任何问题欢迎加入 QQ群: 639653091 讨论。
 
