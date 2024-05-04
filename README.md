@@ -23,16 +23,15 @@
 后台地址：http://150.158.18.44:43744, 用pc站点注册的账号登录。
 
 ## 如何搭建
-[B站视频教程](https://space.bilibili.com/392661804/channel/collectiondetail?sid=2604159)
-[下载App](https://github.com/getmoneynote/moneynote-flutter/releases/tag/v1.0.44)
+- [B站视频教程](https://space.bilibili.com/392661804/channel/collectiondetail?sid=2604159)
+- [下载App](https://github.com/getmoneynote/moneynote-flutter/releases/tag/v1.0.44)
 
 ## 如何记账
 [B站视频教程](https://space.bilibili.com/392661804/channel/collectiondetail?sid=2907921)
 
 ## 数据备份和还原
-[B站视频教程](https://space.bilibili.com/392661804/channel/collectiondetail?sid=2899524&ctype=0)
-
-[备份数据库文件夹](https://www.bilibili.com/read/cv34264576/?spm_id_from=333.999.0.0)
+- [B站视频教程](https://space.bilibili.com/392661804/channel/collectiondetail?sid=2899524&ctype=0)
+- [备份数据库文件夹](https://www.bilibili.com/read/cv34264576/?spm_id_from=333.999.0.0)
 
 ## 使用文档
 [从零开始搭建完善的记账体系](https://sspai.com/post/58025)
