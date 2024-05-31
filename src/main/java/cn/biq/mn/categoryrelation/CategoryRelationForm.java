@@ -17,11 +17,9 @@ public class CategoryRelationForm {
 
     @NotNull
     @AmountField
-    @NotZero
     private BigDecimal amount;
 
     @AmountField
-    @NotZero
     private BigDecimal convertedAmount;
 
     @Override
