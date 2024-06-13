@@ -5,12 +5,17 @@ import cn.biq.mn.exception.ItemNotFoundException;
 import cn.biq.mn.utils.WebUtils;
 import cn.biq.mn.bean.ApplicationScopeBean;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +26,52 @@ public class CurrencyService {
 
     public List<CurrencyDetails> queryAll() {
         return applicationScopeBean.getCurrencyDetailsList();
+    }
+
+    public Page<CurrencyDetails> query(CurrencyQueryForm query, Pageable page) {
+        List<CurrencyDetails> currencyList = applicationScopeBean.getCurrencyDetailsList();
+        List<CurrencyDetails> filteredList = currencyList;
+        if (StringUtils.hasText(query.getName())) {
+            filteredList = currencyList.stream()
+                    .filter(person -> person.getName().contains(query.getName()))
+                    .toList();
+        }
+        if (StringUtils.hasText(query.getBase())) {
+            filteredList.forEach(i -> {
+                i.setRate2(convert(query.getBase(), i.getName()).doubleValue());
+            });
+        }
+        if (!page.getSort().isEmpty() && filteredList.size() > 1) {
+            for (Sort.Order order  : page.getSort()) {
+                if ("rate2".equals(order.getProperty())) {
+                    if ("ASC".equals(order.getDirection().toString())) {
+                        filteredList.sort(new Comparator<CurrencyDetails>() {
+                            @Override
+                            public int compare(CurrencyDetails c1, CurrencyDetails c2) {
+                                return c1.getRate2().compareTo(c2.getRate2());
+                            }
+                        });
+                    }
+                    if ("DESC".equals(order.getDirection().toString())) {
+                        filteredList.sort(new Comparator<CurrencyDetails>() {
+                            @Override
+                            public int compare(CurrencyDetails c1, CurrencyDetails c2) {
+                                return c2.getRate2().compareTo(c1.getRate2());
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        List<CurrencyDetails> pageList;
+        int start = page.getPageNumber() * page.getPageSize();
+        int end = Math.min(start + page.getPageSize(), filteredList.size());
+        if (start < end) {
+            pageList = filteredList.subList(start, end);
+        } else {
+            pageList = new ArrayList<>();
+        }
+        return new PageImpl<>(pageList, page, filteredList.size());
     }
 
     public void checkCode(String code) {

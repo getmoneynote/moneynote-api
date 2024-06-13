@@ -126,12 +126,6 @@
     "rate": 1
   },
   {
-    "id": 22,
-    "name": "BTC",
-    "description": "Bitcoin",
-    "rate": 0
-  },
-  {
     "id": 23,
     "name": "BTN",
     "description": "Bhutanese Ngultrum",
@@ -960,12 +954,6 @@
     "rate": 0.05
   },
   {
-    "id": 161,
-    "name": "XAU",
-    "description": "Gold Ounce",
-    "rate": 0
-  },
-  {
     "id": 162,
     "name": "XCD",
     "description": "East Caribbean Dollar",
@@ -984,22 +972,10 @@
     "rate": 624.89
   },
   {
-    "id": 165,
-    "name": "XPD",
-    "description": "Palladium Ounce",
-    "rate": 0
-  },
-  {
     "id": 166,
     "name": "XPF",
     "description": "CFP Franc",
     "rate": 113.68
-  },
-  {
-    "id": 167,
-    "name": "XPT",
-    "description": "Platinum Ounce",
-    "rate": 0
   },
   {
     "id": 168,

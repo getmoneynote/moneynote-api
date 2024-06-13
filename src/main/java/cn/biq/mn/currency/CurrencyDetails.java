@@ -11,6 +11,7 @@ public class CurrencyDetails {
     private String name;
     private String description;
     private Double rate;
+    private Double rate2; // for base
 
     public CurrencyDetails() { }
 
