@@ -6,11 +6,9 @@ import cn.biq.mn.response.BaseResponse;
 import cn.biq.mn.response.DataResponse;
 import cn.biq.mn.response.PageResponse;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
@@ -47,7 +45,10 @@ public class CurrencyController extends BaseController {
         return new DataResponse<>(currencyService.calc(from, to, amount));
     }
 
-
-
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/rate")
+    public BaseResponse handleUpdateRate(@PathVariable("id") Integer id, @Valid @RequestBody ChangeRateForm form) {
+        currencyService.changeRate(id, form);
+        return new BaseResponse(true);
+    }
 
 }

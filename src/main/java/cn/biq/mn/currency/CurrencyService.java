@@ -128,4 +128,16 @@ public class CurrencyService {
         return amount.multiply(rate).setScale(2, RoundingMode.HALF_EVEN);
     }
 
+    public void changeRate(Integer id, ChangeRateForm form) {
+        List<CurrencyDetails> currencyList = applicationScopeBean.getCurrencyDetailsList();
+        CurrencyDetails currencyDetails;
+        Optional<CurrencyDetails> currencyDetailsOptional = currencyList.stream().filter(i -> i.getId().equals(id)).findFirst();
+        if (currencyDetailsOptional.isPresent()) {
+            currencyDetails = currencyDetailsOptional.get();
+        } else {
+            throw new ItemNotFoundException();
+        }
+        currencyDetails.setRate(form.getRate().multiply(convert(form.getBase(), "USD")).doubleValue());
+    }
+
 }
