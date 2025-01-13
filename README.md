@@ -16,12 +16,6 @@
 ## 个人部署
 请参考[docker compose](https://github.com/getmoneynote/docker-compose-moneynote-ali)项目
 
-[PC示例站点](http://150.158.18.44:43743)  注册邀请码 111111（6个1）
-
-[手机示例站点](http://150.158.18.44:43744)
-
-后台地址：http://150.158.18.44:43744, 用pc站点注册的账号登录。
-
 ## 如何搭建
 - [B站视频教程](https://space.bilibili.com/392661804/channel/collectiondetail?sid=2604159)
 - [下载App](https://github.com/getmoneynote/moneynote-flutter/releases/tag/v1.0.44)
@@ -37,7 +31,6 @@
 - [从零开始搭建完善的记账体系](https://sspai.com/post/58025)
 - [https://help.moneynote.com](https://help.moneynote.com)
 
-如遇到任何问题欢迎加入 QQ群: 639653091 讨论。
 
 ## 技术方案
 采用前后端分离模式，[后端](https://github.com/getmoneynote/moneynote-api)使用Spring Boot 3框架，[网页版](https://github.com/getmoneynote/moneywhere-user-fe)使用Antd Pro，[App](https://github.com/getmoneynote/moneywhere_user_flutter)使用Flutter和Bloc。
