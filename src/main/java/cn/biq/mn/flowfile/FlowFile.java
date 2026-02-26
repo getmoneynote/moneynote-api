@@ -15,7 +15,7 @@ public class FlowFile extends BaseEntity {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Column(columnDefinition = "LONGBLOB", nullable = false)
+//    @Column(columnDefinition = "LONGBLOB", nullable = false)
     private byte[] data;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

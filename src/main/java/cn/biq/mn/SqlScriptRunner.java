@@ -20,20 +20,20 @@ public class SqlScriptRunner implements ApplicationRunner  {
 
     @Override
     public void run(ApplicationArguments args) {
-        try {
-            Resource resource = new ClassPathResource("1.sql");
-            String script = IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8);
-            // 在某些情况下，数据库可能不支持在单个语句中执行多个 SQL 命令
-            // jdbcTemplate.execute(script);
-            String[] sqlStatements = script.split(";");
-            for (String sql : sqlStatements) {
-                if (!sql.trim().isEmpty()) {
-                    jdbcTemplate.execute(sql);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Resource resource = new ClassPathResource("1.sql");
+//            String script = IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8);
+//            // 在某些情况下，数据库可能不支持在单个语句中执行多个 SQL 命令
+//            // jdbcTemplate.execute(script);
+//            String[] sqlStatements = script.split(";");
+//            for (String sql : sqlStatements) {
+//                if (!sql.trim().isEmpty()) {
+//                    jdbcTemplate.execute(sql);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 }
