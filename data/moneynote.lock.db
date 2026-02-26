@@ -1,0 +1,6 @@
+#FileLock
+#Thu Feb 26 15:48:39 CST 2026
+server=192.168.9.93\:6769
+hostName=liu.lan
+method=file
+id=19c98ebd27683bf22303eeaa4ce0f690ec5a93c9306

@@ -16,14 +16,15 @@ public class MvcInterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/login", "/register")
+                .addPathPatterns("/api/v1/**") // 只拦后端接口
+                .excludePathPatterns("/api/v1/login", "/api/v1/register")
                 .excludePathPatterns("/loginWechat/**", "/loginGoogle/**")
                 .excludePathPatterns("/flow-files/view")
-                .excludePathPatterns("/book-templates/all")
-                .excludePathPatterns("/version")
-                .excludePathPatterns("/test*")
-                .excludePathPatterns("/*.png");
+                .excludePathPatterns("/api/v1/book-templates/all")
+                .excludePathPatterns("/api/v1/version")
+                .excludePathPatterns("/api/v1/test*");
+                // 放行静态资源（前端 SPA）
+//                .excludePathPatterns("/", "/index.html", "/favicon.ico");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 
@@ -46,6 +47,6 @@ public class MvcInterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/public");
+//        registry.addResourceHandler("/resources/public");
     }
 }
