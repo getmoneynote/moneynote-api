@@ -37,3 +37,5 @@ out/
 
 *.env
 .metadata
+
+data
