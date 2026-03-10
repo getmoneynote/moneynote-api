@@ -28,6 +28,9 @@ import java.util.Set;
 public class BalanceFlow extends BaseEntity {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private Book book;
 
@@ -46,6 +49,9 @@ public class BalanceFlow extends BaseEntity {
     private BigDecimal convertedAmount; //汇率换算之后的金额
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Account account;
 
     @Column(nullable = false)
@@ -62,10 +68,16 @@ public class BalanceFlow extends BaseEntity {
     private String notes; //备注
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private User creator;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private Group group;
 
@@ -73,9 +85,15 @@ public class BalanceFlow extends BaseEntity {
     private Set<TagRelation> tags = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Account to;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Payee payee;
 
     @Column(nullable = false)

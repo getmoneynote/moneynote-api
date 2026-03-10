@@ -18,10 +18,16 @@ import java.math.BigDecimal;
 public class TagRelation extends BaseEntity {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private Tag tag;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private BalanceFlow balanceFlow;
 

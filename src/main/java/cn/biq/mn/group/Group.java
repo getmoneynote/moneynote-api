@@ -27,12 +27,18 @@ public class Group extends IdAndNameEntity {
     private Boolean enable = true;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private User creator;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<UserGroupRelation> relations = new HashSet<>();
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Book defaultBook; //组默认操作的账本
 
     @Column(nullable = false, length = 8)

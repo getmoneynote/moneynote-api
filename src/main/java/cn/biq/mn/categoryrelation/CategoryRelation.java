@@ -17,10 +17,16 @@ import java.math.BigDecimal;
 public class CategoryRelation extends BaseEntity {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private Category category;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private BalanceFlow balanceFlow;
 

@@ -44,9 +44,15 @@ public class User extends BaseEntity {
     private String registerIp;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Group defaultGroup; //用户默认操作的组
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Book defaultBook; //用户默认操作的账本
 
     @Column(nullable = false)

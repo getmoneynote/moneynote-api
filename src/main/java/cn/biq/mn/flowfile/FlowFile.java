@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "t_flow_file")
+@Table(name = "t_user_flow_file")
 @Getter
 @Setter
 public class FlowFile extends BaseEntity {
@@ -19,11 +19,15 @@ public class FlowFile extends BaseEntity {
     private byte[] data;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private User creator; //上传人
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "flow_id")
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private BalanceFlow flow;
 
     @Column(nullable = false)

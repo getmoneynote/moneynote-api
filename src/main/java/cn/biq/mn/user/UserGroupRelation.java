@@ -1,13 +1,11 @@
 package cn.biq.mn.user;
 
-
 import cn.biq.mn.base.BaseEntity;
 import cn.biq.mn.group.Group;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-
 
 @Entity
 @Table(name = "t_user_user_group_relation", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "group_id"})})
@@ -16,12 +14,16 @@ import lombok.Setter;
 public class UserGroupRelation extends BaseEntity {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private User user;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private Group group;
 

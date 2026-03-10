@@ -14,6 +14,9 @@ import lombok.Setter;
 public class Tag extends TreeEntity<Tag> {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Book book;
 
     @Column(length = 4096)

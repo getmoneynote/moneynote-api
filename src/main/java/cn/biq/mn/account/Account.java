@@ -19,7 +19,10 @@ import java.math.BigDecimal;
 public class Account extends IdAndNameEntity {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
+    @JoinColumn(
+        name = "group_id",
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private Group group; // 账簿必须属于某个组
 

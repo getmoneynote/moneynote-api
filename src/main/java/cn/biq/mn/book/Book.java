@@ -20,7 +20,9 @@ import java.util.List;
 public class Book extends IdAndNameEntity {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private Group group; // 账簿必须属于某个组
 
@@ -31,21 +33,39 @@ public class Book extends IdAndNameEntity {
     private Boolean enable = true;
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Account defaultExpenseAccount;
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Account defaultIncomeAccount;
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Account defaultTransferFromAccount;
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Account defaultTransferToAccount;
 
     @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Category defaultExpenseCategory;
 
     @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     private Category defaultIncomeCategory;
 
     @Column(nullable = false, length = 8)

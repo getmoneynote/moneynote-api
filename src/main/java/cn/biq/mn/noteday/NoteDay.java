@@ -16,6 +16,9 @@ import lombok.Setter;
 public class NoteDay extends BaseEntity {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private User user;
 

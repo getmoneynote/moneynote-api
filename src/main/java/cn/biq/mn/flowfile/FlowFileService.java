@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class FlowFileService {
 
     private final FlowFileRepository flowFileRepository;
-    private final SessionUtil sessionUtil;
     private final BaseService baseService;
 
     @Transactional(readOnly = true)

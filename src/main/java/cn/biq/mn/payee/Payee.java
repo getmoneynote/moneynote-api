@@ -14,6 +14,9 @@ import lombok.Setter;
 public class Payee extends IdAndNameEntity {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @NotNull
     private Book book;
 
