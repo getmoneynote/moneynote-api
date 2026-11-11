@@ -1,0 +1,47 @@
+{
+  "name": "moneynote-web-pc",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "analyze": "cross-env ANALYZE=1 max build",
+    "build": "max build",
+    "lint": "biome lint",
+    "format": "biome format \n--write .",
+    "check": "biome check",
+    "fix": "biome check --write",
+    "prepare": "max setup",
+    "preview": "max preview --port 8000",
+    "preview:build": "max build && max preview --port 8000",
+    "start": "cross-env UMI_DEV_SERVER_COMPRESS=none UMI_ENV=dev max dev",
+    "start:pre": "cross-env UMI_DEV_SERVER_COMPRESS=none UMI_ENV=pre max dev"
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "dependencies": {
+    "@ant-design/icons": "^6.3.2",
+    "@ant-design/plots": "^2.6.8",
+    "@ant-design/pro-components": "^3.1.14-2",
+    "@ant-design/x": "^2.9.0",
+    "@ant-design/x-markdown": "^2.9.0",
+    "antd": "^6.5.1",
+    "antd-style": "^4.1.0",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.21",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.3",
+    "@umijs/max": "^4.6.75",
+    "cross-env": "^10.1.0"
+  },
+  "overrides": {
+    "@umijs/plugins": {
+      "@ant-design/pro-components": "$@ant-design/pro-components"
+    }
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

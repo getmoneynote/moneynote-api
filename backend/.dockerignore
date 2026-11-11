@@ -1,0 +1,28 @@
+.git
+target
+.idea
+*.iml
+
+# ---- 运行期状态与备份：绝不能进公共镜像 ----
+# 镜像里只要存在 /app/config/db-config.properties，用户启动后就不会进安装向导；
+# 只要存在 /app/data/*.mv.db，用户会直接看到别人的数据。
+# Dockerfile 本身只 COPY 指定的构建文件，这里是第二道防线。
+data
+config
+backups
+**/*.mv.db
+**/*.lock.db
+**/*.trace.db
+**/db-config.properties
+**/moneynote*.sql
+**/moneynote*.zip
+**/*.bak-*
+
+# ---- 非构建必需目录 / 本地密钥 ----
+docs
+notes
+specs
+scripts
+.env
+.env.*
+*.env

@@ -1,8 +1,0 @@
-version: '3.8'
-
-services:
-  moneynote-api:
-    build: .
-    env_file: dev2.env
-    ports:
-      - "9099:9092"

@@ -1,0 +1,17 @@
+export default {
+  'action.title': '{action}{title}',
+  operation: 'Operation',
+  add: 'Add',
+  update: 'Edit',
+  delete: 'Delete',
+  copy: 'Copy',
+  all: 'All',
+  notes: 'Notes',
+  'operation.success': 'Operation successful',
+  'operation.failed': 'Operation failed. Please try again.',
+  'timeRange.last30Days': 'Last 30 Days',
+  'timeRange.last1Year': 'Last 1 Year',
+  'timeRange.thisMonth': 'This Month',
+  'timeRange.thisYear': 'This Year',
+  'timeRange.lastYear': 'Last Year',
+};

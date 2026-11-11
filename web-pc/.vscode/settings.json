@@ -1,0 +1,48 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit"
+  },
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+
+  "css.lint.unknownAtRules": "ignore",
+
+  "files.exclude": {
+    "**/.umi": true,
+    "**/.umi-production": true,
+    "**/.umi-test": true,
+    "**/.umi-test-production": true,
+    "**/dist": true
+  },
+  "search.exclude": {
+    "**/.umi": true,
+    "**/.umi-production": true,
+    "**/.umi-test": true,
+    "**/.umi-test-production": true,
+    "**/dist": true,
+    "**/node_modules": true
+  },
+  "files.watcherExclude": {
+    "**/.umi/**": true,
+    "**/.umi-production/**": true,
+    "**/.umi-test/**": true,
+    "**/.umi-test-production/**": true,
+    "**/dist/**": true,
+    "**/node_modules/**": true
+  },
+  "workbench.tree.indent": 16
+}

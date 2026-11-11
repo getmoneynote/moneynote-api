@@ -1,0 +1,16 @@
+export default {
+  'pages.login.username.placeholder': '用户名',
+  'pages.login.password.placeholder': '密码',
+  'pages.login.remember': '记住我',
+  'pages.login.success': '登录成功！',
+  'pages.login.noAccount': '没有账号？去注册',
+  'pages.register.success': '注册成功，请登录',
+  'pages.register.username.placeholder': '用户名',
+  'pages.register.username.invalid': '用户名需为 1-16 位字母、数字或下划线',
+  'pages.register.password.placeholder': '密码',
+  'pages.register.password.invalid': '密码需为 6-32 位',
+  'pages.register.inviteCode.placeholder': '邀请码',
+  'pages.register.haveAccount': '已有账号？去登录',
+  'pages.404.subTitle': '抱歉，您访问的页面不存在。',
+  'pages.404.buttonText': '返回首页',
+};

@@ -1,0 +1,2 @@
+docker build --platform linux/amd64 -t markliu2018/moneynote:latest .
+docker push markliu2018/moneynote:latest

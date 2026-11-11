@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>系统初始化 · MoneyNote</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --bg: #eef2f9;
+          --panel: #ffffff;
+          --panel-2: #f5f8fd;
+          --border: #dde5f2;
+          --border-soft: #e9eef8;
+          --text: #17233b;
+          --text-dim: #5b6b85;
+          --text-faint: #94a3b8;
+
+          --primary: #1856c4;
+          --primary-dark: #123f8f;
+          --primary-light: #eaf1fd;
+          --primary-tint: #3b76e8;
+
+          --amber: #d97706;
+          --amber-bg: #fef3e2;
+          --green: #16a34a;
+          --green-bg: #eaf8ee;
+          --red: #dc2626;
+          --red-bg: #fdeceb;
+
+          --radius: 12px;
+          --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+          --font-sans: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+          margin: 0;
+          padding: 0;
+          background: var(--bg);
+          color: var(--text);
+          font-family: var(--font-sans);
+          min-height: 100vh;
+        }
+
+        body {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 48px 20px 28px;
+        }
+
+        .wrap {
+          width: 100%;
+          max-width: 560px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          flex: 1;
+        }
+
+        /* ---- Logo 区域 ---- */
+        .brand {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 28px;
+        }
+
+        .brand .logo-slot {
+          width: 56px;
+          height: 56px;
+          border-radius: 14px;
+          background: linear-gradient(135deg, var(--primary), var(--primary-tint));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 12px;
+          box-shadow: 0 8px 20px -6px rgba(24, 86, 196, 0.45);
+        }
+
+        /* 替换成真实 Logo 时：把 img 的 display 改为 block，并删除下面的 svg 占位符 */
+        .brand .logo-slot img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          border-radius: inherit;
+          display: none;
+        }
+
+        .brand .wordmark {
+          font-size: 19px;
+          font-weight: 800;
+          letter-spacing: -0.01em;
+          color: var(--text);
+        }
+
+        .brand .wordmark span { color: var(--primary); }
+
+        h1 {
+          font-size: 21px;
+          font-weight: 700;
+          letter-spacing: -0.01em;
+          margin: 0 0 6px;
+          text-align: center;
+        }
+
+        .sub {
+          color: var(--text-dim);
+          font-size: 13.5px;
+          margin: 0 0 26px;
+          line-height: 1.6;
+          text-align: center;
+          max-width: 420px;
+        }
+
+        .panel {
+          width: 100%;
+          background: var(--panel);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          overflow: hidden;
+          box-shadow: 0 12px 32px -18px rgba(23, 35, 59, 0.25);
+        }
+
+        .panel-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 14px 22px;
+          border-bottom: 1px solid var(--border);
+          background: var(--panel-2);
+        }
+
+        .panel-header .icon {
+          width: 18px; height: 18px;
+          color: var(--primary);
+          flex-shrink: 0;
+        }
+
+        .panel-header .label {
+          font-size: 12.5px;
+          font-weight: 600;
+          color: var(--text-dim);
+        }
+
+        .section { padding: 22px 22px 6px; }
+
+        .section-title {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 11.5px;
+          font-weight: 700;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          color: var(--primary);
+          margin-bottom: 14px;
+        }
+
+        .section-title::before {
+          content: "";
+          width: 3px;
+          height: 12px;
+          background: var(--primary);
+          border-radius: 2px;
+        }
+
+        .field { margin-bottom: 16px; }
+
+        .field label {
+          display: block;
+          font-size: 12.5px;
+          color: var(--text-dim);
+          margin-bottom: 6px;
+          font-weight: 500;
+        }
+
+        .row {
+          display: grid;
+          grid-template-columns: 1fr 120px;
+          gap: 12px;
+        }
+
+        input, select {
+          width: 100%;
+          background: #fbfcfe;
+          border: 1px solid var(--border);
+          color: var(--text);
+          font-family: var(--font-sans);
+          font-size: 13.5px;
+          padding: 10px 12px;
+          border-radius: 8px;
+          outline: none;
+          transition: border-color 0.15s ease, box-shadow 0.15s ease;
+          appearance: none;
+        }
+
+        input::placeholder { color: var(--text-faint); }
+
+        input:focus, select:focus {
+          border-color: var(--primary);
+          box-shadow: 0 0 0 3px rgba(24, 86, 196, 0.12);
+          background: #fff;
+        }
+
+        select {
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235b6b85'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 12px center;
+          padding-right: 30px;
+        }
+
+        .divider { border-top: 1px solid var(--border-soft); margin: 4px 22px 0; }
+
+        /* 连接串实时预览 */
+        .preview {
+          margin: 18px 22px 0;
+          background: var(--primary-light);
+          border: 1px solid #d7e4fa;
+          border-radius: 9px;
+          padding: 12px 14px;
+          font-family: var(--font-mono);
+          font-size: 12.5px;
+          color: var(--primary-dark);
+          word-break: break-all;
+          line-height: 1.5;
+        }
+
+        .preview .ptag {
+          display: block;
+          font-size: 10px;
+          color: var(--primary-tint);
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          margin-bottom: 6px;
+          font-family: var(--font-sans);
+          font-weight: 700;
+        }
+
+        .preview .cursor {
+          display: inline-block;
+          width: 6px;
+          height: 13px;
+          background: var(--primary);
+          margin-left: 2px;
+          vertical-align: text-bottom;
+          animation: blink 1.1s step-end infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+        @media (prefers-reduced-motion: reduce) { .preview .cursor { animation: none; } }
+
+        .actions {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 20px 22px 22px;
+        }
+
+        button {
+          font-family: var(--font-sans);
+          font-weight: 600;
+          font-size: 13.5px;
+          border-radius: 8px;
+          padding: 11px 18px;
+          cursor: pointer;
+          border: 1px solid transparent;
+          transition: transform 0.08s ease, filter 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+        }
+
+        button:active { transform: scale(0.98); }
+
+        .btn-ghost { background: #fff; border-color: var(--border); color: var(--text); }
+        .btn-ghost:hover { border-color: var(--primary-tint); color: var(--primary); }
+
+        .btn-primary {
+          background: var(--primary);
+          color: #fff;
+          flex: 1;
+          box-shadow: 0 6px 16px -6px rgba(24, 86, 196, 0.5);
+        }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+        /* 状态提示条 */
+        .status {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin: 0 22px 20px;
+          padding: 9px 12px;
+          border-radius: 8px;
+          font-size: 12.5px;
+          color: var(--text-faint);
+          background: var(--panel-2);
+          min-height: 16px;
+          transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .status .light { width: 7px; height: 7px; border-radius: 50%; background: var(--text-faint); flex-shrink: 0; }
+
+        .status.testing { background: var(--amber-bg); color: #92580a; }
+        .status.testing .light { background: var(--amber); animation: pulse 1s ease-in-out infinite; }
+
+        .status.success { background: var(--green-bg); color: #15803d; }
+        .status.success .light { background: var(--green); }
+
+        .status.error { background: var(--red-bg); color: #b91c1c; }
+        .status.error .light { background: var(--red); }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+        /* ---- 版权信息 ---- */
+        .copyright {
+          margin-top: 28px;
+          text-align: center;
+          color: var(--text-faint);
+          font-size: 12px;
+          line-height: 1.8;
+        }
+
+        .copyright .links a { color: var(--text-faint); text-decoration: none; margin: 0 6px; }
+        .copyright .links a:hover { color: var(--primary); text-decoration: underline; }
+
+        @media (max-width: 480px) {
+          .row { grid-template-columns: 1fr; }
+          h1 { font-size: 19px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+
+    <div class="brand">
+        <div class="logo-slot">
+            <!-- 替换成真实 Logo：把下面这行的 display 改为 block，并删除 svg 占位符 -->
+            <img src="setup/logo.svg" alt="MoneyNote" />
+        </div>
+        <div class="wordmark">Money<span>Note</span></div>
+    </div>
+
+    <h1>连接你的数据库</h1>
+    <p class="sub">填写数据库信息并测试连接。保存后应用会自动重启,重启完成后此向导将不再可用。</p>
+
+    <div class="panel">
+        <div class="panel-header">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="12" cy="5" rx="8" ry="3" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3" stroke="currentColor" stroke-width="1.6"/>
+            </svg>
+            <div class="label">数据库连接配置</div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">数据库</div>
+            <div class="field">
+                <label for="dbType">类型</label>
+                <select id="dbType"></select>
+            </div>
+            <div class="row field" id="hostRow">
+                <div>
+                    <label for="host">主机地址</label>
+                    <input id="host" placeholder="127.0.0.1" value="127.0.0.1" />
+                </div>
+                <div>
+                    <label for="port">端口</label>
+                    <input id="port" placeholder="默认" />
+                </div>
+            </div>
+            <div class="field">
+                <label for="dbName" id="dbNameLabel">数据库名 / SID / Service Name</label>
+                <input id="dbName" placeholder="moneynote" />
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section" id="credSection">
+            <div class="section-title">凭证</div>
+            <div class="row field">
+                <div>
+                    <label for="username">用户名</label>
+                    <input id="username" placeholder="root" />
+                </div>
+                <div>
+                    <label for="password">密码</label>
+                    <input id="password" type="password" placeholder="••••••••" />
+                </div>
+            </div>
+        </div>
+
+        <div class="preview" id="preview">
+            <span class="ptag">连接串预览</span>
+            <span id="previewUrl">jdbc:mysql://127.0.0.1:3306/</span><span class="cursor"></span>
+        </div>
+
+        <div class="status" id="status">
+            <span class="light"></span>
+            <span id="statusText">尚未测试连接</span>
+        </div>
+
+        <div class="actions">
+            <button class="btn-ghost" onclick="testConn()">测试连接</button>
+            <button class="btn-primary" id="saveBtn" onclick="save()" disabled>保存并重启</button>
+        </div>
+    </div>
+
+    <div class="copyright">
+        <div>© <span id="year"></span> MoneyNote. 保留所有权利。</div>
+        <div class="links"><a href="#">帮助文档</a>·<a href="#">服务条款</a>·<a href="#">隐私政策</a></div>
+    </div>
+
+</div>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const dbTypeEl = document.getElementById('dbType');
+    const hostEl = document.getElementById('host');
+    const portEl = document.getElementById('port');
+    const dbNameEl = document.getElementById('dbName');
+    const usernameEl = document.getElementById('username');
+    const passwordEl = document.getElementById('password');
+    const previewUrlEl = document.getElementById('previewUrl');
+    const statusEl = document.getElementById('status');
+    const statusTextEl = document.getElementById('statusText');
+    const saveBtn = document.getElementById('saveBtn');
+    const hostRow = document.getElementById('hostRow');
+    const credSection = document.getElementById('credSection');
+    const dbNameLabel = document.getElementById('dbNameLabel');
+
+    // 连接串预览模板:仅供前端展示,真正的 JDBC URL 由后端 DbType 生成
+    const TMPL = {
+      MYSQL: (h, p, d) => `jdbc:mysql://${h}:${p}/${d}`,
+      POSTGRESQL: (h, p, d) => `jdbc:postgresql://${h}:${p}/${d}`,
+      H2: (h, p, d) => `jdbc:h2:file:./data/${d}`,
+    };
+
+    // 类型列表从后端 /setup/db-types 拉取,前端不再硬编码,避免与后端枚举不一致
+    let DB_TYPES = [];
+
+    async function loadDbTypes() {
+      try {
+        const res = await fetch('/setup/db-types');
+        DB_TYPES = await res.json();
+      } catch (e) {
+        // 兜底:接口不可用时退回硬编码,保证下拉不为空
+        DB_TYPES = [
+          { code: 'MYSQL', label: 'MySQL', defaultPort: 3306, needsHost: true, needsCred: true },
+          { code: 'POSTGRESQL', label: 'PostgreSQL', defaultPort: 5432, needsHost: true, needsCred: true },
+          { code: 'H2', label: 'H2 (内嵌)', defaultPort: 0, needsHost: false, needsCred: false },
+        ];
+      }
+      DB_TYPES.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.code;
+        opt.textContent = t.label;
+        dbTypeEl.appendChild(opt);
+      });
+      // 默认选中内嵌库(H2):零配置,开箱即用
+      const embedded = DB_TYPES.find(t => !t.needsHost);
+      if (embedded) dbTypeEl.value = embedded.code;
+      applyType(currentType());
+    }
+
+    function currentType() {
+      return DB_TYPES.find(t => t.code === dbTypeEl.value) || DB_TYPES[0];
+    }
+
+    // 根据所选数据库类型显示/隐藏"主机端口"和"凭证"两组字段
+    function applyType(t) {
+      hostRow.style.display = t.needsHost ? '' : 'none';
+      credSection.style.display = t.needsCred ? '' : 'none';
+      dbNameLabel.textContent = t.needsHost ? '数据库名 / SID / Service Name' : '数据库名(数据文件名)';
+      if (!t.needsHost && !dbNameEl.value) {
+        dbNameEl.value = 'moneynote';
+      }
+      updatePreview();
+    }
+
+    function updatePreview() {
+      const t = currentType();
+      if (!t) return;
+      const tmpl = TMPL[t.code] || ((h, p, d) => `jdbc:${t.code}://${h}:${p}/${d}`);
+      if (!t.needsHost) {
+        // 内嵌模式(如 H2):无需 host/port,只展示数据文件名
+        previewUrlEl.textContent = tmpl('', null, dbNameEl.value || 'moneynote');
+        return;
+      }
+      const host = hostEl.value || 'host';
+      const port = portEl.value || t.defaultPort;
+      const name = dbNameEl.value || 'dbname';
+      previewUrlEl.textContent = tmpl(host, port, name);
+      portEl.placeholder = String(t.defaultPort);
+    }
+
+    [hostEl, portEl, dbNameEl].forEach(el => el.addEventListener('input', updatePreview));
+    dbTypeEl.addEventListener('change', () => applyType(currentType()));
+    loadDbTypes();
+
+    function setStatus(mode, text) {
+      statusEl.className = 'status' + (mode ? ' ' + mode : '');
+      statusTextEl.textContent = text;
+    }
+
+    function collect() {
+      const t = currentType();
+      if (!t.needsHost) {
+        // 内嵌模式(如 H2):无需 host/port,固定默认账号
+        return {
+          dbType: t.code,
+          host: '',
+          port: null,
+          dbName: dbNameEl.value || 'moneynote',
+          username: 'sa',
+          password: ''
+        };
+      }
+      return {
+        dbType: t.code,
+        host: hostEl.value,
+        port: portEl.value ? parseInt(portEl.value, 10) : null,
+        dbName: dbNameEl.value,
+        username: usernameEl.value,
+        password: passwordEl.value
+      };
+    }
+
+    async function testConn() {
+      setStatus('testing', '正在测试连接…');
+      saveBtn.disabled = true;
+      try {
+        const res = await fetch('/setup/test', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(collect())
+        });
+        const data = await res.json();
+        if (data.success) {
+          setStatus('success', data.message || '连接成功');
+          saveBtn.disabled = false;
+        } else {
+          setStatus('error', data.message || '连接失败');
+        }
+      } catch (e) {
+        setStatus('error', '请求失败: ' + e.message);
+      }
+    }
+
+    async function save() {
+      saveBtn.disabled = true;
+      saveBtn.textContent = '保存中…';
+      try {
+        const res = await fetch('/setup/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(collect())
+        });
+        const data = await res.json();
+        setStatus('success', (data.message || '配置成功') + ',约 5 秒后自动刷新');
+        setTimeout(() => location.reload(), 6000);
+      } catch (e) {
+        setStatus('error', '保存失败: ' + e.message);
+        saveBtn.disabled = false;
+        saveBtn.textContent = '保存并重启';
+      }
+    }
+</script>
+
+</body>
+</html>

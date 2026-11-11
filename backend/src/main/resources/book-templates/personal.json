@@ -1,0 +1,153 @@
+{
+  "key": "personal",
+  "name": "个人日常",
+  "description": "适合个人日常生活记账，涵盖餐饮、交通、购物等常见收支分类",
+  "version": 1,
+  "schemaVersion": 1,
+  "config": {
+    "bookSettings": {
+      "notes": "个人日常生活账本"
+    },
+    "categories": {
+      "expense": [
+        {
+          "name": "餐饮",
+          "notes": "",
+          "children": [
+            { "name": "早餐", "notes": "" },
+            { "name": "午餐", "notes": "" },
+            { "name": "晚餐", "notes": "" },
+            { "name": "外卖", "notes": "" },
+            { "name": "零食饮料", "notes": "" },
+            { "name": "水果", "notes": "" }
+          ]
+        },
+        {
+          "name": "交通",
+          "notes": "",
+          "children": [
+            { "name": "公共交通", "notes": "", "children": [
+              { "name": "地铁", "notes": "" },
+              { "name": "公交", "notes": "" }
+            ]},
+            { "name": "打车", "notes": "" },
+            { "name": "共享单车", "notes": "" },
+            { "name": "火车高铁", "notes": "" },
+            { "name": "飞机", "notes": "" },
+            { "name": "加油", "notes": "" },
+            { "name": "停车费", "notes": "" }
+          ]
+        },
+        {
+          "name": "购物",
+          "notes": "",
+          "children": [
+            { "name": "服饰鞋包", "notes": "" },
+            { "name": "日用百货", "notes": "" },
+            { "name": "数码电器", "notes": "" },
+            { "name": "美妆护肤", "notes": "" },
+            { "name": "运动户外", "notes": "" },
+            { "name": "书籍文具", "notes": "" }
+          ]
+        },
+        {
+          "name": "居住",
+          "notes": "",
+          "children": [
+            { "name": "房租", "notes": "" },
+            { "name": "水电燃气", "notes": "" },
+            { "name": "物业费", "notes": "" },
+            { "name": "网费话费", "notes": "" },
+            { "name": "家居家装", "notes": "" }
+          ]
+        },
+        {
+          "name": "娱乐",
+          "notes": "",
+          "children": [
+            { "name": "电影演出", "notes": "" },
+            { "name": "游戏", "notes": "" },
+            { "name": "会员订阅", "notes": "" },
+            { "name": "旅游度假", "notes": "" },
+            { "name": "聚会聚餐", "notes": "" }
+          ]
+        },
+        {
+          "name": "医疗健康",
+          "notes": "",
+          "children": [
+            { "name": "门诊药品", "notes": "" },
+            { "name": "体检", "notes": "" },
+            { "name": "保险", "notes": "" },
+            { "name": "健身", "notes": "" }
+          ]
+        },
+        {
+          "name": "教育学习",
+          "notes": "",
+          "children": [
+            { "name": "课程培训", "notes": "" },
+            { "name": "图书", "notes": "" }
+          ]
+        },
+        {
+          "name": "人情往来",
+          "notes": "",
+          "children": [
+            { "name": "红包礼物", "notes": "" },
+            { "name": "请客吃饭", "notes": "" }
+          ]
+        },
+        {
+          "name": "宠物",
+          "notes": "",
+          "children": [
+            { "name": "食品用品", "notes": "" },
+            { "name": "医疗", "notes": "" },
+            { "name": "美容服务", "notes": "" }
+          ]
+        },
+        {
+          "name": "其他支出",
+          "notes": ""
+        }
+      ],
+      "income": [
+        {
+          "name": "工资",
+          "notes": "",
+          "children": [
+            { "name": "基本工资", "notes": "" },
+            { "name": "奖金", "notes": "" },
+            { "name": "补贴", "notes": "" }
+          ]
+        },
+        {
+          "name": "兼职收入",
+          "notes": ""
+        },
+        {
+          "name": "投资收益",
+          "notes": "",
+          "children": [
+            { "name": "理财收益", "notes": "" },
+            { "name": "股票基金", "notes": "" },
+            { "name": "利息", "notes": "" }
+          ]
+        },
+        {
+          "name": "红包礼金",
+          "notes": ""
+        },
+        {
+          "name": "退款返现",
+          "notes": ""
+        },
+        {
+          "name": "其他收入",
+          "notes": ""
+        }
+      ]
+    }
+  }
+}

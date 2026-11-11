@@ -1,0 +1,23 @@
+# 面向最终用户的发布版 compose：从 Docker Hub 拉镜像，不在本地构建。
+#
+# 用法（在一个干净的空目录里执行）：
+#   MONEYNOTE_IMAGE=yourname/moneynote:1.0.0 docker compose -f docker-compose.release.yml up -d
+#   然后打开 http://<host>:9098/ 完成数据库安装向导
+#
+# 「干净」的前提：本文件所在目录下的 data/、config/ 为空或不存在。
+# 镜像内不含这两个目录，首次启动 isConfigured()==false，会进安装向导；
+# 向导保存配置后 entrypoint.sh 自动重启（退出码 88）并创建 moneynote.mv.db。
+#
+# 注意：一旦完成过一次安装，这两个目录就带着数据了，down/up 重建容器不会重置
+# （这正是「重启不丢数据」的机制）。想重新变干净，必须换新目录或清空这两个目录。
+services:
+  backend:
+    image: markliu2018/moneynote:latest
+    container_name: moneynote
+    restart: unless-stopped
+    ports:
+      - "9096:9096"
+    volumes:
+      # 保持空目录即可，应用会在向导完成后自行写入 moneynote.mv.db
+      - ./data:/app/data
+      - ./config:/app/config

@@ -1,0 +1,13 @@
+{
+  // 项目推荐的 VSCode 扩展。
+  // 安装方式：打开命令面板 (Ctrl+Shift+P) → "Extensions: Show Recommended Extensions"
+  "recommendations": [
+    "biomejs.biome", // 格式化 + lint（项目唯一代码检查工具，无 ESLint/Prettier）
+    "EditorConfig.EditorConfig" // 读取项目根目录 .editorconfig
+  ],
+  // 明确不推荐，避免与项目规范冲突
+  "unwantedRecommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Read", "Glob", "Grep", "Edit", "MultiEdit",
+      "Write(src/**)", "Write(tests/**)",
+      "Bash(curl *)",
+      "Bash(netstat -ano)",
+      "Bash(tasklist /FI \"PID eq 28056\")",
+      "Bash(wmic process *)",
+      "Bash(tasklist /FI \"PID eq 28056\" /FO CSV /NH)",
+      "Bash(taskkill *)",
+      "Bash(java -jar target/moneynote-4.1.0.jar)",
+      "Bash(echo \"Started with PID $!\")",
+      "Bash(xargs grep -l -i \"password\\\\|Password\")",
+      "Bash(./mvnw -q compile)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)"
+    ]
+  },
+  "model": "sonnet",
+  "skillOverrides": {
+    "skill-test": "off"
+  },
+  "autoCompactThreshold": 80,
+  "enabledPlugins": {
+    "andrej-karpathy-skills@karpathy-skills": true
+  }
+}

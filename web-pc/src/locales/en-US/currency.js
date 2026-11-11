@@ -1,0 +1,16 @@
+export default {
+  'currency.action.add': 'Add Currency',
+  'currency.action.edit': 'Edit Currency',
+  'currency.fields.name': 'Currency Name',
+  'currency.fields.code': 'Currency Code',
+  'currency.fields.symbol': 'Symbol',
+  'currency.fields.baseRate': 'Rate (1 {name} =)',
+  'currency.fields.usdRate': 'Rate (1 USD =)',
+  'currency.fields.decimalPlaces': 'Decimal Places',
+  'currency.validation.usdRate': 'Integer part max 12 digits, decimal part max 8 digits',
+  'currency.fields.usdRate.placeholder': 'e.g. 7.25',
+  'currency.validation.code': 'Must be 3 uppercase letters',
+  'currency.query.base': 'Convert to',
+  'currency.set.base': 'Set as Base',
+  'currency.delete.confirm': 'Are you sure you want to delete the currency "{name}"?',
+};

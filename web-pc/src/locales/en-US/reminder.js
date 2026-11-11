@@ -1,0 +1,17 @@
+export default {
+  'reminder.action.add': 'Add Reminder',
+  'reminder.action.edit': 'Edit Reminder',
+  'reminder.fields.title': 'Title',
+  'reminder.fields.title.placeholder': 'Enter reminder title',
+  'reminder.fields.executeDate': 'Execute Date',
+  'reminder.fields.daysRemaining': 'Days Left',
+  'reminder.fields.completed': 'Completed',
+  'reminder.delete.confirm': 'Delete reminder "{title}"?',
+  'reminder.days.remaining': '{days} days left',
+  'reminder.days.today': 'Today',
+  'reminder.days.overdue': '{days} days overdue',
+  'reminder.days.completed': 'Done',
+  'reminder.tabs.all': 'All',
+  'reminder.tabs.pending': 'Pending',
+  'reminder.tabs.completed': 'Completed',
+};

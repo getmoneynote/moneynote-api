@@ -1,0 +1,16 @@
+export default {
+  operation: '操作',
+  add: '新增',
+  update: '修改',
+  delete: '删除',
+  copy: '复制',
+  all: '全部',
+  notes: '备注',
+  'operation.success': '操作成功',
+  'operation.failed': '操作失败，请稍后重试。',
+  'timeRange.last30Days': '最近30天',
+  'timeRange.last1Year': '最近1年',
+  'timeRange.thisMonth': '本月',
+  'timeRange.thisYear': '今年',
+  'timeRange.lastYear': '去年',
+};

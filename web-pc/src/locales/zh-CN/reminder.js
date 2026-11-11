@@ -1,0 +1,17 @@
+export default {
+  'reminder.action.add': '新增提醒',
+  'reminder.action.edit': '编辑提醒',
+  'reminder.fields.title': '标题',
+  'reminder.fields.title.placeholder': '请输入提醒标题',
+  'reminder.fields.executeDate': '执行日期',
+  'reminder.fields.daysRemaining': '剩余天数',
+  'reminder.fields.completed': '已完成',
+  'reminder.delete.confirm': '确定删除提醒"{title}"吗？',
+  'reminder.days.remaining': '还有{days}天',
+  'reminder.days.today': '今天',
+  'reminder.days.overdue': '已逾期{days}天',
+  'reminder.days.completed': '已完成',
+  'reminder.tabs.all': '全部',
+  'reminder.tabs.pending': '未完成',
+  'reminder.tabs.completed': '已完成',
+};

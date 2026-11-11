@@ -1,0 +1,16 @@
+export default {
+  'currency.action.add': '新增币种',
+  'currency.action.edit': '编辑币种',
+  'currency.fields.name': '货币名称',
+  'currency.fields.code': '货币代码',
+  'currency.fields.symbol': '货币符号',
+  'currency.fields.baseRate': '汇率(1{name}=)',
+  'currency.fields.usdRate': '汇率(1美元=)',
+  'currency.fields.decimalPlaces': '小数位数',
+  'currency.validation.usdRate': '整数部分最多 12 位，小数部分最多 8 位',
+  'currency.fields.usdRate.placeholder': '例如 7.25',
+  'currency.validation.code': '货币代码必须为 3 位大写字母',
+  'currency.query.base': '换算为',
+  'currency.set.base': '设为本位币',
+  'currency.delete.confirm': '确定删除币种“{name}”吗？',
+};

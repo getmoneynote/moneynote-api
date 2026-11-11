@@ -1,0 +1,21 @@
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### VS Code ###
+.vscode/
+
+*.env
+.env.local
+
+/data/
+
+/config/
+
+/backups/
+
+/target/
+
+.claude/settings.local.json
