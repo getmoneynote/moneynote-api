@@ -11,3 +11,5 @@ Thumbs.db
 # Temporary
 *.tmp
 *.swp
+
+.workbuddy
