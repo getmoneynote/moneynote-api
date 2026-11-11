@@ -1,6 +1,6 @@
 name: docker hub image
 
-# 触发条件：push 到 main 且后端、前端或本 workflow 有改动；也支持手动触发
+# 触发条件：push 到 main 且后端、前端、Dockerfile 或本 workflow 有改动；也支持手动触发
 on:
   workflow_dispatch:
   push:
@@ -9,6 +9,7 @@ on:
     paths:
       - 'backend/**'
       - 'web-pc/**'
+      - 'Dockerfile'
       - '.github/workflows/docker-image.yml'
 
 
@@ -18,29 +19,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      # 先构建最新前端，产物覆盖到 backend/src/main/resources/public/
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-          run_install: false
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-          cache-dependency-path: web-pc/pnpm-lock.yaml
-      - name: Build web-pc
-        working-directory: web-pc
-        run: |
-          pnpm install --frozen-lockfile
-          pnpm build
-      - name: Copy frontend dist into backend resources
-        run: |
-          rm -rf backend/src/main/resources/public
-          cp -r web-pc/dist backend/src/main/resources/public
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -50,10 +28,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASS }}
+      # 根 Dockerfile 为多阶段构建：前端（pnpm build）→ 后端（mvn package）→ 运行时
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend
+          context: .
           platforms: linux/amd64,linux/arm64
           push: true
           tags: markliu2018/moneynote:latest

@@ -14,7 +14,7 @@ public class TestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "version")
     public SimpleResponse handleVersion() {
-        return new DataResponse<>(Map.of("version", "0.1.2"));
+        return new DataResponse<>(Map.of("version", "0.1.3"));
     }
 
 }

@@ -1,0 +1,10 @@
+# 构建上下文瘦身（根 Dockerfile 的 context 是仓库根目录）
+.git
+**/node_modules
+web-pc/dist
+backend/target
+backend/config
+backend/data
+backend/src/main/resources/public
+docs
+help

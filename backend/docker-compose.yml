@@ -3,7 +3,8 @@ version: '3.8'
 services:
   backend:
     build:
-      context: .
+      # Dockerfile 已移到仓库根目录（多阶段构建，含前端构建阶段），context 需为根目录
+      context: ..
       dockerfile: Dockerfile
     container_name: moneynote
     restart: unless-stopped
