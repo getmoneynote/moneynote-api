@@ -1,6 +1,6 @@
 name: docker hub image
 
-# 触发条件：push 到 main 且后端或本 workflow 有改动；也支持手动触发
+# 触发条件：push 到 main 且后端、前端或本 workflow 有改动；也支持手动触发
 on:
   workflow_dispatch:
   push:
@@ -8,6 +8,7 @@ on:
       - main
     paths:
       - 'backend/**'
+      - 'web-pc/**'
       - '.github/workflows/docker-image.yml'
 
 
@@ -17,6 +18,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # 先构建最新前端，产物覆盖到 backend/src/main/resources/public/
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: web-pc/pnpm-lock.yaml
+      - name: Build web-pc
+        working-directory: web-pc
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+      - name: Copy frontend dist into backend resources
+        run: |
+          rm -rf backend/src/main/resources/public
+          cp -r web-pc/dist backend/src/main/resources/public
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
