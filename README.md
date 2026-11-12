@@ -25,23 +25,31 @@
 
 ```
 /web-pc      前端应用（浏览器端界面）
-/backend     后端服务（含 Docker 部署文件）
+/backend     后端服务
 /help        用户使用文档
 /docs        开发经验文档
 ```
+
+Docker 相关文件统一放在**仓库根目录**：`Dockerfile`（生产多阶段构建，镜像内构建前端）、
+`docker-compose.yml`、`docker-compose.release.yml`、`entrypoint.sh`、`.dockerignore`。
+构建上下文即仓库根目录。
 
 ## 快速开始
 
 ### Docker 部署（推荐）
 
+在**仓库根目录**执行：
+
 ```bash
-cd backend
 docker compose up -d
 ```
 
 访问 `http://localhost:9098`，首次启动会进入安装向导，按提示选择数据库并完成配置。
 
 数据持久化在 `backend/data`（数据库文件）和 `backend/config`（安装配置）两个目录，已挂载到容器外。
+
+只跑已发布镜像（不本地构建）用 `docker compose -f docker-compose.release.yml up -d`；
+本地开发后端直接 `cd backend && ./mvnw spring-boot:run`，不需要 dev compose。
 
 ### 本地开发
 

@@ -13,3 +13,8 @@ Thumbs.db
 *.swp
 
 .workbuddy
+
+# Docker 运行期数据（在仓库根目录执行 release compose 时可能生成）
+/data/
+/config/
+/backups/

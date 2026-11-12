@@ -1,6 +1,9 @@
 name: docker hub image
 
-# 触发条件：push 到 main 且后端、前端、Dockerfile 或本 workflow 有改动；也支持手动触发
+# 触发条件：push 到 main 且影响镜像内容的文件有改动；也支持手动触发。
+# entrypoint.sh / .dockerignore 已从 backend/ 移到根目录，脱离了 backend/** 的覆盖范围，
+# 必须显式列出，否则改了它们不会重打镜像。
+# docker-compose*.yml 不影响推送的镜像，故不列入（避免无谓的多平台构建）。
 on:
   workflow_dispatch:
   push:
@@ -10,6 +13,8 @@ on:
       - 'backend/**'
       - 'web-pc/**'
       - 'Dockerfile'
+      - 'entrypoint.sh'
+      - '.dockerignore'
       - '.github/workflows/docker-image.yml'
 
 

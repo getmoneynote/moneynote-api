@@ -1,10 +1,69 @@
-# 构建上下文瘦身（根 Dockerfile 的 context 是仓库根目录）
+# 构建上下文 = 仓库根目录（根 Dockerfile 与 docker-compose.yml 都从这里 build）。
+# 目标：① 只把 Dockerfile 需要 COPY 的内容送进 daemon；② 运行期数据绝不能进公共镜像。
+# 注意：这里的模式相对 context 根匹配，`data` 只排除根目录的 data/，
+# 排除 backend/data 必须显式写 `backend/data`。
+
+# ---- VCS / IDE / 本地工具 ----
 .git
+.github
+.idea
+.vscode
+.claude
+.workbuddy
+**/.idea
+**/.vscode
+**/.claude
+**/.agents
+**/*.iml
+*.log
+
+# ---- 前端：源码要进上下文（fe-builder 会 COPY web-pc），依赖与旧产物不要 ----
 **/node_modules
 web-pc/dist
+web-pc/.umi
+web-pc/.umi-production
+web-pc/.umi-undefined
+web-pc/.turbopack
+
+# ---- 运行期状态与备份：绝不能进公共镜像 ----
+# 镜像里只要存在 /app/config/db-config.properties，用户启动后就不会进安装向导；
+# 只要存在 /app/data/*.mv.db，用户会直接看到别人的数据。
 backend/target
 backend/config
 backend/data
+backend/backups
+backend/docs
+backend/notes
+backend/specs
+backend/scripts
+data
+config
+backups
+**/*.mv.db
+**/*.lock.db
+**/*.trace.db
+**/db-config.properties
+**/moneynote*.sql
+**/moneynote*.zip
+**/*.bak-*
+
+# 根 Dockerfile 会在镜像内重新构建前端，并先清空 public/ 再拷贝，
+# 仓库里提交的预构建快照不进上下文，避免残留旧 hash 文件。
 backend/src/main/resources/public
+
+# ---- 非构建必需内容 / 本地密钥 ----
 docs
 help
+README.md
+AGENT.md
+CLAUDE.md
+backend/CLAUDE.md
+backend/AGENTS.md
+backend/LICENSE
+backend/.gitignore
+backend/.gitattributes
+backend/.claudeignore
+backend/.dockerignore
+**/.env
+**/.env.*
+**/*.env

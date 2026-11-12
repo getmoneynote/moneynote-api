@@ -7,7 +7,12 @@
 ```
 /web-pc            前端应用（Node 项目，命令见 package.json）
 /backend           后端服务
+/Dockerfile        生产镜像（多阶段：镜像内构建 web-pc + 后端 + JRE）
+/docker-compose*.yml、/entrypoint.sh、/.dockerignore   Docker 编排与部署
 ```
+
+Docker 相关文件全部在仓库根目录，构建上下文是根目录；
+`docker compose up -d` 在根目录执行，运行期数据仍写在 `backend/data`、`backend/config`。
 
 本文件只保留跨前后端的全局信息，前端和后端各自更细的规范见：
 - `web-pc/CLAUDE.md`

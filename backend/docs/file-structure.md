@@ -4,9 +4,6 @@
 backend/
 ├── pom.xml                       # Maven 配置（Java 21, Spring Boot 4.1.0）
 ├── mvnw / mvnw.cmd / .mvn/       # Maven Wrapper
-├── Dockerfile / Dockerfile.dev   # 生产 / 开发镜像
-├── docker-compose.yml / docker-compose.dev.yml
-├── entrypoint.sh                 # 容器启动脚本
 ├── config/db-config.properties   # 安装向导生成的数据库配置（运行时读写）
 ├── data/                         # H2 本地开发数据文件
 ├── specs/                        # 产品/架构/API 规格（PRD / SPEC / ARCHITECTURE / API）
@@ -16,6 +13,9 @@ backend/
     ├── java/com/moneynote/       # 见下文
     └── resources/                # 见下文
 ```
+
+Docker 相关文件（`Dockerfile` / `docker-compose*.yml` / `entrypoint.sh` /
+`.dockerignore`）统一放在**仓库根目录**，构建上下文也是仓库根目录。
 
 ## Java 源码 `src/main/java/com/moneynote/`
 

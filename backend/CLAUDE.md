@@ -6,7 +6,8 @@ MoneyNote 后端接口项目
 
 - **技术栈**：Java21、Spring Boot 4.1.0、Spring Data JPA / Hibernate、Maven Wrapper 3.3.4
 - **数据库**：首次启动时通过配置向导选择
-- **前端**：预构建的静态资源，提交在 `src/main/resources/public/` 下（umi.js、umi.css、index.html）
+- **前端**：`src/main/resources/public/` 下提交了一份预构建静态资源，供本地 `./mvnw spring-boot:run` 使用；
+  生产镜像由根目录 `Dockerfile` 在镜像内从 `web-pc/` 源码重新构建前端并替换该目录，不依赖这份快照
 - **AI 集成**：Spring AI OpenAI starter 已配置阿里云 DashScope（Qwen 模型）
 
 ### 数据库
@@ -36,5 +37,7 @@ MoneyNote 后端接口项目
 ./mvnw spring-boot:run      # 本地运行
 ./mvnw test                 # 跑测试
 ```
+
+Docker 相关文件都在仓库根目录，`docker compose up -d` 需在根目录执行。
 
 ## 当前开发状态
