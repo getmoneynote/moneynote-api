@@ -1,0 +1,9 @@
+services:
+  moneynote:
+    image: markliu2018/moneynote:latest
+    restart: unless-stopped
+    ports:
+      - "9096:9096"
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config

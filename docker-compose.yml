@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      # 本文件与 Dockerfile 都在仓库根目录，context 就是根目录
+      context: .
+      dockerfile: Dockerfile
+    container_name: moneynote
+    restart: unless-stopped
+    ports:
+      - "9096:9096"
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+    # entrypoint.sh 收到 TERM 后要转发给 java、等 Spring 关闭并 flush H2，
+    # 默认 10s 的停止宽限期偏紧，给足时间避免硬杀导致脏数据/残留 lock 文件
+    stop_grace_period: 30s
