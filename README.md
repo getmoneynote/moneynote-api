@@ -36,7 +36,22 @@ Docker 相关文件统一放在**仓库根目录**：`Dockerfile`（生产多阶
 
 ## 快速开始
 
-### Docker 部署（推荐）
+### Docker 一键运行（推荐）
+
+官方镜像已发布到 Docker Hub（[markliu2018/moneynote](https://hub.docker.com/r/markliu2018/moneynote)），无需克隆源码、无需本地构建，一条命令即可启动：
+
+```bash
+docker run -d --name moneynote --restart unless-stopped -p 9096:9096 -v $(pwd)/data:/app/data -v $(pwd)/config:/app/config markliu2018/moneynote:latest
+```
+
+访问 `http://localhost:9096`，首次启动进入安装向导，按提示选择数据库（MySQL / PostgreSQL / H2）并完成配置。
+
+- 容器内服务端口为 `9096`；如需换端口，只改 `-p` 左侧的宿主机端口，例如 `-p 9098:9096`。
+- `./data` 存放数据库文件，`./config` 存放安装配置，均已挂载到容器外，删除或重建容器不会丢数据，请勿删除这两个目录。
+- `--restart unless-stopped` 会让容器开机自启、异常退出后自动拉起；升级时执行 `docker pull markliu2018/moneynote:latest`，再 `docker rm -f moneynote` 后用同一条命令重建即可。
+- Windows 环境请把 `$(pwd)` 换成 PowerShell 的 `$PWD` 或 CMD 的 `%cd%`；路径含空格时记得加引号。
+
+### Docker Compose 部署（本地源码构建）
 
 在**仓库根目录**执行：
 
@@ -44,9 +59,9 @@ Docker 相关文件统一放在**仓库根目录**：`Dockerfile`（生产多阶
 docker compose up -d
 ```
 
-访问 `http://localhost:9098`，首次启动会进入安装向导，按提示选择数据库并完成配置。
+访问 `http://localhost:9096`，首次启动会进入安装向导，按提示选择数据库并完成配置。
 
-数据持久化在 `backend/data`（数据库文件）和 `backend/config`（安装配置）两个目录，已挂载到容器外。
+数据持久化在根目录的 `./data`（数据库文件）和 `./config`（安装配置）两个目录，已挂载到容器外。
 
 只跑已发布镜像（不本地构建）用 `docker compose -f docker-compose.release.yml up -d`；
 本地开发后端直接 `cd backend && ./mvnw spring-boot:run`，不需要 dev compose。
@@ -74,6 +89,10 @@ npm start
 
 - 使用文档见 `help/` 目录：[核心概念](help/conceptions)、[搭建记账体系](help/build.md)、[记账案例](help/cases)
 - 开发约定见 `CLAUDE.md`、`web-pc/CLAUDE.md`、`backend/CLAUDE.md`
+
+## 社区交流
+
+- QQ 群：**639653091**（部署答疑、使用问题、功能建议）
 
 ## License
 
